@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
+import { BottomNavBar } from 'components/layouts/BottomNavBar';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ export const Layout = memo(({ children }: LayoutProps) => {
   return (
     <>
       <Main>{children}</Main>
+      <BottomNavBar />
     </>
   );
 });
