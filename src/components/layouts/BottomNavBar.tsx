@@ -1,13 +1,20 @@
+import { useState, useCallback } from 'react';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import StartImg from 'assets/start_img.png';
 import { Button } from 'components/common/Button';
 
 export const BottomNavBar = () => {
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+
+  const handleStartButtonClick = useCallback(() => {
+    setIsClicked((prev) => !prev);
+  }, []);
+
   return (
     <>
       <Wrapper>
-        <Button isClicked={true} name="Start">
+        <Button isClicked={isClicked} name="Start" clickHandler={handleStartButtonClick}>
           <StartImage src={StartImg} alt="start_image" />
         </Button>
       </Wrapper>
