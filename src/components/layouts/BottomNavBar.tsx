@@ -1,12 +1,15 @@
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import StartImg from 'assets/start_img.png';
+import { Button } from 'components/common/Button';
 
 export const BottomNavBar = () => {
   return (
     <>
       <Wrapper>
-        <StartImage src={StartImg} alt="start_image" />
+        <Button isClicked={true} name="Start">
+          <StartImage src={StartImg} alt="start_image" />
+        </Button>
       </Wrapper>
     </>
   );
