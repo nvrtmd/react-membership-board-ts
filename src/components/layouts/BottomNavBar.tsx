@@ -4,6 +4,7 @@ import { theme } from 'styles/theme';
 import StartImg from 'assets/start_img.png';
 import { Button } from 'components/common/Button';
 import { Menu } from './Menu';
+import { Clock } from './Clock';
 
 export const BottomNavBar = () => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -41,6 +42,7 @@ export const BottomNavBar = () => {
         <Button isClicked={isClicked} name="Start" buttonRef={startButtonRef} clickHandler={handleStartButtonClick}>
           <StartImage src={StartImg} alt="start_image" />
         </Button>
+        <Clock />
       </Wrapper>
     </>
   );
