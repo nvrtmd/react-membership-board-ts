@@ -3,10 +3,12 @@ import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import StartImg from 'assets/start_img.png';
 import { Button } from 'components/common/Button';
+import { Menu } from './Menu';
 
 export const BottomNavBar = () => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const startButtonRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const handleStartButtonClick = useCallback(() => {
     setIsClicked((prev) => !prev);
@@ -28,6 +30,7 @@ export const BottomNavBar = () => {
 
   return (
     <>
+      {isClicked && <Menu menuRef={menuRef} />}
       <Wrapper>
         <Button isClicked={isClicked} name="Start" buttonRef={startButtonRef} clickHandler={handleStartButtonClick}>
           <StartImage src={StartImg} alt="start_image" />
