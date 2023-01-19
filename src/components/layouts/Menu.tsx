@@ -11,7 +11,7 @@ interface MenuProps {
 }
 
 export const Menu = memo(({ menuRef }: MenuProps) => {
-  const handleShutdownMenuClick = () => {
+  const handleShutdownMenuClick = (): void => {
     window.close();
   };
 

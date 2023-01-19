@@ -16,7 +16,13 @@ export const BottomNavBar = () => {
 
   const handleNonMenuAreaClick = (e: Event) => {
     const target = e.target as HTMLDivElement;
-    if (isClicked && startButtonRef.current && !startButtonRef.current.contains(target)) {
+    if (
+      isClicked &&
+      startButtonRef.current &&
+      !startButtonRef.current.contains(target) &&
+      menuRef.current &&
+      !menuRef.current.contains(target)
+    ) {
       setIsClicked(false);
     }
   };
