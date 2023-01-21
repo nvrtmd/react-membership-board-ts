@@ -7,6 +7,14 @@ import MaximizeImg from 'assets/maximize_img.jpg';
 import CloseImg from 'assets/close_img.jpg';
 import WindowPageImage from 'assets/window_page_img.png';
 
+interface BrowserProps {
+  route: string;
+}
+
+interface AddressBarProps {
+  route: string;
+}
+
 interface ControlButtonProps {
   handleControlButtonClick: () => void;
   handleControlButtonMouseOut: () => void;
@@ -14,18 +22,30 @@ interface ControlButtonProps {
   children: React.ReactNode;
 }
 
-export const Browser = () => {
+export const Browser = ({ route }: BrowserProps) => {
+  const MENUS = ['File', 'Edit', 'View', 'Go', 'Favorite', 'Tools', 'Help'];
+
   return (
     <Wrapper>
-      <ControlButtons />
-      <AddressBar route="board" />
+      <TitleBar>
+        <Title>
+          <PageImage src={WindowPageImage} alt="window page image" />
+          https://asdf/{route}/
+        </Title>
+        <ControlButtons />
+      </TitleBar>
+      <MenuBar>
+        {MENUS.map((menu, i) => (
+          <Menu key={i}>{menu}</Menu>
+        ))}
+      </MenuBar>
+      <AddressBar route={route} />
+      <Window>
+        WindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindow
+      </Window>
     </Wrapper>
   );
 };
-
-interface AddressBarProps {
-  route: string;
-}
 
 const AddressBar = ({ route }: AddressBarProps) => {
   return (
@@ -109,8 +129,25 @@ const Wrapper = styled.div`
   -moz-box-shadow: 1.5px 1.5px 0px 0px #dfdfdf inset, -1.5px -1.5px 0px 0px #020215 inset;
 `;
 
+const TitleBar = styled.div`
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+  padding: 4px 1px 3px;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Title = styled.div`
+  color: ${theme.color.white};
+`;
+
 const ControlButtonsWrapper = styled.div`
   display: flex;
+`;
+
+const PageImage = styled.img`
+  width: 1.2rem;
+  margin-right: 0.3rem;
 `;
 
 const ControlButtonImage = styled.img`
@@ -119,6 +156,22 @@ const ControlButtonImage = styled.img`
 
 const MinimizeImage = styled(ControlButtonImage)`
   padding: 0.8rem 0 0 0;
+`;
+
+const MenuBar = styled.div`
+  border: 1.5px solid #8e8e8e;
+  font-family: 'sans-serif';
+  font-size: 0.9rem;
+  display: flex;
+`;
+
+const Menu = styled.div`
+  &:hover {
+    box-shadow: 3px 3px 0px 0px #dfdfdf inset, -3px -3px 0px 0px #808080 inset;
+    -webkit-box-shadow: 3px 3px 0px 0px #dfdfdf inset, -3px -3px 0px 0px #808080 inset;
+    -moz-box-shadow: 3px 3px 0px 0px #dfdfdf inset, -3px -3px 0px 0px #808080 inset;
+  }
+  padding: 0.1rem 0.4rem;
 `;
 
 const AddressBarWrapper = styled.div`
@@ -163,7 +216,12 @@ const DownButton = styled.div`
   -moz-box-shadow: 1.5px 1.5px 0px 0px #dfdfdf inset, -1.5px -1.5px 0px 0px #020215 inset;
 `;
 
-const PageImage = styled.img`
-  width: 1.2rem;
-  margin-right: 0.3rem;
+const Window = styled.div`
+  background: ${theme.color.white};
+  height: 100%;
+  overflow: auto;
+  word-break: break-all;
+  box-shadow: 3px 3px 0px 0px #595959 inset, -3px -3px 0px 0px #dfdfdf inset;
+  -webkit-box-shadow: 3px 3px 0px 0px #595959 inset, -3px -3px 0px 0px #dfdfdf inset;
+  -moz-box-shadow: 3px 3px 0px 0px #595959 inset, -3px -3px 0px 0px #dfdfdf inset;
 `;

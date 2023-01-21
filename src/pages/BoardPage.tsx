@@ -4,7 +4,7 @@ import { Layout } from 'components/layouts/Layout';
 const BoardPage = () => {
   return (
     <Layout>
-      <Browser />
+      <Browser route="board" />
     </Layout>
   );
 };
