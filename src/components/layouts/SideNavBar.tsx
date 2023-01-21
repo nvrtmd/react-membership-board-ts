@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -6,10 +7,36 @@ import DocumentImg from 'assets/document_img.png';
 import CommentImg from 'assets/comment_img.png';
 
 export const SideNavBar = () => {
+  const [clickedNavItem, setClickedNavItem] = useState('');
+
+  const handleNavItemClick = (navItemName: string) => {
+    setClickedNavItem(navItemName);
+  };
+
   return (
-    <>
-      <Wrapper></Wrapper>
-    </>
+    <Wrapper>
+      <NavItem
+        name="Board"
+        image={BoardImg}
+        handleClick={() => handleNavItemClick('Board')}
+        isClicked={clickedNavItem === 'Board'}
+        route="/board"
+      />
+      <NavItem
+        name="My Documents"
+        image={DocumentImg}
+        handleClick={() => handleNavItemClick('My Documents')}
+        isClicked={clickedNavItem === 'My Documents'}
+        route="/"
+      />
+      <NavItem
+        name="My Comments"
+        image={CommentImg}
+        handleClick={() => handleNavItemClick('My Comments')}
+        isClicked={clickedNavItem === 'My Comments'}
+        route="/"
+      />
+    </Wrapper>
   );
 };
 
