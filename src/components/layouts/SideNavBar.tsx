@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import BoardImg from 'assets/internet_img.png';
@@ -25,8 +26,14 @@ interface NavItemContentProps {
 }
 
 const NavItem = ({ name, image, handleClick, isClicked, route }: NavItemProps) => {
+  const navigate = useNavigate();
+
+  const handleDoubleClick = () => {
+    navigate(route);
+  };
+
   return (
-    <NavItemBox onClick={handleClick}>
+    <NavItemBox onClick={handleClick} onDoubleClick={handleDoubleClick}>
       <NavItemImage src={image} isClicked={isClicked} />
       <NavItemName isClicked={isClicked}>{name}</NavItemName>
     </NavItemBox>
