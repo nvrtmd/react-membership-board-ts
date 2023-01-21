@@ -1,7 +1,33 @@
 import styled from 'styled-components/macro';
+import { Button } from 'components/common/Button';
 
 export const Browser = () => {
   return <Wrapper></Wrapper>;
+};
+
+interface ControlButtonProps {
+  handleControlButtonClick: () => void;
+  handleControlButtonMouseOut: () => void;
+  isClicked: boolean;
+  children: React.ReactNode;
+}
+
+const ControlButton = ({
+  handleControlButtonClick,
+  handleControlButtonMouseOut,
+  isClicked,
+  children,
+}: ControlButtonProps) => {
+  return (
+    <Button
+      isClicked={isClicked}
+      mouseDownHandler={handleControlButtonClick}
+      mouseUpHandler={handleControlButtonClick}
+      mouseOutHandler={handleControlButtonMouseOut}
+    >
+      {children}
+    </Button>
+  );
 };
 
 const Wrapper = styled.div`

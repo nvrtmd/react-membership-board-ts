@@ -1,7 +1,12 @@
+import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
 
 const BoardPage = () => {
-  return <Layout>Hello, This is board page!</Layout>;
+  return (
+    <Layout>
+      <Browser />
+    </Layout>
+  );
 };
 
 export default BoardPage;
