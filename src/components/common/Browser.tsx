@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import styled from 'styled-components/macro';
 import { Button } from 'components/common/Button';
-
-export const Browser = () => {
-  return <Wrapper></Wrapper>;
-};
+import MinimizeImg from 'assets/minimize_img.jpg';
+import MaximizeImg from 'assets/maximize_img.jpg';
+import CloseImg from 'assets/close_img.jpg';
 
 interface ControlButtonProps {
   handleControlButtonClick: () => void;
@@ -11,6 +11,52 @@ interface ControlButtonProps {
   isClicked: boolean;
   children: React.ReactNode;
 }
+
+export const Browser = () => {
+  return (
+    <Wrapper>
+      <ControlButtons />
+    </Wrapper>
+  );
+};
+
+const ControlButtons = () => {
+  const [clickedControlButton, setClickedControlButton] = useState<string>('');
+
+  const handleControlButtonClick = (controlButtonName: string) => {
+    setClickedControlButton((prev) => (prev.length > 0 ? '' : controlButtonName));
+  };
+
+  const handleControlButtonMouseOut = () => {
+    setClickedControlButton('');
+  };
+
+  return (
+    <ControlButtonsWrapper>
+      <ControlButton
+        handleControlButtonClick={() => handleControlButtonClick('minimize')}
+        handleControlButtonMouseOut={handleControlButtonMouseOut}
+        isClicked={clickedControlButton === 'minimize'}
+      >
+        <MinimizeImage src={MinimizeImg} />
+      </ControlButton>
+      <ControlButton
+        handleControlButtonClick={() => handleControlButtonClick('maximize')}
+        handleControlButtonMouseOut={handleControlButtonMouseOut}
+        isClicked={clickedControlButton === 'maximize'}
+      >
+        <ControlButtonImage src={MaximizeImg} />
+      </ControlButton>
+      <ControlButton
+        handleControlButtonClick={() => handleControlButtonClick('close')}
+        handleControlButtonMouseOut={handleControlButtonMouseOut}
+        isClicked={clickedControlButton === 'close'}
+      >
+        <ControlButtonImage src={CloseImg} />
+      </ControlButton>
+    </ControlButtonsWrapper>
+  );
+};
 
 const ControlButton = ({
   handleControlButtonClick,
@@ -41,4 +87,16 @@ const Wrapper = styled.div`
   box-shadow: 1.5px 1.5px 0px 0px #dfdfdf inset, -1.5px -1.5px 0px 0px #020215 inset;
   -webkit-box-shadow: 1.5px 1.5px 0px 0px #dfdfdf inset, -1.5px -1.5px 0px 0px #020215 inset;
   -moz-box-shadow: 1.5px 1.5px 0px 0px #dfdfdf inset, -1.5px -1.5px 0px 0px #020215 inset;
+`;
+
+const ControlButtonsWrapper = styled.div`
+  display: flex;
+`;
+
+const ControlButtonImage = styled.img`
+  width: 1.2rem;
+`;
+
+const MinimizeImage = styled(ControlButtonImage)`
+  padding: 0.8rem 0 0 0;
 `;
