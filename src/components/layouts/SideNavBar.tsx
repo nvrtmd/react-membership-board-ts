@@ -6,6 +6,18 @@ import BoardImg from 'assets/internet_img.png';
 import DocumentImg from 'assets/document_img.png';
 import CommentImg from 'assets/comment_img.png';
 
+interface NavItemProps {
+  name: string;
+  image: string;
+  handleClick: () => void;
+  isClicked: boolean;
+  route: string;
+}
+
+interface NavItemContentProps {
+  isClicked: boolean;
+}
+
 export const SideNavBar = () => {
   const [clickedNavItem, setClickedNavItem] = useState('');
 
@@ -39,18 +51,6 @@ export const SideNavBar = () => {
     </Wrapper>
   );
 };
-
-interface NavItemProps {
-  name: string;
-  image: string;
-  handleClick: () => void;
-  isClicked: boolean;
-  route: string;
-}
-
-interface NavItemContentProps {
-  isClicked: boolean;
-}
 
 const NavItem = ({ name, image, handleClick, isClicked, route }: NavItemProps) => {
   const navigate = useNavigate();
