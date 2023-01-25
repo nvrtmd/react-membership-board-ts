@@ -19,7 +19,7 @@ const BoardPage = () => {
   return (
     <Layout>
       <Browser route="board">
-        <div>Hello!</div>
+        {postList && postList.map((post) => <div key={post.post_idx}>{post.post_contents}</div>)}
       </Browser>
     </Layout>
   );
