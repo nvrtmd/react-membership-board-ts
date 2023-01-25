@@ -26,7 +26,7 @@ export const Button = memo(
     mouseOutHandler,
     name,
     buttonRef,
-    children = null,
+    children,
   }: ButtonProps) => {
     return (
       <ButtonWrapper
