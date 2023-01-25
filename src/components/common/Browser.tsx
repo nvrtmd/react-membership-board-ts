@@ -9,6 +9,7 @@ import WindowPageImage from 'assets/window_page_img.png';
 
 interface BrowserProps {
   route: string;
+  children?: React.ReactNode;
 }
 
 interface AddressBarProps {
@@ -22,7 +23,7 @@ interface ControlButtonProps {
   children: React.ReactNode;
 }
 
-export const Browser = ({ route }: BrowserProps) => {
+export const Browser = ({ route, children }: BrowserProps) => {
   const MENUS = ['File', 'Edit', 'View', 'Go', 'Favorite', 'Tools', 'Help'];
 
   return (
@@ -40,7 +41,7 @@ export const Browser = ({ route }: BrowserProps) => {
         ))}
       </MenuBar>
       <AddressBar route={route} />
-      <Window>TEST</Window>
+      <Window>{children}</Window>
     </Wrapper>
   );
 };

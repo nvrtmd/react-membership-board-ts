@@ -18,7 +18,9 @@ const BoardPage = () => {
 
   return (
     <Layout>
-      <Browser route="board" />
+      <Browser route="board">
+        <div>Hello!</div>
+      </Browser>
     </Layout>
   );
 };
