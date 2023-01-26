@@ -13,7 +13,7 @@ export const Layout = memo(({ children }: LayoutProps) => {
     <>
       <Main>
         <SideNavBar />
-        {children}
+        <Section>{children}</Section>
       </Main>
       <BottomNavBar />
     </>
@@ -24,4 +24,9 @@ const Main = styled.main`
   background-color: #008080;
   height: calc(100vh - ${theme.layout.bottomNavBarHeight});
   display: flex;
+`;
+
+const Section = styled.section`
+  padding: 2rem;
+  width: 100%;
 `;

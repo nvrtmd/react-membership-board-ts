@@ -9,6 +9,7 @@ import WindowPageImage from 'assets/window_page_img.png';
 
 interface BrowserProps {
   route: string;
+  children?: React.ReactNode;
 }
 
 interface AddressBarProps {
@@ -22,7 +23,7 @@ interface ControlButtonProps {
   children: React.ReactNode;
 }
 
-export const Browser = ({ route }: BrowserProps) => {
+export const Browser = ({ route, children }: BrowserProps) => {
   const MENUS = ['File', 'Edit', 'View', 'Go', 'Favorite', 'Tools', 'Help'];
 
   return (
@@ -40,9 +41,7 @@ export const Browser = ({ route }: BrowserProps) => {
         ))}
       </MenuBar>
       <AddressBar route={route} />
-      <Window>
-        WindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindowWindow
-      </Window>
+      <Window>{children}</Window>
     </Wrapper>
   );
 };
@@ -119,8 +118,8 @@ const ControlButton = ({
 const Wrapper = styled.div`
   background: #c0c0c0;
   padding: 5px;
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -218,6 +217,7 @@ const DownButton = styled.div`
 
 const Window = styled.div`
   background: ${theme.color.white};
+  padding: 0.5rem;
   height: 100%;
   overflow: auto;
   word-break: break-all;
