@@ -217,6 +217,7 @@ const DownButton = styled.div`
 
 const Window = styled.div`
   background: ${theme.color.white};
+  padding: 0.5rem;
   height: 100%;
   overflow: auto;
   word-break: break-all;
