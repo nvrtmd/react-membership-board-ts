@@ -32,7 +32,7 @@ export const SideNavBar = () => {
         image={BoardImg}
         handleClick={() => handleNavItemClick('Board')}
         isClicked={clickedNavItem === 'Board'}
-        route="/board"
+        route="/board/list"
       />
       <NavItem
         name="My Documents"

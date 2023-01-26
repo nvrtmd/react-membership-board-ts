@@ -18,7 +18,7 @@ const BoardPage = () => {
 
   return (
     <Layout>
-      <Browser route="board">
+      <Browser route="board/list">
         {postList && postList.map((post) => <div key={post.post_idx}>{post.post_contents}</div>)}
       </Browser>
     </Layout>
