@@ -4,7 +4,7 @@ import { Layout } from 'components/layouts/Layout';
 import axios from 'axios';
 import { Post } from 'global/types';
 
-const BoardPage = () => {
+export const ListPage = () => {
   const [postList, setPostList] = useState<Post[]>();
 
   const fetchPostList = async () => {
@@ -24,5 +24,3 @@ const BoardPage = () => {
     </Layout>
   );
 };
-
-export default BoardPage;
