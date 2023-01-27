@@ -4,6 +4,7 @@ const color = {
   tertiary: '',
   white: '#fff',
   black: '#0b0b0b',
+  grey: '#6e6e6e',
 };
 
 const layout = {
