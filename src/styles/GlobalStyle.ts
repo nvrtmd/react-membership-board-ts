@@ -14,7 +14,7 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     padding: 0;
     margin: 0;      	
-    cursor: url("https://user-images.githubusercontent.com/67324487/215074631-a16a3579-b45c-4e33-95bc-3bfa10e690d1.png") auto;
+    cursor: url("https://user-images.githubusercontent.com/67324487/215111447-c34d9bfb-4914-4f4b-a636-e3b7ac6757a8.png"), auto;
   }
   
   body {

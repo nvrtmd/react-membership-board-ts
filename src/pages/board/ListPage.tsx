@@ -37,7 +37,7 @@ const ListItem = ({ data }: ListItemProps) => {
     <PostWrapper key={data.post_idx}>
       <PostIndex>{data.post_idx}</PostIndex>
       <PostTitle>{data.post_title}</PostTitle>
-      <PostContents>{data.post_contents.substring(0, 10) + '...'}</PostContents>
+      <PostContents>{data.post_contents}</PostContents>
       <PostInfo>
         <div>by {data.post_writer.member_nickname}</div>
         <div>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</div>
@@ -68,25 +68,28 @@ const PostInfo = styled.div`
   display: flex;
   justify-content: space-between;
   font-size: 1.2rem;
+  &:hover > div {
+    cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
+      auto;
+  }
 `;
 
 const PostWrapper = styled.div`
   border: 1px solid green;
+  max-width: 100%;
   margin: 2rem 0;
   padding: 2rem;
   box-shadow: -0.4rem 0 0 0 black, 0.4rem 0 0 0 black, 0 -0.4rem 0 0 black, 0 0.4rem 0 0 black;
-  &:hover ${PostIndex} {
-    color: ${theme.color.white};
-  }
+  cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
+    auto;
 
-  &:hover ${PostInfo} {
+  &:hover > div {
     color: ${theme.color.white};
+    cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
+      auto;
   }
 
   &:hover {
     background: ${theme.color.navy};
-    cursor: url('https://user-images.githubusercontent.com/67324487/215073861-331f5a57-2c04-4a0b-bd98-1deb55cb95c8.png')
-      auto !important;
-    color: ${theme.color.white};
   }
 `;
