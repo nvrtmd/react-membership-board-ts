@@ -51,7 +51,6 @@ const ListItem = ({ data }: ListItemProps) => {
 const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
-  background: red;
 `;
 
 const ListWrapper = styled.div`
