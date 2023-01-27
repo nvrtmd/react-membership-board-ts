@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import moment from 'moment';
 import { theme } from 'styles/theme';
@@ -9,34 +10,45 @@ import { Post } from 'global/types';
 
 interface ListItemProps {
   data: Post;
+  clickHandler: (postIdx: number) => void;
 }
 
 export const ListPage = () => {
   const [postList, setPostList] = useState<Post[]>();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchPostList();
+  }, []);
 
   const fetchPostList = async () => {
     const fetchedData = await axios.get('/post/list');
     setPostList(fetchedData.data.data);
   };
 
-  useEffect(() => {
-    fetchPostList();
-  }, []);
+  const moveToPost = useCallback(
+    (postIdx: number) => {
+      navigate(`/board/${postIdx}`);
+    },
+    [navigate],
+  );
 
   return (
     <Layout>
       <BrowserWrapper>
         <Browser>
-          <ListWrapper>{postList && postList.map((post) => <ListItem data={post} />)}</ListWrapper>
+          <ListWrapper>
+            {postList && postList.map((post) => <ListItem data={post} clickHandler={moveToPost} key={post.post_idx} />)}
+          </ListWrapper>
         </Browser>
       </BrowserWrapper>
     </Layout>
   );
 };
 
-const ListItem = ({ data }: ListItemProps) => {
+const ListItem = ({ data, clickHandler }: ListItemProps) => {
   return (
-    <PostWrapper key={data.post_idx}>
+    <PostWrapper onClick={() => clickHandler(data.post_idx)}>
       <PostIndex>{data.post_idx}</PostIndex>
       <PostTitle>{data.post_title}</PostTitle>
       <PostContents>{data.post_contents}</PostContents>
