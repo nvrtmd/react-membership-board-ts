@@ -25,9 +25,11 @@ export const ListPage = () => {
 
   return (
     <Layout>
-      <Browser>
-        <ListWrapper>{postList && postList.map((post) => <ListItem data={post} />)}</ListWrapper>
-      </Browser>
+      <BrowserWrapper>
+        <Browser>
+          <ListWrapper>{postList && postList.map((post) => <ListItem data={post} />)}</ListWrapper>
+        </Browser>
+      </BrowserWrapper>
     </Layout>
   );
 };
@@ -46,32 +48,14 @@ const ListItem = ({ data }: ListItemProps) => {
   );
 };
 
+const BrowserWrapper = styled.div`
+  display: flex;
+  height: 100%;
+  background: red;
+`;
+
 const ListWrapper = styled.div`
   padding: 0.5rem 2.5rem;
-`;
-
-const PostIndex = styled.div`
-  font-size: 1.2rem;
-  color: ${theme.color.grey};
-`;
-
-const PostTitle = styled.div`
-  font-size: 1.6rem;
-`;
-
-const PostContents = styled.div`
-  font-size: 1.45rem;
-`;
-
-const PostInfo = styled.div`
-  color: ${theme.color.grey};
-  display: flex;
-  justify-content: space-between;
-  font-size: 1.2rem;
-  &:hover > div {
-    cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
-      auto;
-  }
 `;
 
 const PostWrapper = styled.div`
@@ -91,5 +75,32 @@ const PostWrapper = styled.div`
 
   &:hover {
     background: ${theme.color.navy};
+  }
+`;
+
+const PostIndex = styled.div`
+  font-size: 1.2rem;
+  color: ${theme.color.grey};
+`;
+
+const PostTitle = styled.div`
+  font-size: 1.6rem;
+`;
+
+const PostContents = styled.div`
+  font-size: 1.45rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const PostInfo = styled.div`
+  color: ${theme.color.grey};
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  &:hover > div {
+    cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
+      auto;
   }
 `;

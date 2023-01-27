@@ -27,6 +27,5 @@ const Main = styled.main`
 `;
 
 const Section = styled.section`
-  padding: 2rem;
-  width: 100%;
+  min-width: 0;
 `;
