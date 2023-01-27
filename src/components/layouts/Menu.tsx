@@ -70,7 +70,7 @@ const MenuBox = styled.div`
   align-items: center;
   border: 1px black solid;
   &:hover {
-    background: #0000aa;
+    background: ${theme.color.navy};
   }
 `;
 

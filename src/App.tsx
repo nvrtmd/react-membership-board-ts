@@ -1,4 +1,4 @@
-import BoardPage from 'pages/BoardPage';
+import { ListPage as PostListPage } from 'pages/board/ListPage';
 import HomePage from 'pages/HomePage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -7,7 +7,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/board/list" element={<BoardPage />} />
+        <Route path="/board/list" element={<PostListPage />} />
       </Routes>
     </BrowserRouter>
   );

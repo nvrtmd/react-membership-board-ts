@@ -8,12 +8,7 @@ import CloseImg from 'assets/close_img.jpg';
 import WindowPageImage from 'assets/window_page_img.png';
 
 interface BrowserProps {
-  route: string;
   children?: React.ReactNode;
-}
-
-interface AddressBarProps {
-  route: string;
 }
 
 interface ControlButtonProps {
@@ -23,15 +18,14 @@ interface ControlButtonProps {
   children: React.ReactNode;
 }
 
-export const Browser = ({ route, children }: BrowserProps) => {
+export const Browser = ({ children }: BrowserProps) => {
   const MENUS = ['File', 'Edit', 'View', 'Go', 'Favorite', 'Tools', 'Help'];
-
   return (
     <Wrapper>
       <TitleBar>
         <Title>
           <PageImage src={WindowPageImage} alt="window page image" />
-          https://asdf/{route}/
+          {location.href}
         </Title>
         <ControlButtons />
       </TitleBar>
@@ -40,19 +34,19 @@ export const Browser = ({ route, children }: BrowserProps) => {
           <Menu key={i}>{menu}</Menu>
         ))}
       </MenuBar>
-      <AddressBar route={route} />
+      <AddressBar />
       <Window>{children}</Window>
     </Wrapper>
   );
 };
 
-const AddressBar = ({ route }: AddressBarProps) => {
+const AddressBar = () => {
   return (
     <AddressBarWrapper>
       <AddressBarTitle>Address</AddressBarTitle>
       <AddressBarBox>
         <PageImage src={WindowPageImage} alt="window page image" />
-        <Address>https://asdf/{route}/</Address>
+        <Address>{location.href}</Address>
         <DownButton>▼</DownButton>
       </AddressBarBox>
     </AddressBarWrapper>
@@ -118,8 +112,8 @@ const ControlButton = ({
 const Wrapper = styled.div`
   background: #c0c0c0;
   padding: 5px;
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 90%;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -138,6 +132,9 @@ const TitleBar = styled.div`
 
 const Title = styled.div`
   color: ${theme.color.white};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const ControlButtonsWrapper = styled.div`
@@ -170,7 +167,10 @@ const Menu = styled.div`
     -webkit-box-shadow: 3px 3px 0px 0px #dfdfdf inset, -3px -3px 0px 0px #808080 inset;
     -moz-box-shadow: 3px 3px 0px 0px #dfdfdf inset, -3px -3px 0px 0px #808080 inset;
   }
+  min-width: 0;
   padding: 0.1rem 0.4rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const AddressBarWrapper = styled.div`
@@ -196,10 +196,13 @@ const AddressBarBox = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  min-width: 0;
 `;
 
 const Address = styled.div`
   width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const DownButton = styled.div`
