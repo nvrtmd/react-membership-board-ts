@@ -5,6 +5,7 @@ const color = {
   white: '#fff',
   black: '#0b0b0b',
   grey: '#6e6e6e',
+  navy: '#0000aa',
 };
 
 const layout = {

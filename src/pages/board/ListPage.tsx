@@ -39,7 +39,7 @@ const ListItem = ({ data }: ListItemProps) => {
       <PostTitle>{data.post_title}</PostTitle>
       <PostContents>{data.post_contents.substring(0, 10) + '...'}</PostContents>
       <PostInfo>
-        <div>{data.post_writer.member_nickname}</div>
+        <div>by {data.post_writer.member_nickname}</div>
         <div>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</div>
       </PostInfo>
     </PostWrapper>
@@ -48,13 +48,6 @@ const ListItem = ({ data }: ListItemProps) => {
 
 const ListWrapper = styled.div`
   padding: 0.5rem 2.5rem;
-`;
-
-const PostWrapper = styled.div`
-  border: 1px solid green;
-  margin: 2rem 0;
-  padding: 2rem;
-  box-shadow: -0.4rem 0 0 0 black, 0.4rem 0 0 0 black, 0 -0.4rem 0 0 black, 0 0.4rem 0 0 black;
 `;
 
 const PostIndex = styled.div`
@@ -75,4 +68,25 @@ const PostInfo = styled.div`
   display: flex;
   justify-content: space-between;
   font-size: 1.2rem;
+`;
+
+const PostWrapper = styled.div`
+  border: 1px solid green;
+  margin: 2rem 0;
+  padding: 2rem;
+  box-shadow: -0.4rem 0 0 0 black, 0.4rem 0 0 0 black, 0 -0.4rem 0 0 black, 0 0.4rem 0 0 black;
+  &:hover ${PostIndex} {
+    color: ${theme.color.white};
+  }
+
+  &:hover ${PostInfo} {
+    color: ${theme.color.white};
+  }
+
+  &:hover {
+    background: ${theme.color.navy};
+    cursor: url('https://user-images.githubusercontent.com/67324487/215073861-331f5a57-2c04-4a0b-bd98-1deb55cb95c8.png')
+      auto !important;
+    color: ${theme.color.white};
+  }
 `;
