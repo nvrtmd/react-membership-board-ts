@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
+import moment from 'moment';
 import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
 import axios from 'axios';
@@ -24,7 +25,9 @@ export const ListPage = () => {
           {postList &&
             postList.map((post) => (
               <PostWrapper key={post.post_idx}>
+                {post.post_idx}
                 {post.post_contents} {post.post_writer.member_nickname}
+                {moment(post.createdAt).format('YY.MM.DD HH:mm')}
               </PostWrapper>
             ))}
         </ListWrapper>

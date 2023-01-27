@@ -20,7 +20,6 @@ interface ControlButtonProps {
 
 export const Browser = ({ children }: BrowserProps) => {
   const MENUS = ['File', 'Edit', 'View', 'Go', 'Favorite', 'Tools', 'Help'];
-  console.log(location);
   return (
     <Wrapper>
       <TitleBar>
