@@ -19,7 +19,7 @@ export const ListPage = () => {
 
   return (
     <Layout>
-      <Browser route="board/list">
+      <Browser>
         <ListWrapper>
           {postList &&
             postList.map((post) => (

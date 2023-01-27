@@ -8,12 +8,7 @@ import CloseImg from 'assets/close_img.jpg';
 import WindowPageImage from 'assets/window_page_img.png';
 
 interface BrowserProps {
-  route: string;
   children?: React.ReactNode;
-}
-
-interface AddressBarProps {
-  route: string;
 }
 
 interface ControlButtonProps {
@@ -23,15 +18,15 @@ interface ControlButtonProps {
   children: React.ReactNode;
 }
 
-export const Browser = ({ route, children }: BrowserProps) => {
+export const Browser = ({ children }: BrowserProps) => {
   const MENUS = ['File', 'Edit', 'View', 'Go', 'Favorite', 'Tools', 'Help'];
-
+  console.log(location);
   return (
     <Wrapper>
       <TitleBar>
         <Title>
           <PageImage src={WindowPageImage} alt="window page image" />
-          https://asdf/{route}/
+          {location.href}
         </Title>
         <ControlButtons />
       </TitleBar>
@@ -40,19 +35,19 @@ export const Browser = ({ route, children }: BrowserProps) => {
           <Menu key={i}>{menu}</Menu>
         ))}
       </MenuBar>
-      <AddressBar route={route} />
+      <AddressBar />
       <Window>{children}</Window>
     </Wrapper>
   );
 };
 
-const AddressBar = ({ route }: AddressBarProps) => {
+const AddressBar = () => {
   return (
     <AddressBarWrapper>
       <AddressBarTitle>Address</AddressBarTitle>
       <AddressBarBox>
         <PageImage src={WindowPageImage} alt="window page image" />
-        <Address>https://asdf/{route}/</Address>
+        <Address>{location.href}</Address>
         <DownButton>▼</DownButton>
       </AddressBarBox>
     </AddressBarWrapper>
