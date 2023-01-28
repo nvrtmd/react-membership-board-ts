@@ -13,6 +13,7 @@ import { Layout } from 'components/layouts/Layout';
 import axios from 'axios';
 import { Post, Comment } from 'global/types';
 import { CommentItem } from 'components/board/CommentItem';
+import { NoComment } from 'components/board/NoComment';
 
 interface FunctionButtonProps {
   handleFunctionButtonMouseUp: () => void;
@@ -64,7 +65,7 @@ export const PostPage = () => {
             {commentList && commentList.length > 0 ? (
               commentList.map((comment) => <CommentItem key={comment.comment_idx} data={comment} />)
             ) : (
-              <div>No Comment</div>
+              <NoComment />
             )}
           </CommentList>
         </Browser>
