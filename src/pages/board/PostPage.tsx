@@ -5,12 +5,15 @@ import { Button } from 'components/common/Button';
 import DeletePostImg from 'assets/delete_post.png';
 import ModifyPostImg from 'assets/modify_post.png';
 import BackToPostListImg from 'assets/post_list.png';
+import CommentImg from 'assets/comment.png';
 import styled from 'styled-components/macro';
+import { theme } from 'styles/theme';
 import moment from 'moment';
-
 import { Layout } from 'components/layouts/Layout';
 import axios from 'axios';
-import { Post } from 'global/types';
+import { Post, Comment } from 'global/types';
+import { CommentItem } from 'components/board/CommentItem';
+import { NoComment } from 'components/board/NoComment';
 
 interface FunctionButtonProps {
   handleFunctionButtonMouseUp: () => void;
@@ -23,6 +26,7 @@ interface FunctionButtonProps {
 
 export const PostPage = () => {
   const [postData, setPostData] = useState<Post>();
+  const [commentList, setCommentList] = useState<Comment[]>();
   const params = useParams();
 
   useEffect(() => {
@@ -32,6 +36,7 @@ export const PostPage = () => {
   const fetchPostData = async () => {
     const fetchedData = await axios.get(`/post/${params.postIdx}`);
     setPostData(fetchedData.data.data);
+    setCommentList(fetchedData.data.data.comments);
   };
 
   return (
@@ -53,6 +58,16 @@ export const PostPage = () => {
               <FunctionButtons />
             </PostContainer>
           )}
+          <CommentList>
+            <CommentListTitle>
+              <CommentImage src={CommentImg} /> Comments
+            </CommentListTitle>
+            {commentList && commentList.length > 0 ? (
+              commentList.map((comment) => <CommentItem key={comment.comment_idx} data={comment} />)
+            ) : (
+              <NoComment />
+            )}
+          </CommentList>
         </Browser>
       </BrowserWrapper>
     </Layout>
@@ -159,7 +174,7 @@ const PostWrapper = styled.div`
 `;
 
 const PostHeader = styled.div`
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${theme.color.black};
   padding-bottom: 0.5rem;
 `;
 
@@ -193,4 +208,21 @@ export const FunctionButtonsWrapper = styled.div`
 const FunctionButtonImage = styled.img`
   width: 1.5rem;
   margin-right: 3px;
+`;
+
+export const CommentList = styled.div`
+  border-top: 1px solid ${theme.color.grey};
+  border-style: dashed solid;
+  padding: 1rem 0 0;
+  margin-top: 2rem;
+`;
+
+const CommentListTitle = styled.div`
+  display: flex;
+  font-size: 1.4rem;
+`;
+
+const CommentImage = styled.img`
+  width: 2rem;
+  margin-right: 0.3rem;
 `;
