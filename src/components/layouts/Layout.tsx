@@ -28,4 +28,5 @@ const Main = styled.main`
 
 const Section = styled.section`
   min-width: 0;
+  width: 100%;
 `;

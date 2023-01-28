@@ -9,4 +9,16 @@ export interface Post {
     member_id: string;
     member_nickname: string;
   };
+  comments: Comment[];
+}
+
+export interface Comment {
+  comment_contents: string;
+  comment_idx: number;
+  comment_writer: {
+    member_id: string;
+    member_nickname: string;
+  };
+  createdAt: Date;
+  updatedAt: Date;
 }
