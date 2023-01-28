@@ -1,11 +1,14 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import { Button } from 'components/common/Button';
 import MinimizeImg from 'assets/minimize_img.jpg';
 import MaximizeImg from 'assets/maximize_img.jpg';
 import CloseImg from 'assets/close_img.jpg';
-import WindowPageImage from 'assets/window_page_img.png';
+import NextPageImg from 'assets/right_pointer.png';
+import PreviousPageImg from 'assets/left_pointer.png';
+import WindowPageImg from 'assets/window_page_img.png';
 
 interface BrowserProps {
   children?: React.ReactNode;
@@ -24,7 +27,7 @@ export const Browser = ({ children }: BrowserProps) => {
     <Wrapper>
       <TitleBar>
         <Title>
-          <PageImage src={WindowPageImage} alt="window page image" />
+          <PageImage src={WindowPageImg} alt="window page image" />
           {location.href}
         </Title>
         <ControlButtons />
@@ -41,11 +44,54 @@ export const Browser = ({ children }: BrowserProps) => {
 };
 
 const AddressBar = () => {
+  const navigate = useNavigate();
+  const [clickedPageMoveButton, setClickedPageMoveButton] = useState<string>('');
+
+  const handleButtonMouseDown = (pageMoveButtonName: string) => {
+    setClickedPageMoveButton(pageMoveButtonName);
+  };
+
+  const handleButtonMouseUp = (pageMoveButtonName: string) => {
+    switch (pageMoveButtonName) {
+      case 'previous':
+        navigate(-1);
+        break;
+      case 'next':
+        navigate(1);
+        break;
+      default:
+        break;
+    }
+    setClickedPageMoveButton('');
+  };
+
+  const handleButtonMouseOut = () => {
+    setClickedPageMoveButton('');
+  };
+
   return (
     <AddressBarWrapper>
-      <AddressBarTitle>Address</AddressBarTitle>
+      <PageMoveButtonsWrapper>
+        <Button
+          isClicked={clickedPageMoveButton === 'previous'}
+          mouseDownHandler={() => handleButtonMouseDown('previous')}
+          mouseUpHandler={() => handleButtonMouseUp('previous')}
+          mouseOutHandler={handleButtonMouseOut}
+        >
+          <PageMoveButtonImage src={PreviousPageImg} alt="left arrow image" />
+        </Button>
+
+        <Button
+          isClicked={clickedPageMoveButton === 'next'}
+          mouseDownHandler={() => handleButtonMouseDown('next')}
+          mouseUpHandler={() => handleButtonMouseUp('next')}
+          mouseOutHandler={handleButtonMouseOut}
+        >
+          <PageMoveButtonImage src={NextPageImg} alt="right arrow image" />
+        </Button>
+      </PageMoveButtonsWrapper>
       <AddressBarBox>
-        <PageImage src={WindowPageImage} alt="window page image" />
+        <PageImage src={WindowPageImg} alt="window page image" />
         <Address>{location.href}</Address>
         <DownButton>▼</DownButton>
       </AddressBarBox>
@@ -177,13 +223,17 @@ const AddressBarWrapper = styled.div`
   border: 1.5px solid #8e8e8e;
   font-family: 'sans-serif';
   font-size: 1rem;
-  padding: 0.2rem 0 0.2rem 0.5rem;
+  padding: 0.2rem 0 0.2rem;
   display: flex;
   margin-bottom: 0.4rem;
 `;
 
-const AddressBarTitle = styled.div`
-  margin-right: 0.5rem;
+const PageMoveButtonsWrapper = styled.div`
+  display: flex;
+`;
+
+const PageMoveButtonImage = styled.img`
+  width: 2rem;
 `;
 
 const AddressBarBox = styled.div`

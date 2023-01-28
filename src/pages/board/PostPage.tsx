@@ -2,9 +2,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Browser } from 'components/common/Browser';
 import { Button } from 'components/common/Button';
-import DeletePost from 'assets/delete_post.png';
-import ModifyPost from 'assets/modify_post.png';
-import BackToPostList from 'assets/post_list.png';
+import DeletePostImg from 'assets/delete_post.png';
+import ModifyPostImg from 'assets/modify_post.png';
+import BackToPostListImg from 'assets/post_list.png';
 import styled from 'styled-components/macro';
 import moment from 'moment';
 
@@ -91,7 +91,7 @@ const FunctionButtons = () => {
         name="Delete"
         isClicked={clickedFunctionButton === 'Delete'}
       >
-        <FunctionButtonImage src={DeletePost} />
+        <FunctionButtonImage src={DeletePostImg} />
       </FunctionButton>
       <FunctionButton
         handleFunctionButtonClick={() => handleFunctionButtonClick('Modify')}
@@ -99,7 +99,7 @@ const FunctionButtons = () => {
         name="Modify"
         isClicked={clickedFunctionButton === 'Modify'}
       >
-        <FunctionButtonImage src={ModifyPost} />
+        <FunctionButtonImage src={ModifyPostImg} />
       </FunctionButton>
       <FunctionButton
         handleFunctionButtonClick={() => handleFunctionButtonClick('List')}
@@ -107,7 +107,7 @@ const FunctionButtons = () => {
         name="List"
         isClicked={clickedFunctionButton === 'List'}
       >
-        <FunctionButtonImage src={BackToPostList} />
+        <FunctionButtonImage src={BackToPostListImg} />
       </FunctionButton>
     </FunctionButtonsWrapper>
   );
