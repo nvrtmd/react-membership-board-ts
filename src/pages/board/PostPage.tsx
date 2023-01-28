@@ -13,8 +13,9 @@ import axios from 'axios';
 import { Post } from 'global/types';
 
 interface FunctionButtonProps {
-  handleFunctionButtonClick: () => void;
+  handleFunctionButtonMouseUp: () => void;
   handleFunctionButtonMouseOut: () => void;
+  handleFunctionButtonMouseDown: () => void;
   isClicked: boolean;
   name: string;
   children: React.ReactNode;
@@ -62,7 +63,7 @@ const FunctionButtons = () => {
   const navigate = useNavigate();
   const [clickedFunctionButton, setClickedFunctionButton] = useState<string>('');
 
-  const handleFunctionButtonClick = useCallback((functionButtonName: string) => {
+  const handleFunctionButtonMouseUp = useCallback((functionButtonName: string) => {
     switch (functionButtonName) {
       case 'Delete':
         console.log('delete');
@@ -79,6 +80,10 @@ const FunctionButtons = () => {
     setClickedFunctionButton((prev) => (prev.length > 0 ? '' : functionButtonName));
   }, []);
 
+  const handleFunctionButtonMouseDown = useCallback((pageMoveButtonName: string) => {
+    setClickedFunctionButton(pageMoveButtonName);
+  }, []);
+
   const handleFunctionButtonMouseOut = useCallback(() => {
     setClickedFunctionButton('');
   }, []);
@@ -86,24 +91,27 @@ const FunctionButtons = () => {
   return (
     <FunctionButtonsWrapper>
       <FunctionButton
-        handleFunctionButtonClick={() => handleFunctionButtonClick('Delete')}
+        handleFunctionButtonMouseUp={() => handleFunctionButtonMouseUp('Delete')}
         handleFunctionButtonMouseOut={handleFunctionButtonMouseOut}
+        handleFunctionButtonMouseDown={() => handleFunctionButtonMouseDown('Delete')}
         name="Delete"
         isClicked={clickedFunctionButton === 'Delete'}
       >
         <FunctionButtonImage src={DeletePostImg} />
       </FunctionButton>
       <FunctionButton
-        handleFunctionButtonClick={() => handleFunctionButtonClick('Modify')}
+        handleFunctionButtonMouseUp={() => handleFunctionButtonMouseUp('Modify')}
         handleFunctionButtonMouseOut={handleFunctionButtonMouseOut}
+        handleFunctionButtonMouseDown={() => handleFunctionButtonMouseDown('Modify')}
         name="Modify"
         isClicked={clickedFunctionButton === 'Modify'}
       >
         <FunctionButtonImage src={ModifyPostImg} />
       </FunctionButton>
       <FunctionButton
-        handleFunctionButtonClick={() => handleFunctionButtonClick('List')}
+        handleFunctionButtonMouseUp={() => handleFunctionButtonMouseUp('List')}
         handleFunctionButtonMouseOut={handleFunctionButtonMouseOut}
+        handleFunctionButtonMouseDown={() => handleFunctionButtonMouseDown('List')}
         name="List"
         isClicked={clickedFunctionButton === 'List'}
       >
@@ -114,8 +122,9 @@ const FunctionButtons = () => {
 };
 
 const FunctionButton = ({
-  handleFunctionButtonClick,
+  handleFunctionButtonMouseUp,
   handleFunctionButtonMouseOut,
+  handleFunctionButtonMouseDown,
   name,
   isClicked,
   children,
@@ -123,7 +132,8 @@ const FunctionButton = ({
   return (
     <Button
       isClicked={isClicked}
-      clickHandler={handleFunctionButtonClick}
+      mouseDownHandler={handleFunctionButtonMouseDown}
+      mouseUpHandler={handleFunctionButtonMouseUp}
       mouseOutHandler={handleFunctionButtonMouseOut}
       name={name}
     >
