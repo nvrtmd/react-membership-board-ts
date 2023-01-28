@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -47,11 +47,11 @@ const AddressBar = () => {
   const navigate = useNavigate();
   const [clickedPageMoveButton, setClickedPageMoveButton] = useState<string>('');
 
-  const handleButtonMouseDown = (pageMoveButtonName: string) => {
+  const handleButtonMouseDown = useCallback((pageMoveButtonName: string) => {
     setClickedPageMoveButton(pageMoveButtonName);
-  };
+  }, []);
 
-  const handleButtonMouseUp = (pageMoveButtonName: string) => {
+  const handleButtonMouseUp = useCallback((pageMoveButtonName: string) => {
     switch (pageMoveButtonName) {
       case 'previous':
         navigate(-1);
@@ -63,11 +63,11 @@ const AddressBar = () => {
         break;
     }
     setClickedPageMoveButton('');
-  };
+  }, []);
 
-  const handleButtonMouseOut = () => {
+  const handleButtonMouseOut = useCallback(() => {
     setClickedPageMoveButton('');
-  };
+  }, []);
 
   return (
     <AddressBarWrapper>
