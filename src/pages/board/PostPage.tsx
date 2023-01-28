@@ -7,10 +7,10 @@ import ModifyPostImg from 'assets/modify_post.png';
 import BackToPostListImg from 'assets/post_list.png';
 import styled from 'styled-components/macro';
 import moment from 'moment';
-
 import { Layout } from 'components/layouts/Layout';
 import axios from 'axios';
-import { Post } from 'global/types';
+import { Post, Comment } from 'global/types';
+import { CommentItem } from 'components/board/CommentItem';
 
 interface FunctionButtonProps {
   handleFunctionButtonMouseUp: () => void;
@@ -23,6 +23,7 @@ interface FunctionButtonProps {
 
 export const PostPage = () => {
   const [postData, setPostData] = useState<Post>();
+  const [commentList, setCommentList] = useState<Comment[]>();
   const params = useParams();
 
   useEffect(() => {
@@ -32,6 +33,7 @@ export const PostPage = () => {
   const fetchPostData = async () => {
     const fetchedData = await axios.get(`/post/${params.postIdx}`);
     setPostData(fetchedData.data.data);
+    setCommentList(fetchedData.data.data.comments);
   };
 
   return (
@@ -53,6 +55,7 @@ export const PostPage = () => {
               <FunctionButtons />
             </PostContainer>
           )}
+          {commentList && commentList.map((comment) => <CommentItem data={comment} />)}
         </Browser>
       </BrowserWrapper>
     </Layout>
