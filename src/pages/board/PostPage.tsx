@@ -1,14 +1,24 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Browser } from 'components/common/Browser';
 import { Button } from 'components/common/Button';
-
+import DeletePost from 'assets/delete_post.png';
+import ModifyPost from 'assets/modify_post.png';
+import BackToPostList from 'assets/post_list.png';
 import styled from 'styled-components/macro';
 import moment from 'moment';
 
 import { Layout } from 'components/layouts/Layout';
 import axios from 'axios';
 import { Post } from 'global/types';
+
+interface FunctionButtonProps {
+  handleFunctionButtonClick: () => void;
+  handleFunctionButtonMouseOut: () => void;
+  isClicked: boolean;
+  name: string;
+  children: React.ReactNode;
+}
 
 export const PostPage = () => {
   const [postData, setPostData] = useState<Post>();
@@ -39,16 +49,86 @@ export const PostPage = () => {
                 </PostHeader>
                 <PostBody>{postData.post_contents}</PostBody>
               </PostWrapper>
-              <ButtonWrapper>
-                <Button isClicked={false} name="Delete" />
-                <Button isClicked={false} name="Modify" />
-                <Button isClicked={false} name="Back" />
-              </ButtonWrapper>
+              <FunctionButtons />
             </PostContainer>
           )}
         </Browser>
       </BrowserWrapper>
     </Layout>
+  );
+};
+
+const FunctionButtons = () => {
+  const navigate = useNavigate();
+  const [clickedFunctionButton, setClickedFunctionButton] = useState<string>('');
+
+  const handleFunctionButtonClick = useCallback((functionButtonName: string) => {
+    switch (functionButtonName) {
+      case 'Delete':
+        console.log('delete');
+        break;
+      case 'Modify':
+        console.log('modify');
+        break;
+      case 'List':
+        navigate('/board/list');
+        break;
+      default:
+        break;
+    }
+    setClickedFunctionButton((prev) => (prev.length > 0 ? '' : functionButtonName));
+  }, []);
+
+  const handleFunctionButtonMouseOut = useCallback(() => {
+    setClickedFunctionButton('');
+  }, []);
+
+  return (
+    <FunctionButtonsWrapper>
+      <FunctionButton
+        handleFunctionButtonClick={() => handleFunctionButtonClick('Delete')}
+        handleFunctionButtonMouseOut={handleFunctionButtonMouseOut}
+        name="Delete"
+        isClicked={clickedFunctionButton === 'Delete'}
+      >
+        <FunctionButtonImage src={DeletePost} />
+      </FunctionButton>
+      <FunctionButton
+        handleFunctionButtonClick={() => handleFunctionButtonClick('Modify')}
+        handleFunctionButtonMouseOut={handleFunctionButtonMouseOut}
+        name="Modify"
+        isClicked={clickedFunctionButton === 'Modify'}
+      >
+        <FunctionButtonImage src={ModifyPost} />
+      </FunctionButton>
+      <FunctionButton
+        handleFunctionButtonClick={() => handleFunctionButtonClick('List')}
+        handleFunctionButtonMouseOut={handleFunctionButtonMouseOut}
+        name="List"
+        isClicked={clickedFunctionButton === 'List'}
+      >
+        <FunctionButtonImage src={BackToPostList} />
+      </FunctionButton>
+    </FunctionButtonsWrapper>
+  );
+};
+
+const FunctionButton = ({
+  handleFunctionButtonClick,
+  handleFunctionButtonMouseOut,
+  name,
+  isClicked,
+  children,
+}: FunctionButtonProps) => {
+  return (
+    <Button
+      isClicked={isClicked}
+      clickHandler={handleFunctionButtonClick}
+      mouseOutHandler={handleFunctionButtonMouseOut}
+      name={name}
+    >
+      {children}
+    </Button>
   );
 };
 
@@ -92,10 +172,15 @@ const PostBody = styled.div`
   padding: 1rem 0 2rem;
 `;
 
-export const ButtonWrapper = styled.div`
+export const FunctionButtonsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   align-items: center;
   justify-content: center;
+`;
+
+const FunctionButtonImage = styled.img`
+  width: 1.5rem;
+  margin-right: 3px;
 `;
