@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 interface TextAreaProps {
   placeholder: string;
   name: string;
-  changeHandler: () => void;
+  changeHandler: (e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>) => void;
   value: string | number;
 }
 

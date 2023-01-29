@@ -7,7 +7,7 @@ export const useInput = () => {
     setInputValue('');
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 

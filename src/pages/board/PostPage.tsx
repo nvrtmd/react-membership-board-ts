@@ -15,6 +15,7 @@ import { Post, Comment } from 'global/types';
 import { CommentItem } from 'components/board/CommentItem';
 import { NoComment } from 'components/board/NoComment';
 import { TextArea } from 'components/common/TextArea';
+import { useInput } from 'hooks/useInput';
 
 interface FunctionButtonProps {
   handleFunctionButtonRestore: () => void;
@@ -25,6 +26,7 @@ interface FunctionButtonProps {
 export const PostPage = () => {
   const [postData, setPostData] = useState<Post>();
   const [commentList, setCommentList] = useState<Comment[]>();
+  const { inputValue, handleInputChange, handleResetInput } = useInput();
   const params = useParams();
 
   useEffect(() => {
@@ -62,7 +64,12 @@ export const PostPage = () => {
                 <CommentImage src={CommentImg} /> Comments
               </CommentListTitle>
               <CommentInputWrapper>
-                <TextArea placeholder="Write your comment" />
+                <TextArea
+                  placeholder="Write your comment"
+                  name="comment"
+                  changeHandler={handleInputChange}
+                  value={inputValue}
+                />
               </CommentInputWrapper>
               <CommentSubmitButtonWrapper>
                 <Button name="Submit" />
