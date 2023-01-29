@@ -5,16 +5,14 @@ interface ButtonProps {
   pushHandler?: () => void;
   restoreHandler?: () => void;
   name?: string;
-  buttonRef?: React.RefObject<HTMLDivElement>;
   children?: React.ReactNode;
 }
 
 interface ButtonWrapperProps {
   isPushed: boolean;
-  ref?: React.RefObject<HTMLDivElement>;
 }
 
-export const Button = memo(({ pushHandler, restoreHandler, name, buttonRef, children }: ButtonProps) => {
+export const Button = memo(({ pushHandler, restoreHandler, name, children }: ButtonProps) => {
   const [isPushed, setIsPushed] = useState<boolean>(false);
 
   const handleButtonPush = () => {
@@ -42,7 +40,6 @@ export const Button = memo(({ pushHandler, restoreHandler, name, buttonRef, chil
       onMouseDown={handleButtonPush}
       onMouseUp={handleButtonRestore}
       onMouseOut={handleButtonMouseOut}
-      ref={buttonRef}
     >
       {children}
       {name}
