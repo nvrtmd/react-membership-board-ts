@@ -2,10 +2,13 @@ import styled from 'styled-components/macro';
 
 interface TextAreaProps {
   placeholder: string;
+  name: string;
+  changeHandler: () => void;
+  value: string | number;
 }
 
-export const TextArea = ({ placeholder }: TextAreaProps) => {
-  return <Input placeholder={placeholder} />;
+export const TextArea = ({ placeholder, name, changeHandler, value }: TextAreaProps) => {
+  return <Input name={name} placeholder={placeholder} onChange={changeHandler} value={value} />;
 };
 
 const Input = styled.textarea`
