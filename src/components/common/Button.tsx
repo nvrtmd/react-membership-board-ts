@@ -1,48 +1,48 @@
-import { memo } from 'react';
+import { useState, memo } from 'react';
 import styled from 'styled-components/macro';
 
 interface ButtonProps {
-  isClicked: boolean;
-  clickHandler?: () => void;
-  mouseDownHandler?: () => void;
-  mouseUpHandler?: () => void;
-  mouseOutHandler?: () => void;
+  pushHandler?: () => void;
+  restoreHandler?: () => void;
   name?: string;
   buttonRef?: React.RefObject<HTMLDivElement>;
   children?: React.ReactNode;
 }
 
 interface ButtonWrapperProps {
-  isClicked: boolean;
+  isPushed: boolean;
   ref?: React.RefObject<HTMLDivElement>;
 }
 
-export const Button = memo(
-  ({
-    isClicked,
-    clickHandler,
-    mouseDownHandler,
-    mouseUpHandler,
-    mouseOutHandler,
-    name,
-    buttonRef,
-    children,
-  }: ButtonProps) => {
-    return (
-      <ButtonWrapper
-        isClicked={isClicked}
-        onClick={clickHandler}
-        onMouseDown={mouseDownHandler}
-        onMouseUp={mouseUpHandler}
-        onMouseOut={mouseOutHandler}
-        ref={buttonRef}
-      >
-        {children}
-        {name}
-      </ButtonWrapper>
-    );
-  },
-);
+export const Button = memo(({ pushHandler, restoreHandler, name, buttonRef, children }: ButtonProps) => {
+  const [isPushed, setIsPushed] = useState<boolean>(false);
+
+  const handleButtonPush = () => {
+    if (pushHandler) {
+      pushHandler();
+    }
+    setIsPushed(true);
+  };
+  const handleButtonRestore = () => {
+    if (restoreHandler) {
+      restoreHandler();
+    }
+    setIsPushed(false);
+  };
+
+  return (
+    <ButtonWrapper
+      isPushed={isPushed}
+      onMouseDown={handleButtonPush}
+      onMouseUp={handleButtonRestore}
+      onMouseOut={handleButtonRestore}
+      ref={buttonRef}
+    >
+      {children}
+      {name}
+    </ButtonWrapper>
+  );
+});
 
 const ButtonWrapper = styled.div<ButtonWrapperProps>`
   background-color: #c0c0c0;
@@ -52,8 +52,8 @@ const ButtonWrapper = styled.div<ButtonWrapperProps>`
   box-shadow: 3px 3px 0px 0px #dfdfdf inset, -3px -3px 0px 0px #808080 inset;
   -webkit-box-shadow: 3px 3px 0px 0px #dfdfdf inset, -3px -3px 0px 0px #808080 inset;
   -moz-box-shadow: 3px 3px 0px 0px #dfdfdf inset, -3px -3px 0px 0px #808080 inset;
-  ${({ isClicked }) =>
-    isClicked &&
+  ${({ isPushed }) =>
+    isPushed &&
     `
     box-shadow: 3px 3px 0px 0px #020215 inset, -3px -3px 0px 0px #dfdfdf inset;
     -webkit-box-shadow: 3px 3px 0px 0px #020215 inset, -3px -3px 0px 0px #dfdfdf inset;
