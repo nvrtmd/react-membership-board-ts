@@ -1,10 +1,10 @@
 import styled from 'styled-components/macro';
 
-interface CommentInputProps {
+interface TextAreaProps {
   placeholder: string;
 }
 
-export const CommentInput = ({ placeholder }: CommentInputProps) => {
+export const TextArea = ({ placeholder }: TextAreaProps) => {
   return <Input placeholder={placeholder} />;
 };
 
@@ -19,7 +19,7 @@ const Input = styled.textarea`
   -webkit-box-shadow: 2px 2px 0px 0px #808080 inset, -2px -2px 0px 0px #dfdfdf inset;
   -moz-box-shadow: 2px 2px 0px 0px #808080 inset, -2px -2px 0px 0px #dfdfdf inset;
   width: 100%;
-  height: 6.5rem;
+  height: 100%;
   font-size: 1.2rem;
   font-family: DungGeunMo;
 `;

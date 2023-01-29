@@ -14,7 +14,7 @@ import axios from 'axios';
 import { Post, Comment } from 'global/types';
 import { CommentItem } from 'components/board/CommentItem';
 import { NoComment } from 'components/board/NoComment';
-import { CommentInput } from 'components/board/CommentInput';
+import { TextArea } from 'components/common/TextArea';
 
 interface FunctionButtonProps {
   handleFunctionButtonRestore: () => void;
@@ -57,15 +57,17 @@ export const PostPage = () => {
             </PostContainer>
           )}
           <CommentWrapper>
-            <CommentInputWrapper>
+            <CommentInputContainer>
               <CommentListTitle>
                 <CommentImage src={CommentImg} /> Comments
               </CommentListTitle>
-              <CommentInput placeholder="Write your comment" />
+              <CommentInputWrapper>
+                <TextArea placeholder="Write your comment" />
+              </CommentInputWrapper>
               <CommentSubmitButtonWrapper>
                 <Button name="Submit" />
               </CommentSubmitButtonWrapper>
-            </CommentInputWrapper>
+            </CommentInputContainer>
             <CommentList>
               {commentList && commentList.length > 0 ? (
                 commentList.map((comment) => <CommentItem key={comment.comment_idx} data={comment} />)
@@ -177,8 +179,13 @@ export const CommentWrapper = styled.div`
   margin-top: 2rem;
 `;
 
-const CommentInputWrapper = styled.div`
+const CommentInputContainer = styled.div`
   margin-bottom: 2.5rem;
+`;
+
+const CommentInputWrapper = styled.div`
+  height: 6.5rem;
+  margin-bottom: 0.8rem;
 `;
 
 const CommentSubmitButtonWrapper = styled.div`
