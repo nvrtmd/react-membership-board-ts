@@ -29,9 +29,7 @@ export const Button = memo(({ pushHandler, restoreHandler, name, children }: But
   };
 
   const handleButtonMouseOut = () => {
-    if (isPushed) {
-      handleButtonRestore();
-    }
+    setIsPushed(false);
   };
 
   return (
