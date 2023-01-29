@@ -56,17 +56,24 @@ export const PostPage = () => {
               <FunctionButtons />
             </PostContainer>
           )}
-          <CommentList>
-            <CommentListTitle>
-              <CommentImage src={CommentImg} /> Comments
-            </CommentListTitle>
-            <CommentInput placeholder="Write your comment" />
-            {commentList && commentList.length > 0 ? (
-              commentList.map((comment) => <CommentItem key={comment.comment_idx} data={comment} />)
-            ) : (
-              <NoComment />
-            )}
-          </CommentList>
+          <CommentWrapper>
+            <CommentInputWrapper>
+              <CommentListTitle>
+                <CommentImage src={CommentImg} /> Comments
+              </CommentListTitle>
+              <CommentInput placeholder="Write your comment" />
+              <CommentSubmitButtonWrapper>
+                <Button name="Submit" />
+              </CommentSubmitButtonWrapper>
+            </CommentInputWrapper>
+            <CommentList>
+              {commentList && commentList.length > 0 ? (
+                commentList.map((comment) => <CommentItem key={comment.comment_idx} data={comment} />)
+              ) : (
+                <NoComment />
+              )}
+            </CommentList>
+          </CommentWrapper>
         </Browser>
       </BrowserWrapper>
     </Layout>
@@ -163,12 +170,23 @@ const FunctionButtonImage = styled.img`
   margin-right: 3px;
 `;
 
-export const CommentList = styled.div`
+export const CommentWrapper = styled.div`
   border-top: 1px solid ${theme.color.grey};
   border-style: dashed solid;
   padding: 1rem 0 0;
   margin-top: 2rem;
 `;
+
+const CommentInputWrapper = styled.div`
+  margin-bottom: 2.5rem;
+`;
+
+const CommentSubmitButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const CommentList = styled.div``;
 
 const CommentListTitle = styled.div`
   display: flex;
