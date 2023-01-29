@@ -30,12 +30,18 @@ export const Button = memo(({ pushHandler, restoreHandler, name, buttonRef, chil
     setIsPushed(false);
   };
 
+  const handleButtonMouseOut = () => {
+    if (isPushed) {
+      handleButtonRestore();
+    }
+  };
+
   return (
     <ButtonWrapper
       isPushed={isPushed}
       onMouseDown={handleButtonPush}
       onMouseUp={handleButtonRestore}
-      onMouseOut={handleButtonRestore}
+      onMouseOut={handleButtonMouseOut}
       ref={buttonRef}
     >
       {children}
