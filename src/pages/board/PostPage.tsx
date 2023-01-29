@@ -14,12 +14,11 @@ import axios from 'axios';
 import { Post, Comment } from 'global/types';
 import { CommentItem } from 'components/board/CommentItem';
 import { NoComment } from 'components/board/NoComment';
+import { TextArea } from 'components/common/TextArea';
+import { useInput } from 'hooks/useInput';
 
 interface FunctionButtonProps {
-  handleFunctionButtonMouseUp: () => void;
-  handleFunctionButtonMouseOut: () => void;
-  handleFunctionButtonMouseDown: () => void;
-  isClicked: boolean;
+  handleFunctionButtonRestore: () => void;
   name: string;
   children: React.ReactNode;
 }
@@ -27,6 +26,7 @@ interface FunctionButtonProps {
 export const PostPage = () => {
   const [postData, setPostData] = useState<Post>();
   const [commentList, setCommentList] = useState<Comment[]>();
+  const { inputValue, handleInputChange, handleResetInput } = useInput();
   const params = useParams();
 
   useEffect(() => {
@@ -37,6 +37,12 @@ export const PostPage = () => {
     const fetchedData = await axios.get(`/post/${params.postIdx}`);
     setPostData(fetchedData.data.data);
     setCommentList(fetchedData.data.data.comments);
+  };
+
+  const handleCommentInputSubmit = () => {
+    // TODO: post API 통신 구현
+    console.log(inputValue);
+    handleResetInput();
   };
 
   return (
@@ -58,16 +64,31 @@ export const PostPage = () => {
               <FunctionButtons />
             </PostContainer>
           )}
-          <CommentList>
-            <CommentListTitle>
-              <CommentImage src={CommentImg} /> Comments
-            </CommentListTitle>
-            {commentList && commentList.length > 0 ? (
-              commentList.map((comment) => <CommentItem key={comment.comment_idx} data={comment} />)
-            ) : (
-              <NoComment />
-            )}
-          </CommentList>
+          <CommentWrapper>
+            <CommentInputContainer>
+              <CommentListTitle>
+                <CommentImage src={CommentImg} /> Comments
+              </CommentListTitle>
+              <CommentInputWrapper>
+                <TextArea
+                  placeholder="Write your comment"
+                  name="comment"
+                  changeHandler={handleInputChange}
+                  value={inputValue}
+                />
+              </CommentInputWrapper>
+              <CommentSubmitButtonWrapper>
+                <Button name="Submit" restoreHandler={handleCommentInputSubmit} />
+              </CommentSubmitButtonWrapper>
+            </CommentInputContainer>
+            <CommentList>
+              {commentList && commentList.length > 0 ? (
+                commentList.map((comment) => <CommentItem key={comment.comment_idx} data={comment} />)
+              ) : (
+                <NoComment />
+              )}
+            </CommentList>
+          </CommentWrapper>
         </Browser>
       </BrowserWrapper>
     </Layout>
@@ -76,9 +97,7 @@ export const PostPage = () => {
 
 const FunctionButtons = () => {
   const navigate = useNavigate();
-  const [clickedFunctionButton, setClickedFunctionButton] = useState<string>('');
-
-  const handleFunctionButtonMouseUp = useCallback((functionButtonName: string) => {
+  const handleFunctionButtonRestore = useCallback((functionButtonName: string) => {
     switch (functionButtonName) {
       case 'Delete':
         console.log('delete');
@@ -92,66 +111,26 @@ const FunctionButtons = () => {
       default:
         break;
     }
-    setClickedFunctionButton((prev) => (prev.length > 0 ? '' : functionButtonName));
-  }, []);
-
-  const handleFunctionButtonMouseDown = useCallback((pageMoveButtonName: string) => {
-    setClickedFunctionButton(pageMoveButtonName);
-  }, []);
-
-  const handleFunctionButtonMouseOut = useCallback(() => {
-    setClickedFunctionButton('');
   }, []);
 
   return (
     <FunctionButtonsWrapper>
-      <FunctionButton
-        handleFunctionButtonMouseUp={() => handleFunctionButtonMouseUp('Delete')}
-        handleFunctionButtonMouseOut={handleFunctionButtonMouseOut}
-        handleFunctionButtonMouseDown={() => handleFunctionButtonMouseDown('Delete')}
-        name="Delete"
-        isClicked={clickedFunctionButton === 'Delete'}
-      >
+      <FunctionButton handleFunctionButtonRestore={() => handleFunctionButtonRestore('Delete')} name="Delete">
         <FunctionButtonImage src={DeletePostImg} />
       </FunctionButton>
-      <FunctionButton
-        handleFunctionButtonMouseUp={() => handleFunctionButtonMouseUp('Modify')}
-        handleFunctionButtonMouseOut={handleFunctionButtonMouseOut}
-        handleFunctionButtonMouseDown={() => handleFunctionButtonMouseDown('Modify')}
-        name="Modify"
-        isClicked={clickedFunctionButton === 'Modify'}
-      >
+      <FunctionButton handleFunctionButtonRestore={() => handleFunctionButtonRestore('Modify')} name="Modify">
         <FunctionButtonImage src={ModifyPostImg} />
       </FunctionButton>
-      <FunctionButton
-        handleFunctionButtonMouseUp={() => handleFunctionButtonMouseUp('List')}
-        handleFunctionButtonMouseOut={handleFunctionButtonMouseOut}
-        handleFunctionButtonMouseDown={() => handleFunctionButtonMouseDown('List')}
-        name="List"
-        isClicked={clickedFunctionButton === 'List'}
-      >
+      <FunctionButton handleFunctionButtonRestore={() => handleFunctionButtonRestore('List')} name="List">
         <FunctionButtonImage src={BackToPostListImg} />
       </FunctionButton>
     </FunctionButtonsWrapper>
   );
 };
 
-const FunctionButton = ({
-  handleFunctionButtonMouseUp,
-  handleFunctionButtonMouseOut,
-  handleFunctionButtonMouseDown,
-  name,
-  isClicked,
-  children,
-}: FunctionButtonProps) => {
+const FunctionButton = ({ handleFunctionButtonRestore, name, children }: FunctionButtonProps) => {
   return (
-    <Button
-      isClicked={isClicked}
-      mouseDownHandler={handleFunctionButtonMouseDown}
-      mouseUpHandler={handleFunctionButtonMouseUp}
-      mouseOutHandler={handleFunctionButtonMouseOut}
-      name={name}
-    >
+    <Button restoreHandler={handleFunctionButtonRestore} name={name}>
       {children}
     </Button>
   );
@@ -162,12 +141,7 @@ const BrowserWrapper = styled.div`
   height: 100%;
 `;
 
-const PostContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-`;
+const PostContainer = styled.div``;
 
 const PostWrapper = styled.div`
   height: auto;
@@ -195,6 +169,7 @@ const PostUpdatedDate = styled.div`
 
 const PostBody = styled.div`
   padding: 1rem 0 2rem;
+  min-height: 20rem;
 `;
 
 export const FunctionButtonsWrapper = styled.div`
@@ -210,16 +185,33 @@ const FunctionButtonImage = styled.img`
   margin-right: 3px;
 `;
 
-export const CommentList = styled.div`
+export const CommentWrapper = styled.div`
   border-top: 1px solid ${theme.color.grey};
   border-style: dashed solid;
   padding: 1rem 0 0;
   margin-top: 2rem;
 `;
 
+const CommentInputContainer = styled.div`
+  margin-bottom: 2.5rem;
+`;
+
+const CommentInputWrapper = styled.div`
+  height: 6.5rem;
+  margin-bottom: 0.8rem;
+`;
+
+const CommentSubmitButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const CommentList = styled.div``;
+
 const CommentListTitle = styled.div`
   display: flex;
   font-size: 1.4rem;
+  margin-bottom: 0.5rem;
 `;
 
 const CommentImage = styled.img`

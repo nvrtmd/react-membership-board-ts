@@ -2,29 +2,29 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import StartImg from 'assets/start_img.png';
-import { Button } from 'components/common/Button';
+import { PushLockButton } from 'components/common/PushLockButton';
 import { Menu } from './Menu';
 import { Clock } from './Clock';
 
 export const BottomNavBar = () => {
-  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [isPushed, setIsPushed] = useState<boolean>(false);
   const startButtonRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const handleStartButtonClick = useCallback(() => {
-    setIsClicked((prev) => !prev);
+    setIsPushed((prev) => !prev);
   }, []);
 
   const handleNonMenuAreaClick = (e: Event) => {
     const target = e.target as HTMLDivElement;
     if (
-      isClicked &&
+      isPushed &&
       startButtonRef.current &&
       !startButtonRef.current.contains(target) &&
       menuRef.current &&
       !menuRef.current.contains(target)
     ) {
-      setIsClicked(false);
+      setIsPushed(false);
     }
   };
 
@@ -33,15 +33,20 @@ export const BottomNavBar = () => {
     return () => {
       document.removeEventListener('mousedown', handleNonMenuAreaClick);
     };
-  }, [isClicked]);
+  }, [isPushed]);
 
   return (
     <>
-      {isClicked && <Menu menuRef={menuRef} />}
+      {isPushed && <Menu menuRef={menuRef} />}
       <Wrapper>
-        <Button isClicked={isClicked} name="Start" buttonRef={startButtonRef} clickHandler={handleStartButtonClick}>
+        <PushLockButton
+          isPushed={isPushed}
+          name="Start"
+          buttonRef={startButtonRef}
+          clickHandler={handleStartButtonClick}
+        >
           <StartImage src={StartImg} alt="start_image" />
-        </Button>
+        </PushLockButton>
         <Clock />
       </Wrapper>
     </>
