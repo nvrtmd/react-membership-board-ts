@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -12,13 +12,6 @@ import WindowPageImg from 'assets/window_page_img.png';
 
 interface BrowserProps {
   children?: React.ReactNode;
-}
-
-interface ControlButtonProps {
-  handleControlButtonClick: () => void;
-  handleControlButtonMouseOut: () => void;
-  isClicked: boolean;
-  children: React.ReactNode;
 }
 
 export const Browser = ({ children }: BrowserProps) => {
@@ -45,13 +38,8 @@ export const Browser = ({ children }: BrowserProps) => {
 
 const AddressBar = () => {
   const navigate = useNavigate();
-  const [clickedPageMoveButton, setClickedPageMoveButton] = useState<string>('');
 
-  const handleButtonMouseDown = useCallback((pageMoveButtonName: string) => {
-    setClickedPageMoveButton(pageMoveButtonName);
-  }, []);
-
-  const handleButtonMouseUp = useCallback((pageMoveButtonName: string) => {
+  const handleButtonRestore = useCallback((pageMoveButtonName: string) => {
     switch (pageMoveButtonName) {
       case 'previous':
         navigate(-1);
@@ -62,31 +50,16 @@ const AddressBar = () => {
       default:
         break;
     }
-    setClickedPageMoveButton('');
-  }, []);
-
-  const handleButtonMouseOut = useCallback(() => {
-    setClickedPageMoveButton('');
   }, []);
 
   return (
     <AddressBarWrapper>
       <PageMoveButtonsWrapper>
-        <Button
-          isClicked={clickedPageMoveButton === 'previous'}
-          mouseDownHandler={() => handleButtonMouseDown('previous')}
-          mouseUpHandler={() => handleButtonMouseUp('previous')}
-          mouseOutHandler={handleButtonMouseOut}
-        >
+        <Button restoreHandler={() => handleButtonRestore('previous')}>
           <PageMoveButtonImage src={PreviousPageImg} alt="left arrow image" />
         </Button>
 
-        <Button
-          isClicked={clickedPageMoveButton === 'next'}
-          mouseDownHandler={() => handleButtonMouseDown('next')}
-          mouseUpHandler={() => handleButtonMouseUp('next')}
-          mouseOutHandler={handleButtonMouseOut}
-        >
+        <Button restoreHandler={() => handleButtonRestore('next')}>
           <PageMoveButtonImage src={NextPageImg} alt="right arrow image" />
         </Button>
       </PageMoveButtonsWrapper>
@@ -100,58 +73,18 @@ const AddressBar = () => {
 };
 
 const ControlButtons = () => {
-  const [clickedControlButton, setClickedControlButton] = useState<string>('');
-
-  const handleControlButtonClick = (controlButtonName: string) => {
-    setClickedControlButton((prev) => (prev.length > 0 ? '' : controlButtonName));
-  };
-
-  const handleControlButtonMouseOut = () => {
-    setClickedControlButton('');
-  };
-
   return (
     <ControlButtonsWrapper>
-      <ControlButton
-        handleControlButtonClick={() => handleControlButtonClick('minimize')}
-        handleControlButtonMouseOut={handleControlButtonMouseOut}
-        isClicked={clickedControlButton === 'minimize'}
-      >
+      <Button>
         <MinimizeImage src={MinimizeImg} />
-      </ControlButton>
-      <ControlButton
-        handleControlButtonClick={() => handleControlButtonClick('maximize')}
-        handleControlButtonMouseOut={handleControlButtonMouseOut}
-        isClicked={clickedControlButton === 'maximize'}
-      >
+      </Button>
+      <Button>
         <ControlButtonImage src={MaximizeImg} />
-      </ControlButton>
-      <ControlButton
-        handleControlButtonClick={() => handleControlButtonClick('close')}
-        handleControlButtonMouseOut={handleControlButtonMouseOut}
-        isClicked={clickedControlButton === 'close'}
-      >
+      </Button>
+      <Button>
         <ControlButtonImage src={CloseImg} />
-      </ControlButton>
+      </Button>
     </ControlButtonsWrapper>
-  );
-};
-
-const ControlButton = ({
-  handleControlButtonClick,
-  handleControlButtonMouseOut,
-  isClicked,
-  children,
-}: ControlButtonProps) => {
-  return (
-    <Button
-      isClicked={isClicked}
-      mouseDownHandler={handleControlButtonClick}
-      mouseUpHandler={handleControlButtonClick}
-      mouseOutHandler={handleControlButtonMouseOut}
-    >
-      {children}
-    </Button>
   );
 };
 
