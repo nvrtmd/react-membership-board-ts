@@ -14,6 +14,7 @@ import axios from 'axios';
 import { Post, Comment } from 'global/types';
 import { CommentItem } from 'components/board/CommentItem';
 import { NoComment } from 'components/board/NoComment';
+import { CommentInput } from 'components/board/CommentInput';
 
 interface FunctionButtonProps {
   handleFunctionButtonMouseUp: () => void;
@@ -62,6 +63,7 @@ export const PostPage = () => {
             <CommentListTitle>
               <CommentImage src={CommentImg} /> Comments
             </CommentListTitle>
+            <CommentInput placeholder="Write your comment" />
             {commentList && commentList.length > 0 ? (
               commentList.map((comment) => <CommentItem key={comment.comment_idx} data={comment} />)
             ) : (
@@ -162,12 +164,7 @@ const BrowserWrapper = styled.div`
   height: 100%;
 `;
 
-const PostContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-`;
+const PostContainer = styled.div``;
 
 const PostWrapper = styled.div`
   height: auto;
@@ -195,6 +192,7 @@ const PostUpdatedDate = styled.div`
 
 const PostBody = styled.div`
   padding: 1rem 0 2rem;
+  min-height: 20rem;
 `;
 
 export const FunctionButtonsWrapper = styled.div`
@@ -220,6 +218,7 @@ export const CommentList = styled.div`
 const CommentListTitle = styled.div`
   display: flex;
   font-size: 1.4rem;
+  margin-bottom: 0.5rem;
 `;
 
 const CommentImage = styled.img`
