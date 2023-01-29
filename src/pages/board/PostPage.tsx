@@ -39,6 +39,12 @@ export const PostPage = () => {
     setCommentList(fetchedData.data.data.comments);
   };
 
+  const handleCommentInputSubmit = () => {
+    // TODO: post API 통신 구현
+    console.log(inputValue);
+    handleResetInput();
+  };
+
   return (
     <Layout>
       <BrowserWrapper>
@@ -72,7 +78,7 @@ export const PostPage = () => {
                 />
               </CommentInputWrapper>
               <CommentSubmitButtonWrapper>
-                <Button name="Submit" />
+                <Button name="Submit" restoreHandler={handleCommentInputSubmit} />
               </CommentSubmitButtonWrapper>
             </CommentInputContainer>
             <CommentList>
