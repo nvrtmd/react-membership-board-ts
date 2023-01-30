@@ -1,11 +1,11 @@
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import { useInput } from 'hooks/useInput';
-
 import { Layout } from 'components/layouts/Layout';
 import { Browser } from 'components/common/Browser';
 import { Input } from 'components/common/Input';
 import { Button } from 'components/common/Button';
+import WindowsImg from 'assets/windows_img.png';
 
 export const SignUpPage = () => {
   const { inputValue: id, handleInputChange: handleIdChange } = useInput();
@@ -23,6 +23,13 @@ export const SignUpPage = () => {
         <Browser>
           <SignUpFormWrapper>
             <SignUpForm onSubmit={handleSignUpFormSubmit}>
+              <SignUpFormHeader>
+                <div>
+                  <WindowsImage src={WindowsImg} />
+                  <div>Yuzamin 97</div>
+                </div>
+              </SignUpFormHeader>
+              <SignUpFormTitle>- SignUpForm -</SignUpFormTitle>
               <Input title="id" name="id" type="id" value={id} changeHandler={handleIdChange} />
               <Input
                 title="password"
@@ -55,12 +62,31 @@ const BrowserWrapper = styled.div`
 `;
 
 const SignUpFormWrapper = styled.div`
-  height: 100%;
+  min-height: 100%;
   display: flex;
 `;
 
 const SignUpForm = styled.form`
   margin: auto;
+  padding: 2rem 0;
+`;
+
+const SignUpFormHeader = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+`;
+
+const WindowsImage = styled.img`
+  width: 4rem;
+  display: flex;
+  margin: auto;
+`;
+const SignUpFormTitle = styled.div`
+  text-align: center;
+  font-size: 1.6rem;
+  margin: 0.5rem 0 1rem;
 `;
 
 const ButtonWrapper = styled.div`
