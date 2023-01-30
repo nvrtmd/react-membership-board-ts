@@ -16,7 +16,7 @@ export const SignUpPage = () => {
               <Input title="password" name="password" type="password" />
               <Input title="nickname" name="nickname" type="nickname" />
               <ButtonWrapper>
-                <Button name="Submit" />
+                <Button name="Submit" type="submit" />
               </ButtonWrapper>
             </SignUpForm>
           </SignUpFormWrapper>

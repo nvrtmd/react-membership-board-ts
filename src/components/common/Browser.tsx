@@ -55,11 +55,11 @@ const AddressBar = () => {
   return (
     <AddressBarWrapper>
       <PageMoveButtonsWrapper>
-        <Button restoreHandler={() => handleButtonRestore('previous')}>
+        <Button restoreHandler={() => handleButtonRestore('previous')} type="button">
           <PageMoveButtonImage src={PreviousPageImg} alt="left arrow image" />
         </Button>
 
-        <Button restoreHandler={() => handleButtonRestore('next')}>
+        <Button restoreHandler={() => handleButtonRestore('next')} type="button">
           <PageMoveButtonImage src={NextPageImg} alt="right arrow image" />
         </Button>
       </PageMoveButtonsWrapper>
@@ -75,13 +75,13 @@ const AddressBar = () => {
 const ControlButtons = () => {
   return (
     <ControlButtonsWrapper>
-      <Button>
+      <Button type="button">
         <MinimizeImage src={MinimizeImg} />
       </Button>
-      <Button>
+      <Button type="button">
         <ControlButtonImage src={MaximizeImg} />
       </Button>
-      <Button>
+      <Button type="button">
         <ControlButtonImage src={CloseImg} />
       </Button>
     </ControlButtonsWrapper>

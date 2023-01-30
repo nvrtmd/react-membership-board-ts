@@ -76,7 +76,7 @@ export const PostPage = () => {
                 />
               </CommentInputWrapper>
               <CommentSubmitButtonWrapper>
-                <Button name="Submit" restoreHandler={handleCommentInputSubmit} />
+                <Button name="Submit" restoreHandler={handleCommentInputSubmit} type="submit" />
               </CommentSubmitButtonWrapper>
             </CommentInputContainer>
             <CommentList>
@@ -128,7 +128,7 @@ const FunctionButtons = () => {
 
 const FunctionButton = ({ handleFunctionButtonRestore, name, children }: FunctionButtonProps) => {
   return (
-    <Button restoreHandler={handleFunctionButtonRestore} name={name}>
+    <Button restoreHandler={handleFunctionButtonRestore} name={name} type="button">
       {children}
     </Button>
   );
