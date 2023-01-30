@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import PowerImg from 'assets/power_img.png';
@@ -11,6 +12,8 @@ interface MenuProps {
 }
 
 export const Menu = memo(({ menuRef }: MenuProps) => {
+  const navigate = useNavigate();
+
   const handleShutdownMenuClick = (): void => {
     window.close();
   };
@@ -25,7 +28,7 @@ export const Menu = memo(({ menuRef }: MenuProps) => {
             Source Code
           </a>
         </MenuBox>
-        <MenuBox>
+        <MenuBox onClick={() => navigate('/auth/signup')}>
           <SignupImage src={SignupImg} />
           <div>Sign Up</div>
         </MenuBox>

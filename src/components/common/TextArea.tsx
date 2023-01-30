@@ -3,15 +3,15 @@ import styled from 'styled-components/macro';
 interface TextAreaProps {
   placeholder: string;
   name: string;
-  changeHandler: (e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>) => void;
+  changeHandler: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   value: string | number;
 }
 
 export const TextArea = ({ placeholder, name, changeHandler, value }: TextAreaProps) => {
-  return <Input name={name} placeholder={placeholder} onChange={changeHandler} value={value} />;
+  return <TextAreaBox name={name} placeholder={placeholder} onChange={changeHandler} value={value} />;
 };
 
-const Input = styled.textarea`
+const TextAreaBox = styled.textarea`
   cursor: url('https://user-images.githubusercontent.com/67324487/215311257-3abd7f34-8b4f-450c-a527-ed2e72801fbb.png'),
     auto;
   padding: 0.5rem;

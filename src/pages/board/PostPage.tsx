@@ -50,19 +50,17 @@ export const PostPage = () => {
       <BrowserWrapper>
         <Browser>
           {postData && (
-            <PostContainer>
-              <PostWrapper>
-                <PostHeader>
-                  <PostTitle>{postData.post_title}</PostTitle>
-                  <PostWriter>by {postData.post_writer.member_nickname}</PostWriter>
-                  <PostUpdatedDate>
-                    <div>{postData.updatedAt && moment(postData.updatedAt).format('YY.MM.DD HH:mm')}</div>
-                  </PostUpdatedDate>
-                </PostHeader>
-                <PostBody>{postData.post_contents}</PostBody>
-              </PostWrapper>
+            <div>
+              <PostHeader>
+                <PostTitle>{postData.post_title}</PostTitle>
+                <PostWriter>by {postData.post_writer.member_nickname}</PostWriter>
+                <PostUpdatedDate>
+                  <div>{postData.updatedAt && moment(postData.updatedAt).format('YY.MM.DD HH:mm')}</div>
+                </PostUpdatedDate>
+              </PostHeader>
+              <PostBody>{postData.post_contents}</PostBody>
               <FunctionButtons />
-            </PostContainer>
+            </div>
           )}
           <CommentWrapper>
             <CommentInputContainer>
@@ -78,7 +76,7 @@ export const PostPage = () => {
                 />
               </CommentInputWrapper>
               <CommentSubmitButtonWrapper>
-                <Button name="Submit" restoreHandler={handleCommentInputSubmit} />
+                <Button name="Submit" restoreHandler={handleCommentInputSubmit} type="submit" />
               </CommentSubmitButtonWrapper>
             </CommentInputContainer>
             <CommentList>
@@ -130,7 +128,7 @@ const FunctionButtons = () => {
 
 const FunctionButton = ({ handleFunctionButtonRestore, name, children }: FunctionButtonProps) => {
   return (
-    <Button restoreHandler={handleFunctionButtonRestore} name={name}>
+    <Button restoreHandler={handleFunctionButtonRestore} name={name} type="button">
       {children}
     </Button>
   );
@@ -139,12 +137,6 @@ const FunctionButton = ({ handleFunctionButtonRestore, name, children }: Functio
 const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
-`;
-
-const PostContainer = styled.div``;
-
-const PostWrapper = styled.div`
-  height: auto;
 `;
 
 const PostHeader = styled.div`
