@@ -58,7 +58,6 @@ const AddressBar = () => {
         <Button restoreHandler={() => handleButtonRestore('previous')} type="button">
           <PageMoveButtonImage src={PreviousPageImg} alt="left arrow image" />
         </Button>
-
         <Button restoreHandler={() => handleButtonRestore('next')} type="button">
           <PageMoveButtonImage src={NextPageImg} alt="right arrow image" />
         </Button>
