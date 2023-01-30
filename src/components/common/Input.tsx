@@ -13,20 +13,17 @@ interface InputProps {
 export const Input = memo(({ title, name, placeholder, changeHandler, type, value }: InputProps) => {
   return (
     <InputWrapper>
-      <InputTitle>{title}</InputTitle>
-      <InputBox name={name} type={type} onChange={changeHandler} placeholder={placeholder} value={value} />
+      <InputTitle htmlFor={name}>{title}</InputTitle>
+      <InputBox name={name} type={type} id={name} onChange={changeHandler} placeholder={placeholder} value={value} />
     </InputWrapper>
   );
 });
 
 const InputWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   font-size: 1.2rem;
 `;
 
-const InputTitle = styled.div``;
+const InputTitle = styled.label``;
 
 const InputBox = styled.input`
   cursor: url('https://user-images.githubusercontent.com/67324487/215311257-3abd7f34-8b4f-450c-a527-ed2e72801fbb.png'),
