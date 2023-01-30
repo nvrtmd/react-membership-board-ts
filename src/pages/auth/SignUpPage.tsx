@@ -29,7 +29,7 @@ export const SignUpPage = () => {
                   <div>Yuzamin 97</div>
                 </div>
               </SignUpFormHeader>
-              <SignUpFormTitle>- SignUpForm -</SignUpFormTitle>
+              <SignUpFormTitle>- Sign Up -</SignUpFormTitle>
               <Input title="id" name="id" type="id" value={id} changeHandler={handleIdChange} />
               <Input
                 title="password"
