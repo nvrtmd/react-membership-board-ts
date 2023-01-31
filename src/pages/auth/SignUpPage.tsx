@@ -6,15 +6,17 @@ import { Browser } from 'components/common/Browser';
 import { Input } from 'components/common/Input';
 import { Button } from 'components/common/Button';
 import WindowsImg from 'assets/windows_img.png';
+import { auth } from 'api/auth';
 
 export const SignUpPage = () => {
   const { inputValue: id, handleInputChange: handleIdChange } = useInput();
   const { inputValue: password, handleInputChange: handlePasswordChange } = useInput();
   const { inputValue: nickname, handleInputChange: handleNicknameChange } = useInput();
 
-  const handleSignUpFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignUpFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(id, password, nickname);
+    const response = await auth.signUp({ id, password, nickname });
+    console.log(response);
   };
 
   return (
