@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import { useInput } from 'hooks/useInput';
@@ -9,13 +10,19 @@ import WindowsImg from 'assets/windows_img.png';
 import { auth } from 'api/auth';
 
 export const SignUpPage = () => {
+  const navigate = useNavigate();
   const { inputValue: id, handleInputChange: handleIdChange } = useInput();
   const { inputValue: password, handleInputChange: handlePasswordChange } = useInput();
   const { inputValue: nickname, handleInputChange: handleNicknameChange } = useInput();
 
   const handleSignUpFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await auth.signUp({ id, password, nickname });
+    try {
+      await auth.signUp({ id, password, nickname });
+      navigate('/');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
