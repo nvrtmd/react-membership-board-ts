@@ -7,6 +7,7 @@ const color = {
   grey: '#6e6e6e',
   lightGrey: '#d1d1d1',
   navy: '#0000aa',
+  red: '#ff0000',
 };
 
 const layout = {

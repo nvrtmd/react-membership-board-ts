@@ -24,4 +24,15 @@ const validation = {
   },
 };
 
-export { validation };
+const validator = (type: string, data: string) => {
+  switch (type) {
+    case 'id':
+      return validation.isValidId(data);
+    case 'password':
+      return validation.isValidPassword(data);
+    case 'nickname':
+      return validation.isValidNickname(data);
+  }
+};
+
+export { validator };
