@@ -16,7 +16,6 @@ export const SignUpPage = () => {
   const handleSignUpFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await auth.signUp({ id, password, nickname });
-    console.log(response);
   };
 
   return (
