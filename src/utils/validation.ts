@@ -3,7 +3,7 @@ const validation = {
     if (data.length <= 0) {
       return false;
     }
-    const reg = /^[a-zA-Z][0-9a-zA-Z]{4,7}$/;
+    const reg = /^[A-Za-z]{4,12}$/;
     return reg.test(data);
   },
 
@@ -11,7 +11,7 @@ const validation = {
     if (data.length <= 0) {
       return false;
     }
-    const reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    const reg = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{8,}$/;
     return reg.test(data);
   },
 
@@ -19,7 +19,7 @@ const validation = {
     if (data.length <= 0) {
       return false;
     }
-    const reg = /^[a-zA-Zㄱ-힣][a-zA-Zㄱ-힣 ]{1,20}$/;
+    const reg = /^[a-zA-Zㄱ-힣0-9]{4,12}$/;
     return reg.test(data);
   },
 };

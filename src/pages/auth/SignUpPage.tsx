@@ -66,7 +66,9 @@ export const SignUpPage = () => {
                 changeHandler={handleIdChange}
                 blurHandler={handleIdBlur}
               />
-              <ValidationAlert isValid={!idState.isValid && idState.isValid !== null}>HEY!!</ValidationAlert>
+              <ValidationAlert isValid={!idState.isValid && idState.isValid !== null}>
+                영문 4 ~ 12자를 입력하세요.
+              </ValidationAlert>
               <Input
                 title="password"
                 name="password"
@@ -76,7 +78,7 @@ export const SignUpPage = () => {
                 blurHandler={handlePasswordBlur}
               />
               <ValidationAlert isValid={!passwordState.isValid && passwordState.isValid !== null}>
-                HEY!!
+                숫자 혹은 특수 문자를 포함하여 8자 이상 입력하세요.
               </ValidationAlert>
               <Input
                 title="nickname"
@@ -87,7 +89,7 @@ export const SignUpPage = () => {
                 blurHandler={handleNicknameBlur}
               />
               <ValidationAlert isValid={!nicknameState.isValid && nicknameState.isValid !== null}>
-                HEY!!
+                영어/숫자/한글 4~12자를 입력하세요.
               </ValidationAlert>
               <ButtonWrapper>
                 <Button name="Submit" type="submit" />
@@ -134,7 +136,7 @@ const SignUpFormTitle = styled.div`
 `;
 
 const ValidationAlert = styled.div<ValidationAlertProps>`
-  font-size: 1rem;
+  font-size: 0.8rem;
   visibility: hidden;
   color: ${theme.color.red};
   ${({ isValid }) =>
