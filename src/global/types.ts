@@ -22,3 +22,9 @@ export interface Comment {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface Member {
+  id: string;
+  nickname: string;
+  password?: string;
+}
