@@ -1,24 +1,36 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
-import { useInput } from 'hooks/useInput';
 import { Layout } from 'components/layouts/Layout';
 import { Browser } from 'components/common/Browser';
 import { Input } from 'components/common/Input';
 import { Button } from 'components/common/Button';
 import WindowsImg from 'assets/windows_img.png';
 import { auth } from 'api/auth';
+import { useFormInput } from 'hooks/useFormInput';
+
+interface ValidationAlertProps {
+  isValid: boolean;
+}
 
 export const SignUpPage = () => {
   const navigate = useNavigate();
-  const { inputValue: id, handleInputChange: handleIdChange } = useInput();
-  const { inputValue: password, handleInputChange: handlePasswordChange } = useInput();
-  const { inputValue: nickname, handleInputChange: handleNicknameChange } = useInput();
+  const { inputState: idState, handleInputChange: handleIdChange, handleInputBlur: handleIdBlur } = useFormInput('id');
+  const {
+    inputState: passwordState,
+    handleInputChange: handlePasswordChange,
+    handleInputBlur: handlePasswordBlur,
+  } = useFormInput('password');
+  const {
+    inputState: nicknameState,
+    handleInputChange: handleNicknameChange,
+    handleInputBlur: handleNicknameBlur,
+  } = useFormInput('nickname');
 
   const handleSignUpFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await auth.signUp({ id, password, nickname });
+      await auth.signUp({ id: idState.value, password: passwordState.value, nickname: nicknameState.value });
       navigate('/');
     } catch (err) {
       console.log(err);
@@ -38,21 +50,37 @@ export const SignUpPage = () => {
                 </div>
               </SignUpFormHeader>
               <SignUpFormTitle>- Sign Up -</SignUpFormTitle>
-              <Input title="id" name="id" type="id" value={id} changeHandler={handleIdChange} />
+              <Input
+                title="id"
+                name="id"
+                type="id"
+                value={idState.value}
+                changeHandler={handleIdChange}
+                blurHandler={handleIdBlur}
+              />
+              <ValidationAlert isValid={!idState.isValid && idState.isValid !== null}>HEY!!</ValidationAlert>
               <Input
                 title="password"
                 name="password"
                 type="password"
-                value={password}
+                value={passwordState.value}
                 changeHandler={handlePasswordChange}
+                blurHandler={handlePasswordBlur}
               />
+              <ValidationAlert isValid={!passwordState.isValid && passwordState.isValid !== null}>
+                HEY!!
+              </ValidationAlert>
               <Input
                 title="nickname"
                 name="nickname"
                 type="nickname"
-                value={nickname}
+                value={nicknameState.value}
                 changeHandler={handleNicknameChange}
+                blurHandler={handleNicknameBlur}
               />
+              <ValidationAlert isValid={!nicknameState.isValid && nicknameState.isValid !== null}>
+                HEY!!
+              </ValidationAlert>
               <ButtonWrapper>
                 <Button name="Submit" type="submit" />
               </ButtonWrapper>
@@ -95,6 +123,17 @@ const SignUpFormTitle = styled.div`
   text-align: center;
   font-size: 1.6rem;
   margin: 0.5rem 0 1rem;
+`;
+
+const ValidationAlert = styled.div<ValidationAlertProps>`
+  font-size: 1rem;
+  visibility: hidden;
+  color: ${theme.color.red};
+  ${({ isValid }) =>
+    isValid &&
+    `
+    visibility: visible !important;
+  `}
 `;
 
 const ButtonWrapper = styled.div`
