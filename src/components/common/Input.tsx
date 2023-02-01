@@ -6,15 +6,24 @@ interface InputProps {
   name?: string;
   title?: string;
   type?: string;
+  blurHandler?: () => void;
   changeHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string | number;
 }
 
-export const Input = memo(({ title, name, placeholder, changeHandler, type, value }: InputProps) => {
+export const Input = memo(({ title, name, placeholder, changeHandler, blurHandler, type, value }: InputProps) => {
   return (
     <InputWrapper>
       <InputTitle htmlFor={name}>{title}</InputTitle>
-      <InputBox name={name} type={type} id={name} onChange={changeHandler} placeholder={placeholder} value={value} />
+      <InputBox
+        name={name}
+        type={type}
+        id={name}
+        onChange={changeHandler}
+        onBlur={blurHandler}
+        placeholder={placeholder}
+        value={value}
+      />
     </InputWrapper>
   );
 });
