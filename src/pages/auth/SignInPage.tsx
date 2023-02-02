@@ -56,7 +56,7 @@ export const SignInPage = () => {
                 changeHandler={handlePasswordChange}
               />
               <ButtonWrapper>
-                <Button name="Submit" type="submit" />
+                <Button name="SignIn" type="submit" />
               </ButtonWrapper>
             </SignInForm>
           </SignInFormWrapper>
