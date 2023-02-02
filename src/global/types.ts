@@ -25,6 +25,6 @@ export interface Comment {
 
 export interface Member {
   id: string;
-  nickname: string;
+  nickname?: string;
   password?: string;
 }
