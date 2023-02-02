@@ -3,6 +3,7 @@ import { ListPage as PostListPage } from 'pages/board/ListPage';
 import { PostPage } from 'pages/board/PostPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { SignUpPage } from 'pages/auth/SignUpPage';
+import { SignInPage } from 'pages/auth/SignInPage';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/board/list" element={<PostListPage />} />
         <Route path="/board/:postIdx" element={<PostPage />} />
         <Route path="/auth/signup" element={<SignUpPage />} />
+        <Route path="/auth/signin" element={<SignInPage />} />
       </Routes>
     </BrowserRouter>
   );
