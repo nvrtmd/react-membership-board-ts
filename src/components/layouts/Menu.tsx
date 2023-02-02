@@ -32,7 +32,7 @@ export const Menu = memo(({ menuRef }: MenuProps) => {
           <SignupImage src={SignupImg} />
           <div>Sign Up</div>
         </MenuBox>
-        <MenuBox>
+        <MenuBox onClick={() => navigate('/auth/signin')}>
           <MenuImage src={SigninImg} />
           <div>Sign In</div>
         </MenuBox>

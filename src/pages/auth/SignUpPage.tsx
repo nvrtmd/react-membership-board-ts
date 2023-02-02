@@ -27,21 +27,24 @@ export const SignUpPage = () => {
     handleInputBlur: handleNicknameBlur,
   } = useFormInput('nickname');
 
-  const isFormInputValid = () => {
-    return idState.isValid && passwordState.isValid && nicknameState.isValid;
+  const isSignUpFormInputValid = () => {
+    if (idState.isValid && passwordState.isValid && nicknameState.isValid) {
+      return true;
+    } else {
+      alert('입력하신 내용을 확인해주세요.');
+      return false;
+    }
   };
 
   const handleSignUpFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!isFormInputValid()) {
-      alert('입력하신 내용을 확인해주세요.');
-      return;
-    }
-    try {
-      await auth.signUp({ id: idState.value, password: passwordState.value, nickname: nicknameState.value });
-      navigate('/');
-    } catch (err) {
-      console.log(err);
+    if (isSignUpFormInputValid()) {
+      try {
+        await auth.signUp({ id: idState.value, password: passwordState.value, nickname: nicknameState.value });
+        navigate('/auth/signin');
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
