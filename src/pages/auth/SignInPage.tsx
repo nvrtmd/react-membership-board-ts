@@ -46,7 +46,7 @@ export const SignInPage = () => {
                   <div>Yuzamin 97</div>
                 </div>
               </SignInFormHeader>
-              <SignInFormTitle>- Sign In -</SignInFormTitle>
+              <PageTitle>- Sign In -</PageTitle>
               <Input title="id" name="id" type="id" value={id} changeHandler={handleIdChange} />
               <Input
                 title="password"
@@ -93,7 +93,7 @@ const WindowsImage = styled.img`
   display: flex;
   margin: auto;
 `;
-const SignInFormTitle = styled.div`
+const PageTitle = styled.div`
   text-align: center;
   font-size: 1.6rem;
   margin: 0.5rem 0 1rem;

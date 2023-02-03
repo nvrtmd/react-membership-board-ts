@@ -7,7 +7,7 @@ import { Input } from 'components/common/Input';
 import { Button } from 'components/common/Button';
 import WindowsImg from 'assets/windows_img.png';
 import { auth } from 'api/auth';
-import { useFormInput } from 'hooks/useFormInput';
+import { useValidInput } from 'hooks/useValidInput';
 
 interface ValidationAlertProps {
   isValid: boolean;
@@ -15,17 +15,17 @@ interface ValidationAlertProps {
 
 export const SignUpPage = () => {
   const navigate = useNavigate();
-  const { inputState: idState, handleInputChange: handleIdChange, handleInputBlur: handleIdBlur } = useFormInput('id');
+  const { inputState: idState, handleInputChange: handleIdChange, handleInputBlur: handleIdBlur } = useValidInput('id');
   const {
     inputState: passwordState,
     handleInputChange: handlePasswordChange,
     handleInputBlur: handlePasswordBlur,
-  } = useFormInput('password');
+  } = useValidInput('password');
   const {
     inputState: nicknameState,
     handleInputChange: handleNicknameChange,
     handleInputBlur: handleNicknameBlur,
-  } = useFormInput('nickname');
+  } = useValidInput('nickname');
 
   const isSignUpFormInputValid = () => {
     if (idState.isValid && passwordState.isValid && nicknameState.isValid) {
@@ -60,7 +60,7 @@ export const SignUpPage = () => {
                   <div>Yuzamin 97</div>
                 </div>
               </SignUpFormHeader>
-              <SignUpFormTitle>- Sign Up -</SignUpFormTitle>
+              <PageTitle>- Sign Up -</PageTitle>
               <Input
                 title="id"
                 name="id"
@@ -132,7 +132,7 @@ const WindowsImage = styled.img`
   display: flex;
   margin: auto;
 `;
-const SignUpFormTitle = styled.div`
+const PageTitle = styled.div`
   text-align: center;
   font-size: 1.6rem;
   margin: 0.5rem 0 1rem;

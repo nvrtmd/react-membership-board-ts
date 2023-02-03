@@ -30,7 +30,7 @@ const initialState: State = {
   isValid: null,
 };
 
-export const useFormInput = (inputType: string) => {
+export const useValidInput = (inputType: string) => {
   const [inputState, dispatchInput] = useReducer(inputReducer, initialState);
 
   const handleResetInput = () => {
