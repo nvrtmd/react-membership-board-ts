@@ -18,7 +18,7 @@ const auth = {
   },
   signIn: async (data: Member) => {
     try {
-      await axios.post(`/auth/signin`, data);
+      await axios.post(`/auth/signin`, data, { withCredentials: true });
     } catch (err) {
       if (isAxiosError(err) && err.response) {
         // TODO: 추후 백엔드에서 에러 세분화하여 전달하면 적절한 에러 처리 필요
