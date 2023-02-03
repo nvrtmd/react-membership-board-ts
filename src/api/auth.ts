@@ -34,12 +34,10 @@ const auth = {
   isSignedIn: async () => {
     try {
       await member.getMemberInfo();
-    } catch (err) {
-      if (isAxiosError(err) && err.response) {
-        throw {
-          error: '인증되지 않은 사용자입니다. 로그인이 필요합니다.',
-        };
-      }
+    } catch {
+      throw {
+        error: '인증되지 않은 사용자입니다. 로그인이 필요합니다.',
+      };
     }
   },
 };
