@@ -1,4 +1,4 @@
-import axios, { AxiosError, isAxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { NewPost } from 'global/types';
 
 const board = {
@@ -35,21 +35,14 @@ const board = {
     try {
       await axios.get(`/post/${postIdx}/iswriter`, { withCredentials: true });
     } catch (err) {
-      if (isAxiosError(err)) {
-        switch (err.response?.status) {
-          case 500:
-            throw {
-              error: '로그인이 필요합니다.',
-            };
-          case 403:
-            throw {
-              error: '게시글 수정 및 삭제는 작성자만 가능합니다.',
-            };
-          default:
-            throw {
-              error: '게시글 수정 및 삭제에 실패하였습니다. 잠시 후 다시 시도해주세요.',
-            };
-        }
+      const error = err as AxiosError;
+      switch (error.response?.status) {
+        case 500:
+          throw { code: 500, message: '로그인이 필요합니다.' };
+        case 403:
+          throw { code: 403, message: '게시글 수정 및 삭제는 작성자만 가능합니다.' };
+        default:
+          throw { code: 500, message: '게시글 수정 및 삭제에 실패하였습니다. 잠시 후 다시 시도해주세요.' };
       }
     }
   },
