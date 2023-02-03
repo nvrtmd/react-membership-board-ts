@@ -10,12 +10,12 @@ import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import moment from 'moment';
 import { Layout } from 'components/layouts/Layout';
-import axios from 'axios';
 import { Post, Comment } from 'global/types';
 import { CommentItem } from 'components/board/CommentItem';
 import { NoComment } from 'components/board/NoComment';
 import { TextArea } from 'components/common/TextArea';
 import { useInput } from 'hooks/useInput';
+import { board } from 'api/board';
 
 interface FunctionButtonProps {
   handleFunctionButtonRestore: () => void;
@@ -28,15 +28,26 @@ export const PostPage = () => {
   const [commentList, setCommentList] = useState<Comment[]>();
   const { inputValue, handleInputChange, handleResetInput } = useInput();
   const params = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchPostData();
   }, []);
 
   const fetchPostData = async () => {
-    const fetchedData = await axios.get(`/post/${params.postIdx}`);
-    setPostData(fetchedData.data.data);
-    setCommentList(fetchedData.data.data.comments);
+    try {
+      if (params.postIdx) {
+        const fetchedData = await board.getPostData(params.postIdx);
+        setPostData(fetchedData);
+        setCommentList(fetchedData);
+      } else {
+        alert('게시글이 존재하지 않습니다.');
+        navigate('/');
+      }
+    } catch {
+      alert('서버로부터 게시글 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+      navigate('/');
+    }
   };
 
   const handleCommentInputSubmit = () => {
