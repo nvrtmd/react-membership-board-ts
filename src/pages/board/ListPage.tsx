@@ -9,6 +9,7 @@ import axios from 'axios';
 import { Post } from 'global/types';
 import { Button } from 'components/common/Button';
 import { auth } from 'api/auth';
+import { board } from 'api/board';
 
 interface ListItemProps {
   data: Post;
@@ -24,8 +25,13 @@ export const ListPage = () => {
   }, []);
 
   const fetchPostList = async () => {
-    const fetchedData = await axios.get('/post/list');
-    setPostList(fetchedData.data.data);
+    try {
+      const fetchedData = await board.getPostList();
+      setPostList(fetchedData);
+    } catch {
+      alert('서버로부터 게시글 목록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+      navigate('/');
+    }
   };
 
   const moveToPost = useCallback(
