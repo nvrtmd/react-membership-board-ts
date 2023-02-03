@@ -7,6 +7,7 @@ import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
 import axios from 'axios';
 import { Post } from 'global/types';
+import { Button } from 'components/common/Button';
 
 interface ListItemProps {
   data: Post;
@@ -37,6 +38,9 @@ export const ListPage = () => {
     <Layout>
       <BrowserWrapper>
         <Browser>
+          <ButtonWrapper>
+            <Button type="button" name="Create Post" restoreHandler={() => navigate('/board/create')} />
+          </ButtonWrapper>
           <ListWrapper>
             {postList && postList.map((post) => <ListItem data={post} clickHandler={moveToPost} key={post.post_idx} />)}
           </ListWrapper>
@@ -63,6 +67,12 @@ const ListItem = ({ data, clickHandler }: ListItemProps) => {
 const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
 `;
 
 const ListWrapper = styled.div`
