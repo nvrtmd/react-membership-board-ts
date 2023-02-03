@@ -34,6 +34,14 @@ export const CreatePage = () => {
     }
   };
 
+  const handleCancelButtonClick = () => {
+    if (confirm('게시글 작성을 취소하시겠습니까?')) {
+      navigate('/board/list');
+    } else {
+      return;
+    }
+  };
+
   return (
     <Layout>
       <BrowserWrapper>
@@ -58,7 +66,7 @@ export const CreatePage = () => {
               </ContentsWrapper>
               <ButtonWrapper>
                 <Button name="Create" type="submit" />
-                <Button name="Cancel" type="button" />
+                <Button name="Cancel" type="button" restoreHandler={handleCancelButtonClick} />
               </ButtonWrapper>
             </PostForm>
           </PostFormWrapper>
