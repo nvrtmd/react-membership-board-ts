@@ -1,9 +1,12 @@
 export interface NewPost {
+  title: string;
+  contents: string;
+}
+
+export interface Post {
+  post_idx: number;
   post_title: string;
   post_contents: string;
-}
-export interface Post extends NewPost {
-  post_idx: number;
   createdAt: Date;
   updatedAt: Date;
   member_idx: number;
