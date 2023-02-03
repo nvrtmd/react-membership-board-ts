@@ -60,7 +60,7 @@ export const SignUpPage = () => {
                   <div>Yuzamin 97</div>
                 </div>
               </SignUpFormHeader>
-              <SignUpFormTitle>- Sign Up -</SignUpFormTitle>
+              <PageTitle>- Sign Up -</PageTitle>
               <Input
                 title="id"
                 name="id"
@@ -132,7 +132,7 @@ const WindowsImage = styled.img`
   display: flex;
   margin: auto;
 `;
-const SignUpFormTitle = styled.div`
+const PageTitle = styled.div`
   text-align: center;
   font-size: 1.6rem;
   margin: 0.5rem 0 1rem;

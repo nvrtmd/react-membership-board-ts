@@ -1,4 +1,4 @@
-import axios, { isAxiosError } from 'axios';
+import axios from 'axios';
 import { Member } from 'global/types';
 import { member } from 'api/member';
 
