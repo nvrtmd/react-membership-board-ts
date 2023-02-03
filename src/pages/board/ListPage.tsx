@@ -5,7 +5,6 @@ import moment from 'moment';
 import { theme } from 'styles/theme';
 import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
-import axios from 'axios';
 import { Post } from 'global/types';
 import { Button } from 'components/common/Button';
 import { auth } from 'api/auth';
