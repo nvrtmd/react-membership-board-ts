@@ -33,3 +33,8 @@ export interface Member {
   nickname?: string;
   password?: string;
 }
+
+export interface CustomError {
+  code: string;
+  message: string;
+}

@@ -10,12 +10,16 @@ import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import moment from 'moment';
 import { Layout } from 'components/layouts/Layout';
-import { Post, Comment } from 'global/types';
+import { Post, Comment, CustomError } from 'global/types';
 import { CommentItem } from 'components/board/CommentItem';
 import { NoComment } from 'components/board/NoComment';
 import { TextArea } from 'components/common/TextArea';
 import { useInput } from 'hooks/useInput';
 import { board } from 'api/board';
+
+interface FunctionButtonsProps {
+  postIdx: string;
+}
 
 interface FunctionButtonProps {
   handleFunctionButtonRestore: () => void;
@@ -42,11 +46,11 @@ export const PostPage = () => {
         setCommentList(fetchedData);
       } else {
         alert('게시글이 존재하지 않습니다.');
-        navigate('/');
+        navigate(-1);
       }
     } catch {
       alert('서버로부터 게시글 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
-      navigate('/');
+      navigate(-1);
     }
   };
 
@@ -70,7 +74,7 @@ export const PostPage = () => {
                 </PostUpdatedDate>
               </PostHeader>
               <PostBody>{postData.post_contents}</PostBody>
-              <FunctionButtons />
+              <FunctionButtons postIdx={String(postData.post_idx)} />
             </div>
           )}
           <CommentWrapper>
@@ -104,15 +108,23 @@ export const PostPage = () => {
   );
 };
 
-const FunctionButtons = () => {
+const FunctionButtons = ({ postIdx }: FunctionButtonsProps) => {
   const navigate = useNavigate();
-  const handleFunctionButtonRestore = useCallback((functionButtonName: string) => {
+  const params = useParams();
+
+  const handleFunctionButtonRestore = useCallback(async (functionButtonName: string) => {
     switch (functionButtonName) {
       case 'Delete':
         console.log('delete');
         break;
       case 'Modify':
-        console.log('modify');
+        try {
+          await board.isPostWriter(postIdx);
+          navigate(`/board/modify/${params.postIdx}`);
+        } catch (err) {
+          const error = err as CustomError;
+          alert(error.message);
+        }
         break;
       case 'List':
         navigate('/board/list');
