@@ -62,6 +62,10 @@ export const PostPage = () => {
   const handleCommentInputSubmit = async () => {
     try {
       await auth.isSignedIn();
+      if (comment.length <= 0) {
+        alert('내용을 작성하세요.');
+        return;
+      }
       if (params.postIdx) {
         await board.createComment(params.postIdx, { contents: comment });
         const fetchedData = await board.getPostData(params.postIdx);
