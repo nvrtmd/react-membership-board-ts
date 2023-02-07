@@ -70,6 +70,7 @@ export const PostPage = () => {
     } catch (err) {
       const error = err as CustomError;
       alert(error.message);
+      return;
     }
     handleCommentReset();
   };
