@@ -2,11 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
-import { Input } from 'components/common/Input';
-import { Button } from 'components/common/Button';
-import { TextArea } from 'components/common/TextArea';
 import { useInput } from 'hooks/useInput';
 import { board } from 'api/board';
+import { PostForm } from 'components/board/PostForm';
 
 export const CreatePage = () => {
   const { inputValue: title, handleInputChange: handleTitleChange } = useInput();
@@ -36,7 +34,7 @@ export const CreatePage = () => {
 
   const handleCancelButtonClick = () => {
     if (confirm('게시글 작성을 취소하시겠습니까?')) {
-      navigate('/board/list');
+      navigate(-1);
     } else {
       return;
     }
@@ -47,28 +45,15 @@ export const CreatePage = () => {
       <BrowserWrapper>
         <Browser>
           <PostFormWrapper>
-            <PostForm onSubmit={handlePostFormSubmit}>
-              <PageTitle>- Create Post -</PageTitle>
-              <Input
-                name="title"
-                type="title"
-                value={title}
-                changeHandler={handleTitleChange}
-                placeholder="Write your title"
-              />
-              <ContentsWrapper>
-                <TextArea
-                  placeholder="Write your contents"
-                  name="comment"
-                  changeHandler={handleContentsChange}
-                  value={contents}
-                />
-              </ContentsWrapper>
-              <ButtonWrapper>
-                <Button name="Create" type="submit" />
-                <Button name="Cancel" type="button" restoreHandler={handleCancelButtonClick} />
-              </ButtonWrapper>
-            </PostForm>
+            <PostForm
+              submitHandler={handlePostFormSubmit}
+              formTitle="- Create Post -"
+              titleValue={title}
+              titleChangeHandler={handleTitleChange}
+              contentsValue={contents}
+              contentsChangeHandler={handleContentsChange}
+              cancelButtonClickHandler={handleCancelButtonClick}
+            />
           </PostFormWrapper>
         </Browser>
       </BrowserWrapper>
@@ -83,28 +68,4 @@ const BrowserWrapper = styled.div`
 const PostFormWrapper = styled.div`
   min-height: 100%;
   display: flex;
-`;
-
-const PostForm = styled.form`
-  width: 100%;
-  padding: 2rem 1.5rem;
-`;
-
-const PageTitle = styled.div`
-  text-align: center;
-  font-size: 1.6rem;
-  margin: 0.5rem 0 1rem;
-`;
-
-const ContentsWrapper = styled.div`
-  margin-top: 1.5rem;
-  height: 100%;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
 `;
