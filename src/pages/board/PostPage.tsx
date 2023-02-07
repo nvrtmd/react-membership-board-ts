@@ -115,7 +115,19 @@ const FunctionButtons = ({ postIdx }: FunctionButtonsProps) => {
   const handleFunctionButtonRestore = useCallback(async (functionButtonName: string) => {
     switch (functionButtonName) {
       case 'Delete':
-        console.log('delete');
+        try {
+          await board.isPostWriter(postIdx);
+          if (confirm('게시글을 삭제하시겠습니까?')) {
+            board.deletePost(postIdx);
+            alert('게시글이 삭제되었습니다.');
+            navigate('/board/list');
+          } else {
+            return;
+          }
+        } catch (err) {
+          const error = err as CustomError;
+          alert(error.message);
+        }
         break;
       case 'Modify':
         try {

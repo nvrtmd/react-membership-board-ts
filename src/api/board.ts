@@ -55,6 +55,15 @@ const board = {
       };
     }
   },
+  deletePost: async (postIdx: string) => {
+    try {
+      await axios.delete(`/post/${postIdx}`, { withCredentials: true });
+    } catch {
+      throw {
+        error: '게시글을 삭제하지 못했습니다. 잠시 후 다시 시도해주세요.',
+      };
+    }
+  },
 };
 
 export { board };
