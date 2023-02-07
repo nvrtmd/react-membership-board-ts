@@ -109,7 +109,8 @@ export const PostPage = () => {
 };
 
 const FunctionButtons = ({ postIdx }: FunctionButtonsProps) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate();  const params = useParams();
+
   const handleFunctionButtonRestore = useCallback(async (functionButtonName: string) => {
     switch (functionButtonName) {
       case 'Delete':
@@ -118,6 +119,7 @@ const FunctionButtons = ({ postIdx }: FunctionButtonsProps) => {
       case 'Modify':
         try {
           await board.isPostWriter(postIdx);
+          navigate(`/board/modify/${params.postIdx}`)
         } catch (err) {
           const error = err as CustomError;
           alert(error.message);
