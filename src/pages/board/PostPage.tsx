@@ -48,7 +48,7 @@ export const PostPage = () => {
       if (params.postIdx) {
         const fetchedData = await board.getPostData(params.postIdx);
         setPostData(fetchedData);
-        setCommentList(fetchedData);
+        setCommentList(fetchedData.comments);
       } else {
         alert('게시글이 존재하지 않습니다.');
         navigate(-1);
