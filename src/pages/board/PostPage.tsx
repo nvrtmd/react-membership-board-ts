@@ -16,6 +16,7 @@ import { NoComment } from 'components/board/NoComment';
 import { TextArea } from 'components/common/TextArea';
 import { useInput } from 'hooks/useInput';
 import { board } from 'api/board';
+import { auth } from 'api/auth';
 
 interface FunctionButtonsProps {
   postIdx: string;
@@ -30,7 +31,11 @@ interface FunctionButtonProps {
 export const PostPage = () => {
   const [postData, setPostData] = useState<Post>();
   const [commentList, setCommentList] = useState<Comment[]>();
-  const { inputValue, handleInputChange, handleResetInput } = useInput('');
+  const {
+    inputValue: comment,
+    handleInputChange: handleCommentChange,
+    handleResetInput: handleCommentReset,
+  } = useInput('');
   const params = useParams();
   const navigate = useNavigate();
 
@@ -54,10 +59,19 @@ export const PostPage = () => {
     }
   };
 
-  const handleCommentInputSubmit = () => {
-    // TODO: post API 통신 구현
-    console.log(inputValue);
-    handleResetInput();
+  const handleCommentInputSubmit = async () => {
+    try {
+      await auth.isSignedIn();
+      if (params.postIdx) {
+        await board.createComment(params.postIdx, { contents: comment });
+        const fetchedData = await board.getPostData(params.postIdx);
+        setCommentList(fetchedData.comments);
+      }
+    } catch (err) {
+      const error = err as CustomError;
+      alert(error.message);
+    }
+    handleCommentReset();
   };
 
   return (
@@ -86,8 +100,8 @@ export const PostPage = () => {
                 <TextArea
                   placeholder="Write your comment"
                   name="comment"
-                  changeHandler={handleInputChange}
-                  value={inputValue}
+                  changeHandler={handleCommentChange}
+                  value={comment}
                 />
               </CommentInputWrapper>
               <CommentSubmitButtonWrapper>
