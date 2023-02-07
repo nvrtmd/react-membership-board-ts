@@ -11,8 +11,8 @@ import { auth } from 'api/auth';
 
 export const SignInPage = () => {
   const navigate = useNavigate();
-  const { inputValue: id, handleInputChange: handleIdChange } = useInput();
-  const { inputValue: password, handleInputChange: handlePasswordChange } = useInput();
+  const { inputValue: id, handleInputChange: handleIdChange } = useInput('');
+  const { inputValue: password, handleInputChange: handlePasswordChange } = useInput('');
 
   const isSignInFormInputValid = () => {
     if (!id.length || !password.length) {

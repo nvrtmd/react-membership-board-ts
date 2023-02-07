@@ -30,7 +30,7 @@ interface FunctionButtonProps {
 export const PostPage = () => {
   const [postData, setPostData] = useState<Post>();
   const [commentList, setCommentList] = useState<Comment[]>();
-  const { inputValue, handleInputChange, handleResetInput } = useInput();
+  const { inputValue, handleInputChange, handleResetInput } = useInput('');
   const params = useParams();
   const navigate = useNavigate();
 

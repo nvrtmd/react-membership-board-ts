@@ -7,8 +7,8 @@ import { board } from 'api/board';
 import { PostForm } from 'components/board/PostForm';
 
 export const CreatePage = () => {
-  const { inputValue: title, handleInputChange: handleTitleChange } = useInput();
-  const { inputValue: contents, handleInputChange: handleContentsChange } = useInput();
+  const { inputValue: title, handleInputChange: handleTitleChange } = useInput('');
+  const { inputValue: contents, handleInputChange: handleContentsChange } = useInput('');
   const navigate = useNavigate();
 
   const isPostFormInputValid = () => {
