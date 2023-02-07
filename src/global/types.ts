@@ -3,6 +3,10 @@ export interface NewPost {
   contents: string;
 }
 
+export interface NewComment {
+  contents: string;
+}
+
 export interface Post {
   post_idx: number;
   post_title: string;
