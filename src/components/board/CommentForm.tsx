@@ -7,14 +7,17 @@ interface CommentFormProps {
   submitHandler: (e: React.FormEvent<HTMLFormElement>) => void;
   commentValue: string | number;
   commentChangeHandler: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  formTitle?: string;
 }
 
-export const CommentForm = ({ submitHandler, commentChangeHandler, commentValue }: CommentFormProps) => {
+export const CommentForm = ({ submitHandler, commentChangeHandler, commentValue, formTitle }: CommentFormProps) => {
   return (
     <Form onSubmit={submitHandler}>
-      <FormTitle>
-        <CommentImage src={CommentImg} /> Comments
-      </FormTitle>
+      {formTitle && (
+        <FormTitle>
+          <CommentImage src={CommentImg} /> {formTitle}
+        </FormTitle>
+      )}
       <ContentsWrapper>
         <TextArea
           placeholder="Write your comment"
