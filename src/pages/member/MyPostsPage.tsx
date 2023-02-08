@@ -18,12 +18,19 @@ export const MyPostsPage = () => {
 
   const fetchPostList = async () => {
     try {
+      await member.getMemberInfo();
+    } catch (err) {
+      console.log('비로그인 회원입니다.');
+      return;
+    }
+
+    try {
       const fetchedData = await member.getMemberPosts();
       setPostList(fetchedData);
     } catch (err) {
       const error = err as CustomError;
       alert(error.message);
-      navigate('/');
+      navigate(-1);
     }
   };
 
