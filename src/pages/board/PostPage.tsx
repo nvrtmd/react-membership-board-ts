@@ -9,13 +9,14 @@ import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import moment from 'moment';
 import { Layout } from 'components/layouts/Layout';
-import { Post, Comment, CustomError } from 'global/types';
+import { Post, Comment, Member, CustomError } from 'global/types';
 import { CommentItem } from 'components/board/CommentItem';
 import { NoComment } from 'components/board/NoComment';
 import { useInput } from 'hooks/useInput';
 import { board } from 'api/board';
 import { auth } from 'api/auth';
 import { CommentForm } from 'components/board/CommentForm';
+import { member } from 'api/member';
 
 interface FunctionButtonsProps {
   postIdx: string;
@@ -28,6 +29,7 @@ interface FunctionButtonProps {
 }
 
 export const PostPage = () => {
+  const [currentUserData, setCurrentUserData] = useState<Member>();
   const [postData, setPostData] = useState<Post>();
   const [commentList, setCommentList] = useState<Comment[]>();
   const {
@@ -40,7 +42,17 @@ export const PostPage = () => {
 
   useEffect(() => {
     fetchPostData();
+    fetchUserData();
   }, []);
+
+  const fetchUserData = async () => {
+    try {
+      const fetchedData = await member.getMemberInfo();
+      setCurrentUserData({ id: fetchedData.member_id });
+    } catch {
+      console.log('비로그인 회원입니다.');
+    }
+  };
 
   const fetchPostData = async () => {
     try {
@@ -58,6 +70,10 @@ export const PostPage = () => {
     }
   };
 
+  const handleCommentListRefresh = async (newCommentList: Comment[]) => {
+    setCommentList(newCommentList);
+  };
+
   const handleCommentFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -69,7 +85,7 @@ export const PostPage = () => {
       if (params.postIdx) {
         await board.createComment(params.postIdx, { contents: comment });
         const fetchedData = await board.getPostData(params.postIdx);
-        setCommentList(fetchedData.comments);
+        handleCommentListRefresh(fetchedData.comments);
       }
     } catch (err) {
       const error = err as CustomError;
@@ -101,10 +117,18 @@ export const PostPage = () => {
               submitHandler={handleCommentFormSubmit}
               commentValue={comment}
               commentChangeHandler={handleCommentChange}
+              formTitle="Comments"
             />
             <CommentList>
               {commentList && commentList.length > 0 ? (
-                commentList.map((comment) => <CommentItem key={comment.comment_idx} data={comment} />)
+                commentList.map((comment) => (
+                  <CommentItem
+                    key={comment.comment_idx}
+                    data={comment}
+                    commentListRefreshHandler={handleCommentListRefresh}
+                    isCommentWriter={comment.comment_writer.member_id === currentUserData?.id}
+                  />
+                ))
               ) : (
                 <NoComment />
               )}

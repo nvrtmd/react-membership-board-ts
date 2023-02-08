@@ -7,14 +7,26 @@ interface CommentFormProps {
   submitHandler: (e: React.FormEvent<HTMLFormElement>) => void;
   commentValue: string | number;
   commentChangeHandler: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  formTitle?: string;
+  type?: string;
+  commentModifyCancelHandler?: () => void;
 }
 
-export const CommentForm = ({ submitHandler, commentChangeHandler, commentValue }: CommentFormProps) => {
+export const CommentForm = ({
+  submitHandler,
+  commentChangeHandler,
+  commentValue,
+  formTitle,
+  type,
+  commentModifyCancelHandler,
+}: CommentFormProps) => {
   return (
     <Form onSubmit={submitHandler}>
-      <FormTitle>
-        <CommentImage src={CommentImg} /> Comments
-      </FormTitle>
+      {formTitle && (
+        <FormTitle>
+          <CommentImage src={CommentImg} /> {formTitle}
+        </FormTitle>
+      )}
       <ContentsWrapper>
         <TextArea
           placeholder="Write your comment"
@@ -24,6 +36,9 @@ export const CommentForm = ({ submitHandler, commentChangeHandler, commentValue 
         />
       </ContentsWrapper>
       <ButtonWrapper>
+        {type === 'commentModifyForm' && (
+          <Button name="Cancel" type="button" restoreHandler={commentModifyCancelHandler} />
+        )}
         <Button name="Submit" type="submit" />
       </ButtonWrapper>
     </Form>
