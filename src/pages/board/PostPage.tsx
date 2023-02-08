@@ -70,6 +70,10 @@ export const PostPage = () => {
     }
   };
 
+  const handleCommentListRefresh = async (newCommentList: Comment[]) => {
+    setCommentList(newCommentList);
+  };
+
   const handleCommentFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -81,7 +85,7 @@ export const PostPage = () => {
       if (params.postIdx) {
         await board.createComment(params.postIdx, { contents: comment });
         const fetchedData = await board.getPostData(params.postIdx);
-        setCommentList(fetchedData.comments);
+        handleCommentListRefresh(fetchedData.comments);
       }
     } catch (err) {
       const error = err as CustomError;
@@ -113,6 +117,7 @@ export const PostPage = () => {
               submitHandler={handleCommentFormSubmit}
               commentValue={comment}
               commentChangeHandler={handleCommentChange}
+              formTitle="Comments"
             />
             <CommentList>
               {commentList && commentList.length > 0 ? (
@@ -120,6 +125,7 @@ export const PostPage = () => {
                   <CommentItem
                     key={comment.comment_idx}
                     data={comment}
+                    commentListRefreshHandler={handleCommentListRefresh}
                     isCommentWriter={comment.comment_writer.member_id === currentUserData?.id}
                   />
                 ))

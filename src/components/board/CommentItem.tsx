@@ -12,9 +12,10 @@ import { board } from 'api/board';
 interface CommentItemProps {
   data: Comment;
   isCommentWriter: boolean;
+  commentListRefreshHandler: (newCommentList: Comment[]) => void;
 }
 
-export const CommentItem = ({ data, isCommentWriter }: CommentItemProps) => {
+export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }: CommentItemProps) => {
   const [isModifyButtonClicked, setIsModifyButtonClicked] = useState<boolean>(false);
   const { inputValue: modifiedComment, handleInputChange: handleModifiedCommentChange } = useInput(
     data.comment_contents,
@@ -35,6 +36,8 @@ export const CommentItem = ({ data, isCommentWriter }: CommentItemProps) => {
       }
       if (params.postIdx) {
         await board.modifyComment(params.postIdx, data.comment_idx, { contents: modifiedComment });
+        const fetchedData = await board.getPostData(params.postIdx);
+        commentListRefreshHandler(fetchedData.comments);
       }
     } catch (err) {
       const error = err as CustomError;
