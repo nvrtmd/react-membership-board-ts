@@ -8,6 +8,7 @@ import { Button } from 'components/common/Button';
 import { auth } from 'api/auth';
 import { board } from 'api/board';
 import { PostItem } from 'components/board/PostItem';
+import { NoPost } from 'components/common/NoPost';
 
 export const ListPage = () => {
   const [postList, setPostList] = useState<Post[]>();
@@ -56,7 +57,11 @@ export const ListPage = () => {
             <Button type="button" name="Create Post" restoreHandler={handleCreatePostButtonClick} />
           </ButtonWrapper>
           <ListWrapper>
-            {postList && postList.map((post) => <PostItem data={post} clickHandler={moveToPost} key={post.post_idx} />)}
+            {postList && postList.length > 0 ? (
+              postList.map((post) => <PostItem data={post} clickHandler={moveToPost} key={post.post_idx} />)
+            ) : (
+              <NoPost />
+            )}
           </ListWrapper>
         </Browser>
       </BrowserWrapper>

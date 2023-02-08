@@ -6,6 +6,7 @@ import { Layout } from 'components/layouts/Layout';
 import { CustomError, Post } from 'global/types';
 import { member } from 'api/member';
 import { PostItem } from 'components/board/PostItem';
+import { NoPost } from 'components/common/NoPost';
 
 export const MyPostsPage = () => {
   const [postList, setPostList] = useState<Post[]>();
@@ -38,7 +39,11 @@ export const MyPostsPage = () => {
       <BrowserWrapper>
         <Browser>
           <ListWrapper>
-            {postList && postList.map((post) => <PostItem data={post} clickHandler={moveToPost} key={post.post_idx} />)}
+            {postList && postList.length > 0 ? (
+              postList.map((post) => <PostItem data={post} clickHandler={moveToPost} key={post.post_idx} />)
+            ) : (
+              <NoPost />
+            )}
           </ListWrapper>
         </Browser>
       </BrowserWrapper>
@@ -50,6 +55,8 @@ const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
 `;
+
 const ListWrapper = styled.div`
   padding: 0.5rem 2.5rem;
+  height: 100%;
 `;
