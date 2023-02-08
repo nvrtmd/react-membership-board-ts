@@ -1,4 +1,5 @@
 # Yuzamin97 🌎
+![image](https://user-images.githubusercontent.com/67324487/217621436-c6775b48-9bd9-41fd-a900-0556674be6cd.png)
 
 ## ❤Description
 - 회원가입 및 로그인 기능이 제공되는 게시판 서비스
