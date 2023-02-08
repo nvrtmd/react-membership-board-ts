@@ -47,6 +47,25 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
     handleIsModifyButtonClickedToggle();
   };
 
+  const handleCommentDeleteButtonClick = async () => {
+    try {
+      await auth.isSignedIn();
+      if (confirm('댓글을 삭제하시겠습니까?')) {
+        if (params.postIdx) {
+          await board.deleteComment(params.postIdx, data.comment_idx);
+          const fetchedData = await board.getPostData(params.postIdx);
+          commentListRefreshHandler(fetchedData.comments);
+        }
+      } else {
+        return;
+      }
+    } catch (err) {
+      const error = err as CustomError;
+      alert(error.message);
+      return;
+    }
+  };
+
   return (
     <CommentsWrapper>
       <CommentWriter>{data.comment_writer.member_nickname}</CommentWriter>
@@ -66,7 +85,7 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
             {isCommentWriter && (
               <FunctionButtons>
                 <FunctionButton onClick={handleIsModifyButtonClickedToggle}>Modify</FunctionButton>&nbsp;
-                <FunctionButton>Delete</FunctionButton>
+                <FunctionButton onClick={handleCommentDeleteButtonClick}>Delete</FunctionButton>
               </FunctionButtons>
             )}
           </CommentInfo>
