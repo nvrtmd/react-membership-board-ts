@@ -5,7 +5,6 @@ import { Button } from 'components/common/Button';
 import DeletePostImg from 'assets/delete_post.png';
 import ModifyPostImg from 'assets/modify_post.png';
 import BackToPostListImg from 'assets/post_list.png';
-import CommentImg from 'assets/comment.png';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import moment from 'moment';
@@ -13,10 +12,10 @@ import { Layout } from 'components/layouts/Layout';
 import { Post, Comment, CustomError } from 'global/types';
 import { CommentItem } from 'components/board/CommentItem';
 import { NoComment } from 'components/board/NoComment';
-import { TextArea } from 'components/common/TextArea';
 import { useInput } from 'hooks/useInput';
 import { board } from 'api/board';
 import { auth } from 'api/auth';
+import { CommentForm } from 'components/board/CommentForm';
 
 interface FunctionButtonsProps {
   postIdx: string;
@@ -59,7 +58,8 @@ export const PostPage = () => {
     }
   };
 
-  const handleCommentInputSubmit = async () => {
+  const handleCommentFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       await auth.isSignedIn();
       if (comment.length <= 0) {
@@ -96,23 +96,12 @@ export const PostPage = () => {
               <FunctionButtons postIdx={String(postData.post_idx)} />
             </div>
           )}
-          <CommentWrapper>
-            <CommentInputContainer>
-              <CommentListTitle>
-                <CommentImage src={CommentImg} /> Comments
-              </CommentListTitle>
-              <CommentInputWrapper>
-                <TextArea
-                  placeholder="Write your comment"
-                  name="comment"
-                  changeHandler={handleCommentChange}
-                  value={comment}
-                />
-              </CommentInputWrapper>
-              <CommentSubmitButtonWrapper>
-                <Button name="Submit" restoreHandler={handleCommentInputSubmit} type="submit" />
-              </CommentSubmitButtonWrapper>
-            </CommentInputContainer>
+          <CommentContainer>
+            <CommentForm
+              submitHandler={handleCommentFormSubmit}
+              commentValue={comment}
+              commentChangeHandler={handleCommentChange}
+            />
             <CommentList>
               {commentList && commentList.length > 0 ? (
                 commentList.map((comment) => <CommentItem key={comment.comment_idx} data={comment} />)
@@ -120,7 +109,7 @@ export const PostPage = () => {
                 <NoComment />
               )}
             </CommentList>
-          </CommentWrapper>
+          </CommentContainer>
         </Browser>
       </BrowserWrapper>
     </Layout>
@@ -231,36 +220,11 @@ const FunctionButtonImage = styled.img`
   margin-right: 3px;
 `;
 
-export const CommentWrapper = styled.div`
+export const CommentContainer = styled.div`
   border-top: 1px solid ${theme.color.grey};
   border-style: dashed solid;
   padding: 1rem 0 0;
   margin-top: 2rem;
 `;
 
-const CommentInputContainer = styled.div`
-  margin-bottom: 2.5rem;
-`;
-
-const CommentInputWrapper = styled.div`
-  height: 6.5rem;
-  margin-bottom: 0.8rem;
-`;
-
-const CommentSubmitButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
 const CommentList = styled.div``;
-
-const CommentListTitle = styled.div`
-  display: flex;
-  font-size: 1.4rem;
-  margin-bottom: 0.5rem;
-`;
-
-const CommentImage = styled.img`
-  width: 2rem;
-  margin-right: 0.3rem;
-`;
