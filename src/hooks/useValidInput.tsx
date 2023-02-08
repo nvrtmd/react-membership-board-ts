@@ -16,6 +16,8 @@ const inputReducer = (state: State = initialState, action: Action): State => {
   switch (action.actionType) {
     case 'INPUT_CHANGE':
       return { value: action.value, isValid: validator(action.inputType, action.value) };
+    case 'INPUT_SET':
+      return { value: action.value, isValid: validator(action.inputType, action.value) };
     case 'INPUT_BLUR':
       return { value: state.value, isValid: validator(action.inputType, action.value) };
     case 'INPUT_RESET':
@@ -44,6 +46,9 @@ export const useValidInput = (inputType: string) => {
   const handleInputBlur = () => {
     dispatchInput({ actionType: 'INPUT_BLUR', value: inputState.value, inputType });
   };
+  const handleInputSet = (inputValue: string) => {
+    dispatchInput({ actionType: 'INPUT_SET', value: inputValue, inputType });
+  };
 
-  return { inputState, handleInputBlur, handleResetInput, handleInputChange };
+  return { inputState, handleInputBlur, handleResetInput, handleInputChange, handleInputSet };
 };
