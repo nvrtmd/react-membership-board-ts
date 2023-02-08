@@ -40,7 +40,7 @@ export const MyInfoPage = () => {
     fetchMemberData();
   }, []);
 
-  const isSignUpFormInputValid = () => {
+  const isMemberInfoModifyFormInputValid = () => {
     if (idState.isValid && nicknameState.isValid) {
       return true;
     } else {
@@ -49,9 +49,9 @@ export const MyInfoPage = () => {
     }
   };
 
-  const handleSignUpFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleMemberInfoModifyFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isSignUpFormInputValid()) {
+    if (isMemberInfoModifyFormInputValid()) {
       try {
         await member.modifyMemberInfo({ id: idState.value, nickname: nicknameState.value });
         alert('회원 정보가 수정되었습니다.');
@@ -66,8 +66,8 @@ export const MyInfoPage = () => {
     <Layout>
       <BrowserWrapper>
         <Browser>
-          <SignUpFormWrapper>
-            <SignUpForm onSubmit={handleSignUpFormSubmit}>
+          <MemberInfoModifyFormWrapper>
+            <MemberInfoModifyForm onSubmit={handleMemberInfoModifyFormSubmit}>
               <PageTitle>- My Info -</PageTitle>
               <Input
                 title="id"
@@ -94,8 +94,8 @@ export const MyInfoPage = () => {
               <ButtonWrapper>
                 <Button name="Submit" type="submit" />
               </ButtonWrapper>
-            </SignUpForm>
-          </SignUpFormWrapper>
+            </MemberInfoModifyForm>
+          </MemberInfoModifyFormWrapper>
         </Browser>
       </BrowserWrapper>
     </Layout>
@@ -107,12 +107,12 @@ const BrowserWrapper = styled.div`
   height: 100%;
 `;
 
-const SignUpFormWrapper = styled.div`
+const MemberInfoModifyFormWrapper = styled.div`
   min-height: 100%;
   display: flex;
 `;
 
-const SignUpForm = styled.form`
+const MemberInfoModifyForm = styled.form`
   margin: auto;
   padding: 2rem 0;
 `;
