@@ -8,8 +8,8 @@ import { board } from 'api/board';
 import { PostForm } from 'components/board/PostForm';
 
 export const ModifyPage = () => {
-  const { inputValue: title, setInputValue: setTitle, handleInputChange: handleTitleChange } = useInput();
-  const { inputValue: contents, setInputValue: setContents, handleInputChange: handleContentsChange } = useInput();
+  const { inputValue: title, setInputValue: setTitle, handleInputChange: handleTitleChange } = useInput('');
+  const { inputValue: contents, setInputValue: setContents, handleInputChange: handleContentsChange } = useInput('');
   const params = useParams();
   const navigate = useNavigate();
 

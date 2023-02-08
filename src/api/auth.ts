@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Member } from 'global/types';
 import { member } from 'api/member';
 
@@ -26,10 +26,8 @@ const auth = {
   isSignedIn: async () => {
     try {
       await member.getMemberInfo();
-    } catch {
-      throw {
-        error: '인증되지 않은 사용자입니다. 로그인이 필요합니다.',
-      };
+    } catch (err) {
+      throw { code: 500, message: '로그인이 필요합니다.' };
     }
   },
 };

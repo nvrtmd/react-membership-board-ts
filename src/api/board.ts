@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { NewPost } from 'global/types';
+import { NewComment, NewPost } from 'global/types';
 
 const board = {
   getPostList: async () => {
@@ -61,6 +61,15 @@ const board = {
     } catch {
       throw {
         error: '게시글을 삭제하지 못했습니다. 잠시 후 다시 시도해주세요.',
+      };
+    }
+  },
+  createComment: async (postIdx: string, data: NewComment) => {
+    try {
+      await axios.post(`/post/${postIdx}/comment`, data, { withCredentials: true });
+    } catch {
+      throw {
+        error: '댓글 작성에 실패하였습니다. 잠시 후 다시 시도해주세요.',
       };
     }
   },

@@ -5,7 +5,6 @@ import { Button } from 'components/common/Button';
 import DeletePostImg from 'assets/delete_post.png';
 import ModifyPostImg from 'assets/modify_post.png';
 import BackToPostListImg from 'assets/post_list.png';
-import CommentImg from 'assets/comment.png';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import moment from 'moment';
@@ -13,9 +12,10 @@ import { Layout } from 'components/layouts/Layout';
 import { Post, Comment, CustomError } from 'global/types';
 import { CommentItem } from 'components/board/CommentItem';
 import { NoComment } from 'components/board/NoComment';
-import { TextArea } from 'components/common/TextArea';
 import { useInput } from 'hooks/useInput';
 import { board } from 'api/board';
+import { auth } from 'api/auth';
+import { CommentForm } from 'components/board/CommentForm';
 
 interface FunctionButtonsProps {
   postIdx: string;
@@ -30,7 +30,11 @@ interface FunctionButtonProps {
 export const PostPage = () => {
   const [postData, setPostData] = useState<Post>();
   const [commentList, setCommentList] = useState<Comment[]>();
-  const { inputValue, handleInputChange, handleResetInput } = useInput();
+  const {
+    inputValue: comment,
+    handleInputChange: handleCommentChange,
+    handleResetInput: handleCommentReset,
+  } = useInput('');
   const params = useParams();
   const navigate = useNavigate();
 
@@ -43,7 +47,7 @@ export const PostPage = () => {
       if (params.postIdx) {
         const fetchedData = await board.getPostData(params.postIdx);
         setPostData(fetchedData);
-        setCommentList(fetchedData);
+        setCommentList(fetchedData.comments);
       } else {
         alert('게시글이 존재하지 않습니다.');
         navigate(-1);
@@ -54,10 +58,25 @@ export const PostPage = () => {
     }
   };
 
-  const handleCommentInputSubmit = () => {
-    // TODO: post API 통신 구현
-    console.log(inputValue);
-    handleResetInput();
+  const handleCommentFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await auth.isSignedIn();
+      if (comment.length <= 0) {
+        alert('내용을 작성하세요.');
+        return;
+      }
+      if (params.postIdx) {
+        await board.createComment(params.postIdx, { contents: comment });
+        const fetchedData = await board.getPostData(params.postIdx);
+        setCommentList(fetchedData.comments);
+      }
+    } catch (err) {
+      const error = err as CustomError;
+      alert(error.message);
+      return;
+    }
+    handleCommentReset();
   };
 
   return (
@@ -77,23 +96,12 @@ export const PostPage = () => {
               <FunctionButtons postIdx={String(postData.post_idx)} />
             </div>
           )}
-          <CommentWrapper>
-            <CommentInputContainer>
-              <CommentListTitle>
-                <CommentImage src={CommentImg} /> Comments
-              </CommentListTitle>
-              <CommentInputWrapper>
-                <TextArea
-                  placeholder="Write your comment"
-                  name="comment"
-                  changeHandler={handleInputChange}
-                  value={inputValue}
-                />
-              </CommentInputWrapper>
-              <CommentSubmitButtonWrapper>
-                <Button name="Submit" restoreHandler={handleCommentInputSubmit} type="submit" />
-              </CommentSubmitButtonWrapper>
-            </CommentInputContainer>
+          <CommentContainer>
+            <CommentForm
+              submitHandler={handleCommentFormSubmit}
+              commentValue={comment}
+              commentChangeHandler={handleCommentChange}
+            />
             <CommentList>
               {commentList && commentList.length > 0 ? (
                 commentList.map((comment) => <CommentItem key={comment.comment_idx} data={comment} />)
@@ -101,7 +109,7 @@ export const PostPage = () => {
                 <NoComment />
               )}
             </CommentList>
-          </CommentWrapper>
+          </CommentContainer>
         </Browser>
       </BrowserWrapper>
     </Layout>
@@ -212,36 +220,11 @@ const FunctionButtonImage = styled.img`
   margin-right: 3px;
 `;
 
-export const CommentWrapper = styled.div`
+export const CommentContainer = styled.div`
   border-top: 1px solid ${theme.color.grey};
   border-style: dashed solid;
   padding: 1rem 0 0;
   margin-top: 2rem;
 `;
 
-const CommentInputContainer = styled.div`
-  margin-bottom: 2.5rem;
-`;
-
-const CommentInputWrapper = styled.div`
-  height: 6.5rem;
-  margin-bottom: 0.8rem;
-`;
-
-const CommentSubmitButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
 const CommentList = styled.div``;
-
-const CommentListTitle = styled.div`
-  display: flex;
-  font-size: 1.4rem;
-  margin-bottom: 0.5rem;
-`;
-
-const CommentImage = styled.img`
-  width: 2rem;
-  margin-right: 0.3rem;
-`;
