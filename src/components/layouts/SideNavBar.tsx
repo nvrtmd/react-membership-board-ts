@@ -42,11 +42,11 @@ export const SideNavBar = () => {
         route="/member/posts"
       />
       <NavItem
-        name="My Comments"
+        name="My page"
         image={CommentImg}
-        handleClick={() => handleNavItemClick('My Comments')}
-        isClicked={clickedNavItem === 'My Comments'}
-        route="/"
+        handleClick={() => handleNavItemClick('My page')}
+        isClicked={clickedNavItem === 'My page'}
+        route="/member/info"
       />
     </Wrapper>
   );
