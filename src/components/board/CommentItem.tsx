@@ -22,7 +22,7 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
   );
   const params = useParams();
 
-  const handleModifyButtonClick = () => {
+  const handleIsModifyButtonClickedToggle = () => {
     setIsModifyButtonClicked((prev) => !prev);
   };
 
@@ -44,7 +44,7 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
       alert(error.message);
       return;
     }
-    setIsModifyButtonClicked(false);
+    handleIsModifyButtonClickedToggle();
   };
 
   return (
@@ -55,6 +55,8 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
           submitHandler={handleCommentModifyFormSubmit}
           commentValue={modifiedComment}
           commentChangeHandler={handleModifiedCommentChange}
+          type="commentModifyForm"
+          commentModifyCancelHandler={handleIsModifyButtonClickedToggle}
         />
       ) : (
         <>
@@ -63,7 +65,7 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
             <CommentUpdatedDate>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</CommentUpdatedDate>
             {isCommentWriter && (
               <FunctionButtons>
-                <FunctionButton onClick={handleModifyButtonClick}>Modify</FunctionButton>&nbsp;
+                <FunctionButton onClick={handleIsModifyButtonClickedToggle}>Modify</FunctionButton>&nbsp;
                 <FunctionButton>Delete</FunctionButton>
               </FunctionButtons>
             )}
