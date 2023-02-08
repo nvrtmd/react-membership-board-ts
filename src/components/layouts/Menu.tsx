@@ -1,5 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { memo } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -8,17 +7,32 @@ import SourceCodeImg from 'assets/source_code_img.png';
 import SignupImg from 'assets/sign_up_img.png';
 import SigninImg from 'assets/sign_in_img.png';
 import { auth } from 'api/auth';
+import { CustomError } from 'global/types';
 
 interface MenuProps {
   menuRef: React.RefObject<HTMLDivElement>;
+  startButtonClickHandler: () => void;
 }
 
-export const Menu = memo(({ menuRef }: MenuProps) => {
+export const Menu = memo(({ menuRef, startButtonClickHandler }: MenuProps) => {
   const navigate = useNavigate();
   const [isCurrentUserSignedIn, setIsCurrentUserSignedIn] = useState<boolean>();
 
   const handleShutdownMenuClick = (): void => {
     window.close();
+  };
+
+  const handleSignOutMenuClick = async () => {
+    try {
+      await auth.signOut();
+      alert('로그아웃 되었습니다.');
+      startButtonClickHandler();
+      navigate('/');
+    } catch (err) {
+      const error = err as CustomError;
+      alert(error.message);
+      return;
+    }
   };
 
   const confirmCurrentUserSignedInState = async () => {
@@ -45,7 +59,7 @@ export const Menu = memo(({ menuRef }: MenuProps) => {
           </a>
         </MenuBox>
         {isCurrentUserSignedIn ? (
-          <MenuBox onClick={() => console.log('Sign out!')}>
+          <MenuBox onClick={handleSignOutMenuClick}>
             <MenuImage src={SigninImg} />
             <div>Sign Out</div>
           </MenuBox>

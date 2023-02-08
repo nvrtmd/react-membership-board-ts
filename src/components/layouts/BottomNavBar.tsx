@@ -37,7 +37,7 @@ export const BottomNavBar = () => {
 
   return (
     <>
-      {isPushed && <Menu menuRef={menuRef} />}
+      {isPushed && <Menu menuRef={menuRef} startButtonClickHandler={handleStartButtonClick} />}
       <Wrapper>
         <PushLockButton
           isPushed={isPushed}
