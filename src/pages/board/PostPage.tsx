@@ -103,7 +103,9 @@ export const PostPage = () => {
             <div>
               <PostHeader>
                 <PostTitle>{postData.post_title}</PostTitle>
-                <PostWriter>by {postData.post_writer.member_nickname}</PostWriter>
+                <PostWriter>
+                  by {postData.post_writer ? postData.post_writer.member_nickname : 'deleted account'}
+                </PostWriter>
                 <PostUpdatedDate>
                   <div>{postData.updatedAt && moment(postData.updatedAt).format('YY.MM.DD HH:mm')}</div>
                 </PostUpdatedDate>

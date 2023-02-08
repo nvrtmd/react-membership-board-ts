@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
@@ -7,6 +8,7 @@ import { useValidInput } from 'hooks/useValidInput';
 import { Input } from 'components/common/Input';
 import { Button } from 'components/common/Button';
 import { theme } from 'styles/theme';
+import { CustomError } from 'global/types';
 
 interface ValidationAlertProps {
   isValid: boolean;
@@ -25,8 +27,9 @@ export const MyInfoPage = () => {
     handleInputBlur: handleNicknameBlur,
     handleInputSet: handleNicknameSet,
   } = useValidInput('nickname');
-
   const [isModifyMode, setIsModifyMode] = useState<boolean>(false);
+  const navigate = useNavigate();
+
   const fetchMemberData = async () => {
     try {
       const fetchedData = await member.getMemberInfo();
@@ -68,6 +71,20 @@ export const MyInfoPage = () => {
     setIsModifyMode((prev) => !prev);
   };
 
+  const handleDeleteAccountButtonClick = async () => {
+    try {
+      if (confirm('정말로 탈퇴하시겠습니까?')) {
+        await member.deleteAccount();
+        navigate('/');
+      } else {
+        return;
+      }
+    } catch (err) {
+      const error = err as CustomError;
+      alert(error.message);
+    }
+  };
+
   return (
     <Layout>
       <BrowserWrapper>
@@ -106,7 +123,10 @@ export const MyInfoPage = () => {
                 </ButtonWrapper>
               ) : (
                 <ModifyInfoButtonWrapper>
-                  <ModifyInfoButton onClick={handleIsModifyModeToggle}>Modify Info</ModifyInfoButton>
+                  <div>
+                    <ModifyInfoButton onClick={handleIsModifyModeToggle}>Modify Info</ModifyInfoButton>
+                    <DeleteAccountButton onClick={handleDeleteAccountButtonClick}>Delete Account</DeleteAccountButton>
+                  </div>
                 </ModifyInfoButtonWrapper>
               )}
             </MemberInfoModifyForm>
@@ -120,23 +140,6 @@ export const MyInfoPage = () => {
 const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
-`;
-
-const ModifyInfoButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const ModifyInfoButton = styled.div`
-  text-align: center;
-  text-decoration: underline;
-  cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
-    auto;
-  margin-top: 1rem;
-  font-size: 1.2rem;
-  &:hover {
-    color: ${theme.color.navy};
-  }
 `;
 
 const MemberInfoModifyFormWrapper = styled.div`
@@ -169,5 +172,35 @@ const ValidationAlert = styled.div<ValidationAlertProps>`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin-top: 1rem;
+`;
+
+const ModifyInfoButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+`;
+
+const ModifyInfoButton = styled.div`
+  font-size: 1.2rem;
+  &:hover {
+    color: ${theme.color.navy};
+  }
+  text-align: center;
+  text-decoration: underline;
+  cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
+    auto;
+`;
+
+const DeleteAccountButton = styled.div`
+  text-align: center;
+  cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
+    auto;
+  font-size: 1rem;
+  &:hover {
+    color: ${theme.color.black};
+    text-decoration: underline;
+  }
+  color: ${theme.color.grey};
   margin-top: 1rem;
 `;

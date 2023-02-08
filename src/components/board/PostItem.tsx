@@ -15,7 +15,7 @@ export const PostItem = ({ data, clickHandler }: PostItemProps) => {
       <PostTitle>{data.post_title}</PostTitle>
       <PostContents>{data.post_contents}</PostContents>
       <PostInfo>
-        <div>by {data.post_writer.member_nickname}</div>
+        <div>by {data.post_writer ? data.post_writer.member_nickname : 'deleted account'}</div>
         <div>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</div>
       </PostInfo>
     </PostWrapper>
