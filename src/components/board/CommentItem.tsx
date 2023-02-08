@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import { Comment } from 'global/types';
@@ -9,19 +10,31 @@ interface CommentItemProps {
 }
 
 export const CommentItem = ({ data, isCommentWriter }: CommentItemProps) => {
+  const [isModifyButtonClicked, setIsModifyButtonClicked] = useState<boolean>(false);
+
+  const handleModifyButtonClick = () => {
+    setIsModifyButtonClicked((prev) => !prev);
+  };
+
   return (
     <CommentsWrapper>
       <CommentWriter>{data.comment_writer.member_nickname}</CommentWriter>
-      <CommentBody>{data.comment_contents}</CommentBody>
-      <CommentInfo>
-        <CommentUpdatedDate>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</CommentUpdatedDate>
-        {isCommentWriter && (
-          <FunctionButtons>
-            <FunctionButton>Modify</FunctionButton>&nbsp;
-            <FunctionButton>Delete</FunctionButton>
-          </FunctionButtons>
-        )}
-      </CommentInfo>
+      {isModifyButtonClicked ? (
+        <div>modify mode on</div>
+      ) : (
+        <>
+          <CommentBody>{data.comment_contents}</CommentBody>
+          <CommentInfo>
+            <CommentUpdatedDate>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</CommentUpdatedDate>
+            {isCommentWriter && (
+              <FunctionButtons>
+                <FunctionButton onClick={handleModifyButtonClick}>Modify</FunctionButton>&nbsp;
+                <FunctionButton>Delete</FunctionButton>
+              </FunctionButtons>
+            )}
+          </CommentInfo>
+        </>
+      )}
     </CommentsWrapper>
   );
 };
