@@ -28,7 +28,7 @@ export const MyPostsPage = () => {
 
   const moveToPost = useCallback(
     (postIdx: number) => {
-      navigate(`/board/${postIdx}`);
+      navigate(`/board/${postIdx}`, { state: { prevPage: 'myPostsPage' } });
     },
     [navigate],
   );

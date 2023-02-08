@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Browser } from 'components/common/Browser';
 import { Button } from 'components/common/Button';
 import DeletePostImg from 'assets/delete_post.png';
@@ -143,6 +143,7 @@ export const PostPage = () => {
 const FunctionButtons = ({ postIdx }: FunctionButtonsProps) => {
   const navigate = useNavigate();
   const params = useParams();
+  const location = useLocation();
 
   const handleFunctionButtonRestore = useCallback(async (functionButtonName: string) => {
     switch (functionButtonName) {
@@ -171,6 +172,10 @@ const FunctionButtons = ({ postIdx }: FunctionButtonsProps) => {
         }
         break;
       case 'List':
+        if (location.state && location.state.prevPage === 'myPostsPage') {
+          navigate(-1);
+          return;
+        }
         navigate('/board/list');
         break;
       default:
