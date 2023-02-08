@@ -68,6 +68,10 @@ export const MyInfoPage = () => {
     setIsModifyMode((prev) => !prev);
   };
 
+  const handleDeleteAccountButtonClick = () => {
+    console.log('Delete Account!');
+  };
+
   return (
     <Layout>
       <BrowserWrapper>
@@ -106,7 +110,10 @@ export const MyInfoPage = () => {
                 </ButtonWrapper>
               ) : (
                 <ModifyInfoButtonWrapper>
-                  <ModifyInfoButton onClick={handleIsModifyModeToggle}>Modify Info</ModifyInfoButton>
+                  <div>
+                    <ModifyInfoButton onClick={handleIsModifyModeToggle}>Modify Info</ModifyInfoButton>
+                    <DeleteAccountButton onClick={handleDeleteAccountButtonClick}>Delete Account</DeleteAccountButton>
+                  </div>
                 </ModifyInfoButtonWrapper>
               )}
             </MemberInfoModifyForm>
@@ -120,23 +127,6 @@ export const MyInfoPage = () => {
 const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
-`;
-
-const ModifyInfoButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const ModifyInfoButton = styled.div`
-  text-align: center;
-  text-decoration: underline;
-  cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
-    auto;
-  margin-top: 1rem;
-  font-size: 1.2rem;
-  &:hover {
-    color: ${theme.color.navy};
-  }
 `;
 
 const MemberInfoModifyFormWrapper = styled.div`
@@ -169,5 +159,35 @@ const ValidationAlert = styled.div<ValidationAlertProps>`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin-top: 1rem;
+`;
+
+const ModifyInfoButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+`;
+
+const ModifyInfoButton = styled.div`
+  font-size: 1.2rem;
+  &:hover {
+    color: ${theme.color.navy};
+  }
+  text-align: center;
+  text-decoration: underline;
+  cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
+    auto;
+`;
+
+const DeleteAccountButton = styled.div`
+  text-align: center;
+  cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
+    auto;
+  font-size: 1rem;
+  &:hover {
+    color: ${theme.color.black};
+    text-decoration: underline;
+  }
+  color: ${theme.color.grey};
   margin-top: 1rem;
 `;
