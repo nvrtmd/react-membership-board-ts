@@ -8,9 +8,18 @@ interface CommentFormProps {
   commentValue: string | number;
   commentChangeHandler: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   formTitle?: string;
+  type?: string;
+  commentModifyCancelHandler?: () => void;
 }
 
-export const CommentForm = ({ submitHandler, commentChangeHandler, commentValue, formTitle }: CommentFormProps) => {
+export const CommentForm = ({
+  submitHandler,
+  commentChangeHandler,
+  commentValue,
+  formTitle,
+  type,
+  commentModifyCancelHandler,
+}: CommentFormProps) => {
   return (
     <Form onSubmit={submitHandler}>
       {formTitle && (
@@ -27,6 +36,9 @@ export const CommentForm = ({ submitHandler, commentChangeHandler, commentValue,
         />
       </ContentsWrapper>
       <ButtonWrapper>
+        {type === 'commentModifyForm' && (
+          <Button name="Cancel" type="button" restoreHandler={commentModifyCancelHandler} />
+        )}
         <Button name="Submit" type="submit" />
       </ButtonWrapper>
     </Form>
