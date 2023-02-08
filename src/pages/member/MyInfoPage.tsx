@@ -7,6 +7,7 @@ import { useValidInput } from 'hooks/useValidInput';
 import { Input } from 'components/common/Input';
 import { Button } from 'components/common/Button';
 import { theme } from 'styles/theme';
+import { CustomError } from 'global/types';
 
 interface ValidationAlertProps {
   isValid: boolean;
@@ -68,8 +69,17 @@ export const MyInfoPage = () => {
     setIsModifyMode((prev) => !prev);
   };
 
-  const handleDeleteAccountButtonClick = () => {
-    console.log('Delete Account!');
+  const handleDeleteAccountButtonClick = async () => {
+    try {
+      if (confirm('정말로 탈퇴하시겠습니까?')) {
+        await member.deleteAccount();
+      } else {
+        return;
+      }
+    } catch (err) {
+      const error = err as CustomError;
+      alert(error.message);
+    }
   };
 
   return (
