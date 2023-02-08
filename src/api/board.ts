@@ -84,7 +84,8 @@ const board = {
       await axios.patch(`/post/${postIdx}/comment/${commentIdx}`, data, { withCredentials: true });
     } catch {
       throw {
-        error: '댓글 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.',
+        code: 500,
+        message: '댓글 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.',
       };
     }
   },
