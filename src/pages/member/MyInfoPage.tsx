@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
@@ -26,6 +26,7 @@ export const MyInfoPage = () => {
     handleInputSet: handleNicknameSet,
   } = useValidInput('nickname');
 
+  const [isModifyMode, setIsModifyMode] = useState<boolean>(false);
   const fetchMemberData = async () => {
     try {
       const fetchedData = await member.getMemberInfo();
@@ -55,11 +56,16 @@ export const MyInfoPage = () => {
       try {
         await member.modifyMemberInfo({ id: idState.value, nickname: nicknameState.value });
         alert('회원 정보가 수정되었습니다.');
+        handleIsModifyModeToggle();
         fetchMemberData();
       } catch (err) {
         console.log(err);
       }
     }
+  };
+
+  const handleIsModifyModeToggle = () => {
+    setIsModifyMode((prev) => !prev);
   };
 
   return (
@@ -76,6 +82,7 @@ export const MyInfoPage = () => {
                 value={idState.value}
                 changeHandler={handleIdChange}
                 blurHandler={handleIdBlur}
+                readOnly={!isModifyMode}
               />
               <ValidationAlert isValid={!idState.isValid && idState.isValid !== null}>
                 영문 4 ~ 12자를 입력하세요.
@@ -87,13 +94,21 @@ export const MyInfoPage = () => {
                 value={nicknameState.value}
                 changeHandler={handleNicknameChange}
                 blurHandler={handleNicknameBlur}
+                readOnly={!isModifyMode}
               />
               <ValidationAlert isValid={!nicknameState.isValid && nicknameState.isValid !== null}>
                 영어/숫자/한글 4~12자를 입력하세요.
               </ValidationAlert>
-              <ButtonWrapper>
-                <Button name="Submit" type="submit" />
-              </ButtonWrapper>
+              {isModifyMode ? (
+                <ButtonWrapper>
+                  <Button name="Cancel" type="button" restoreHandler={handleIsModifyModeToggle} />
+                  <Button name="Modify" type="submit" />
+                </ButtonWrapper>
+              ) : (
+                <ModifyInfoButtonWrapper>
+                  <ModifyInfoButton onClick={handleIsModifyModeToggle}>Modify Info</ModifyInfoButton>
+                </ModifyInfoButtonWrapper>
+              )}
             </MemberInfoModifyForm>
           </MemberInfoModifyFormWrapper>
         </Browser>
@@ -105,6 +120,23 @@ export const MyInfoPage = () => {
 const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
+`;
+
+const ModifyInfoButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const ModifyInfoButton = styled.div`
+  text-align: center;
+  text-decoration: underline;
+  cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
+    auto;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  &:hover {
+    color: ${theme.color.navy};
+  }
 `;
 
 const MemberInfoModifyFormWrapper = styled.div`

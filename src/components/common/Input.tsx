@@ -9,24 +9,28 @@ interface InputProps {
   blurHandler?: () => void;
   changeHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string | number;
+  readOnly?: boolean;
 }
 
-export const Input = memo(({ title, name, placeholder, changeHandler, blurHandler, type, value }: InputProps) => {
-  return (
-    <InputWrapper>
-      <InputTitle htmlFor={name}>{title}</InputTitle>
-      <InputBox
-        name={name}
-        type={type}
-        id={name}
-        onChange={changeHandler}
-        onBlur={blurHandler}
-        placeholder={placeholder}
-        value={value}
-      />
-    </InputWrapper>
-  );
-});
+export const Input = memo(
+  ({ title, name, placeholder, changeHandler, blurHandler, type, value, readOnly }: InputProps) => {
+    return (
+      <InputWrapper>
+        <InputTitle htmlFor={name}>{title}</InputTitle>
+        <InputBox
+          name={name}
+          type={type}
+          id={name}
+          onChange={changeHandler}
+          onBlur={blurHandler}
+          placeholder={placeholder}
+          value={value}
+          readOnly={readOnly}
+        />
+      </InputWrapper>
+    );
+  },
+);
 
 const InputWrapper = styled.div`
   font-size: 1.2rem;
