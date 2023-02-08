@@ -1,8 +1,13 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
-import { Comment } from 'global/types';
+import { Comment, CustomError } from 'global/types';
 import moment from 'moment';
+import { CommentForm } from 'components/board/CommentForm';
+import { useInput } from 'hooks/useInput';
+import { auth } from 'api/auth';
+import { board } from 'api/board';
 
 interface CommentItemProps {
   data: Comment;
@@ -11,16 +16,43 @@ interface CommentItemProps {
 
 export const CommentItem = ({ data, isCommentWriter }: CommentItemProps) => {
   const [isModifyButtonClicked, setIsModifyButtonClicked] = useState<boolean>(false);
+  const { inputValue: modifiedComment, handleInputChange: handleModifiedCommentChange } = useInput(
+    data.comment_contents,
+  );
+  const params = useParams();
 
   const handleModifyButtonClick = () => {
     setIsModifyButtonClicked((prev) => !prev);
+  };
+
+  const handleCommentModifyFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await auth.isSignedIn();
+      if (modifiedComment.length <= 0) {
+        alert('내용을 작성하세요.');
+        return;
+      }
+      if (params.postIdx) {
+        await board.modifyComment(params.postIdx, data.comment_idx, { contents: modifiedComment });
+      }
+    } catch (err) {
+      const error = err as CustomError;
+      alert(error.message);
+      return;
+    }
+    setIsModifyButtonClicked(false);
   };
 
   return (
     <CommentsWrapper>
       <CommentWriter>{data.comment_writer.member_nickname}</CommentWriter>
       {isModifyButtonClicked ? (
-        <div>modify mode on</div>
+        <CommentForm
+          submitHandler={handleCommentModifyFormSubmit}
+          commentValue={modifiedComment}
+          commentChangeHandler={handleModifiedCommentChange}
+        />
       ) : (
         <>
           <CommentBody>{data.comment_contents}</CommentBody>
