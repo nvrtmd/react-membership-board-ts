@@ -1,3 +1,4 @@
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
@@ -6,6 +7,7 @@ import PowerImg from 'assets/power_img.png';
 import SourceCodeImg from 'assets/source_code_img.png';
 import SignupImg from 'assets/sign_up_img.png';
 import SigninImg from 'assets/sign_in_img.png';
+import { auth } from 'api/auth';
 
 interface MenuProps {
   menuRef: React.RefObject<HTMLDivElement>;
@@ -13,10 +15,24 @@ interface MenuProps {
 
 export const Menu = memo(({ menuRef }: MenuProps) => {
   const navigate = useNavigate();
+  const [isCurrentUserSignedIn, setIsCurrentUserSignedIn] = useState<boolean>();
 
   const handleShutdownMenuClick = (): void => {
     window.close();
   };
+
+  const confirmCurrentUserSignedInState = async () => {
+    try {
+      await auth.isSignedIn();
+      setIsCurrentUserSignedIn(true);
+    } catch {
+      setIsCurrentUserSignedIn(false);
+    }
+  };
+
+  useEffect(() => {
+    confirmCurrentUserSignedInState();
+  }, []);
 
   return (
     <MenuContainer ref={menuRef}>
@@ -28,14 +44,23 @@ export const Menu = memo(({ menuRef }: MenuProps) => {
             Source Code
           </a>
         </MenuBox>
-        <MenuBox onClick={() => navigate('/auth/signup')}>
-          <SignupImage src={SignupImg} />
-          <div>Sign Up</div>
-        </MenuBox>
-        <MenuBox onClick={() => navigate('/auth/signin')}>
-          <MenuImage src={SigninImg} />
-          <div>Sign In</div>
-        </MenuBox>
+        {isCurrentUserSignedIn ? (
+          <MenuBox onClick={() => console.log('Sign out!')}>
+            <MenuImage src={SigninImg} />
+            <div>Sign Out</div>
+          </MenuBox>
+        ) : (
+          <>
+            <MenuBox onClick={() => navigate('/auth/signup')}>
+              <SignupImage src={SignupImg} />
+              <div>Sign Up</div>
+            </MenuBox>
+            <MenuBox onClick={() => navigate('/auth/signin')}>
+              <MenuImage src={SigninImg} />
+              <div>Sign In</div>
+            </MenuBox>
+          </>
+        )}
         <MenuBox onClick={handleShutdownMenuClick}>
           <MenuImage src={PowerImg} />
           <div>Shut Down</div>
