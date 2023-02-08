@@ -11,6 +11,16 @@ const member = {
       };
     }
   },
+  getMemberPosts: async () => {
+    try {
+      const memberPostsData = await axios.get(`/member/posts`, { withCredentials: true });
+      return memberPostsData.data.data;
+    } catch {
+      throw {
+        error: '서버로부터 회원 게시글 목록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',
+      };
+    }
+  },
 };
 
 export { member };

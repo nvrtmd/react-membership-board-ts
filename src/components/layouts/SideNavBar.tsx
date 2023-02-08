@@ -35,11 +35,11 @@ export const SideNavBar = () => {
         route="/board/list"
       />
       <NavItem
-        name="My Documents"
+        name="My Posts"
         image={DocumentImg}
-        handleClick={() => handleNavItemClick('My Documents')}
-        isClicked={clickedNavItem === 'My Documents'}
-        route="/"
+        handleClick={() => handleNavItemClick('My Posts')}
+        isClicked={clickedNavItem === 'My Posts'}
+        route="/member/posts"
       />
       <NavItem
         name="My Comments"
