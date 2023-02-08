@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
@@ -26,8 +27,9 @@ export const MyInfoPage = () => {
     handleInputBlur: handleNicknameBlur,
     handleInputSet: handleNicknameSet,
   } = useValidInput('nickname');
-
   const [isModifyMode, setIsModifyMode] = useState<boolean>(false);
+  const navigate = useNavigate();
+
   const fetchMemberData = async () => {
     try {
       const fetchedData = await member.getMemberInfo();
@@ -73,6 +75,7 @@ export const MyInfoPage = () => {
     try {
       if (confirm('정말로 탈퇴하시겠습니까?')) {
         await member.deleteAccount();
+        navigate('/');
       } else {
         return;
       }
