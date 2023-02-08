@@ -17,9 +17,9 @@ const auth = {
     try {
       await axios.post(`/auth/signin`, data, { withCredentials: true });
     } catch {
-      alert('존재하지 않는 아이디 또는 비밀번호입니다.');
       throw {
-        error: '존재하지 않는 아이디 또는 비밀번호입니다.',
+        code: 500,
+        message: '존재하지 않는 아이디 또는 비밀번호입니다.',
       };
     }
   },
