@@ -1,19 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import moment from 'moment';
-import { theme } from 'styles/theme';
 import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
-import { Post } from 'global/types';
+import { CustomError, Post } from 'global/types';
 import { Button } from 'components/common/Button';
 import { auth } from 'api/auth';
 import { board } from 'api/board';
-
-interface ListItemProps {
-  data: Post;
-  clickHandler: (postIdx: number) => void;
-}
+import { PostItem } from 'components/board/PostItem';
 
 export const ListPage = () => {
   const [postList, setPostList] = useState<Post[]>();
@@ -27,8 +21,9 @@ export const ListPage = () => {
     try {
       const fetchedData = await board.getPostList();
       setPostList(fetchedData);
-    } catch {
-      alert('서버로부터 게시글 목록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+    } catch (err) {
+      const error = err as CustomError;
+      alert(error.message);
       navigate('/');
     }
   };
@@ -61,25 +56,11 @@ export const ListPage = () => {
             <Button type="button" name="Create Post" restoreHandler={handleCreatePostButtonClick} />
           </ButtonWrapper>
           <ListWrapper>
-            {postList && postList.map((post) => <ListItem data={post} clickHandler={moveToPost} key={post.post_idx} />)}
+            {postList && postList.map((post) => <PostItem data={post} clickHandler={moveToPost} key={post.post_idx} />)}
           </ListWrapper>
         </Browser>
       </BrowserWrapper>
     </Layout>
-  );
-};
-
-const ListItem = ({ data, clickHandler }: ListItemProps) => {
-  return (
-    <PostWrapper onClick={() => clickHandler(data.post_idx)}>
-      <PostIndex>{data.post_idx}</PostIndex>
-      <PostTitle>{data.post_title}</PostTitle>
-      <PostContents>{data.post_contents}</PostContents>
-      <PostInfo>
-        <div>by {data.post_writer.member_nickname}</div>
-        <div>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</div>
-      </PostInfo>
-    </PostWrapper>
   );
 };
 
@@ -96,51 +77,4 @@ const ButtonWrapper = styled.div`
 
 const ListWrapper = styled.div`
   padding: 0.5rem 2.5rem;
-`;
-
-const PostWrapper = styled.div`
-  border: 1px solid green;
-  max-width: 100%;
-  margin: 2rem 0;
-  padding: 2rem;
-  box-shadow: -0.4rem 0 0 0 black, 0.4rem 0 0 0 black, 0 -0.4rem 0 0 black, 0 0.4rem 0 0 black;
-  cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
-    auto;
-
-  &:hover > div {
-    color: ${theme.color.white};
-    cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
-      auto;
-  }
-
-  &:hover {
-    background: ${theme.color.navy};
-  }
-`;
-
-const PostIndex = styled.div`
-  font-size: 1.2rem;
-  color: ${theme.color.grey};
-`;
-
-const PostTitle = styled.div`
-  font-size: 1.6rem;
-`;
-
-const PostContents = styled.div`
-  font-size: 1.45rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const PostInfo = styled.div`
-  color: ${theme.color.grey};
-  display: flex;
-  justify-content: space-between;
-  font-size: 1.2rem;
-  &:hover > div {
-    cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
-      auto;
-  }
 `;
