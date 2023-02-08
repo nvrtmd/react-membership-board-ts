@@ -8,6 +8,7 @@ import { SignUpPage } from 'pages/auth/SignUpPage';
 import { SignInPage } from 'pages/auth/SignInPage';
 import { MyPostsPage } from 'pages/member/MyPostsPage';
 import { PrivateRoutes } from 'routes/PrivateRoutes';
+import { MyInfoPage } from 'pages/member/MyInfoPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/auth/signin" element={<SignInPage />} />
         <Route element={<PrivateRoutes />}>
           <Route path="/member/posts" element={<MyPostsPage />} />
+          <Route path="/member/info" element={<MyInfoPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
