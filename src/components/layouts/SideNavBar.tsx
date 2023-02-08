@@ -39,7 +39,7 @@ export const SideNavBar = () => {
         image={DocumentImg}
         handleClick={() => handleNavItemClick('My Posts')}
         isClicked={clickedNavItem === 'My Posts'}
-        route="/"
+        route="/member/posts"
       />
       <NavItem
         name="My Comments"
