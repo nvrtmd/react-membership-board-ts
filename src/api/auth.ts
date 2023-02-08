@@ -28,7 +28,8 @@ const auth = {
       await axios.get(`/auth/signout`, { withCredentials: true });
     } catch {
       throw {
-        error: '로그아웃에 실패하였습니다. 잠시 후 다시 시도해주세요.',
+        code: 500,
+        message: '로그아웃에 실패하였습니다. 잠시 후 다시 시도해주세요.',
       };
     }
   },
