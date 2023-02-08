@@ -23,7 +23,7 @@ export const MyPostsPage = () => {
     } catch (err) {
       const error = err as CustomError;
       alert(error.message);
-      navigate(-1);
+      navigate('/');
     }
   };
 
