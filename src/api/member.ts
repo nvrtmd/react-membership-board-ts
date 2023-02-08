@@ -31,6 +31,16 @@ const member = {
       };
     }
   },
+  deleteAccount: async () => {
+    try {
+      await axios.delete(`/member/`, { withCredentials: true });
+    } catch {
+      throw {
+        code: 500,
+        message: '회원 탈퇴에 실패하였습니다. 잠시 후 다시 시도해주세요.',
+      };
+    }
+  },
 };
 
 export { member };
