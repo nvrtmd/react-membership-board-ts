@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Member } from 'global/types';
 
 const member = {
   getMemberInfo: async () => {
@@ -18,6 +19,15 @@ const member = {
     } catch {
       throw {
         error: '서버로부터 회원 게시글 목록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',
+      };
+    }
+  },
+  modifyMemberInfo: async (data: Member) => {
+    try {
+      await axios.patch(`/member/info`, data, { withCredentials: true });
+    } catch {
+      throw {
+        error: '회원 정보 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.',
       };
     }
   },
