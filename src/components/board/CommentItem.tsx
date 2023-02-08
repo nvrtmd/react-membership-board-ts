@@ -5,14 +5,23 @@ import moment from 'moment';
 
 interface CommentItemProps {
   data: Comment;
+  isCommentWriter: boolean;
 }
 
-export const CommentItem = ({ data }: CommentItemProps) => {
+export const CommentItem = ({ data, isCommentWriter }: CommentItemProps) => {
   return (
     <CommentsWrapper>
       <CommentWriter>{data.comment_writer.member_nickname}</CommentWriter>
       <CommentBody>{data.comment_contents}</CommentBody>
-      <CommentUpdatedDate>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</CommentUpdatedDate>
+      <CommentInfo>
+        <CommentUpdatedDate>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</CommentUpdatedDate>
+        {isCommentWriter && (
+          <FunctionButtons>
+            <FunctionButton>Modify</FunctionButton>&nbsp;
+            <FunctionButton>Delete</FunctionButton>
+          </FunctionButtons>
+        )}
+      </CommentInfo>
     </CommentsWrapper>
   );
 };
@@ -34,6 +43,22 @@ const CommentBody = styled.div`
   font-size: 1.3rem;
 `;
 
-const CommentUpdatedDate = styled.div`
+const CommentInfo = styled.div`
+  display: flex;
   font-size: 1rem;
+  justify-content: space-between;
+`;
+
+const CommentUpdatedDate = styled.div``;
+
+const FunctionButtons = styled.div`
+  display: flex;
+`;
+
+const FunctionButton = styled.div`
+  cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
+    auto;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
