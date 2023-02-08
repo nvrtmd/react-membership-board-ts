@@ -8,6 +8,7 @@ import { Button } from 'components/common/Button';
 import WindowsImg from 'assets/windows_img.png';
 import { auth } from 'api/auth';
 import { useValidInput } from 'hooks/useValidInput';
+import { CustomError } from 'global/types';
 
 interface ValidationAlertProps {
   isValid: boolean;
@@ -43,7 +44,9 @@ export const SignUpPage = () => {
         await auth.signUp({ id: idState.value, password: passwordState.value, nickname: nicknameState.value });
         navigate('/auth/signin');
       } catch (err) {
-        console.log(err);
+        const error = err as CustomError;
+        alert(error.message);
+        return;
       }
     }
   };

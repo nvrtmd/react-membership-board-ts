@@ -8,7 +8,8 @@ const member = {
       return memberData.data.data;
     } catch {
       throw {
-        error: '서버로부터 회원 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',
+        code: 500,
+        message: '서버로부터 회원 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',
       };
     }
   },
@@ -18,7 +19,8 @@ const member = {
       return memberPostsData.data.data;
     } catch {
       throw {
-        error: '서버로부터 회원 게시글 목록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',
+        code: 500,
+        message: '서버로부터 회원 게시글 목록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',
       };
     }
   },
@@ -27,7 +29,8 @@ const member = {
       await axios.patch(`/member/info`, data, { withCredentials: true });
     } catch {
       throw {
-        error: '회원 정보 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.',
+        code: 500,
+        message: '회원 정보 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.',
       };
     }
   },

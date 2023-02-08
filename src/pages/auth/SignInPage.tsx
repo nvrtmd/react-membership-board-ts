@@ -8,6 +8,7 @@ import { Input } from 'components/common/Input';
 import { Button } from 'components/common/Button';
 import WindowsImg from 'assets/windows_img.png';
 import { auth } from 'api/auth';
+import { CustomError } from 'global/types';
 
 export const SignInPage = () => {
   const navigate = useNavigate();
@@ -29,7 +30,9 @@ export const SignInPage = () => {
         await auth.signIn({ id, password });
         navigate('/');
       } catch (err) {
-        console.log(err);
+        const error = err as CustomError;
+        alert(error.message);
+        return;
       }
     }
   };

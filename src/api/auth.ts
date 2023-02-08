@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { Member } from 'global/types';
 import { member } from 'api/member';
 
@@ -7,9 +7,9 @@ const auth = {
     try {
       await axios.post(`/auth/signup`, data);
     } catch {
-      alert('중복된 아이디입니다.');
       throw {
-        error: '중복된 아이디입니다.',
+        code: 500,
+        message: '중복된 아이디가 존재합니다.',
       };
     }
   },
@@ -17,9 +17,9 @@ const auth = {
     try {
       await axios.post(`/auth/signin`, data, { withCredentials: true });
     } catch {
-      alert('존재하지 않는 아이디 또는 비밀번호입니다.');
       throw {
-        error: '존재하지 않는 아이디 또는 비밀번호입니다.',
+        code: 500,
+        message: '존재하지 않는 아이디 또는 비밀번호입니다.',
       };
     }
   },
@@ -28,7 +28,8 @@ const auth = {
       await axios.get(`/auth/signout`, { withCredentials: true });
     } catch {
       throw {
-        error: '로그아웃에 실패하였습니다. 잠시 후 다시 시도해주세요.',
+        code: 500,
+        message: '로그아웃에 실패하였습니다. 잠시 후 다시 시도해주세요.',
       };
     }
   },

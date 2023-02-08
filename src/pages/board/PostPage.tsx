@@ -64,9 +64,11 @@ export const PostPage = () => {
         alert('게시글이 존재하지 않습니다.');
         navigate(-1);
       }
-    } catch {
-      alert('서버로부터 게시글 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+    } catch (err) {
+      const error = err as CustomError;
+      alert(error.message);
       navigate(-1);
+      return;
     }
   };
 

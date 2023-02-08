@@ -5,6 +5,7 @@ import { Layout } from 'components/layouts/Layout';
 import { useInput } from 'hooks/useInput';
 import { board } from 'api/board';
 import { PostForm } from 'components/board/PostForm';
+import { CustomError } from 'global/types';
 
 export const CreatePage = () => {
   const { inputValue: title, handleInputChange: handleTitleChange } = useInput('');
@@ -27,7 +28,9 @@ export const CreatePage = () => {
         alert('게시글이 작성되었습니다.');
         navigate('/board/list');
       } catch (err) {
-        alert('게시글 작성에 실패하였습니다. 잠시 후 다시 시도해주세요.');
+        const error = err as CustomError;
+        alert(error.message);
+        return;
       }
     }
   };

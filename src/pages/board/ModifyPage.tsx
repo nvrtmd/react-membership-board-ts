@@ -6,6 +6,7 @@ import { Layout } from 'components/layouts/Layout';
 import { useInput } from 'hooks/useInput';
 import { board } from 'api/board';
 import { PostForm } from 'components/board/PostForm';
+import { CustomError } from 'global/types';
 
 export const ModifyPage = () => {
   const { inputValue: title, setInputValue: setTitle, handleInputChange: handleTitleChange } = useInput('');
@@ -49,7 +50,9 @@ export const ModifyPage = () => {
         alert('게시글이 수정되었습니다.');
         navigate(-1);
       } catch (err) {
-        alert('게시글 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.');
+        const error = err as CustomError;
+        alert(error.message);
+        return;
       }
     }
   };

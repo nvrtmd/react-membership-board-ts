@@ -62,7 +62,9 @@ export const MyInfoPage = () => {
         handleIsModifyModeToggle();
         fetchMemberData();
       } catch (err) {
-        console.log(err);
+        const error = err as CustomError;
+        alert(error.message);
+        return;
       }
     }
   };
