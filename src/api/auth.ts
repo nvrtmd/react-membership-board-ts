@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { Member } from 'global/types';
 import { member } from 'api/member';
 
@@ -7,9 +7,9 @@ const auth = {
     try {
       await axios.post(`/auth/signup`, data);
     } catch {
-      alert('중복된 아이디입니다.');
       throw {
-        error: '중복된 아이디입니다.',
+        code: 500,
+        message: '중복된 아이디가 존재합니다.',
       };
     }
   },
