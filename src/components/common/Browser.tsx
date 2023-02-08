@@ -91,6 +91,7 @@ const Wrapper = styled.div`
   background: #c0c0c0;
   padding: 5px;
   width: 90%;
+  max-width: 70rem;
   height: 90%;
   margin: auto;
   display: flex;
