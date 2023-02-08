@@ -3,21 +3,23 @@ import NoPostImg from 'assets/no_post_img.png';
 
 export const NoPost = () => {
   return (
-    <NoCommentWrapper>
-      <NoCommentImage src={NoPostImg} />
+    <NoPostWrapper>
+      <NoPostImage src={NoPostImg} />
       <div>No Post</div>
-    </NoCommentWrapper>
+    </NoPostWrapper>
   );
 };
 
-const NoCommentWrapper = styled.div`
+const NoPostWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  height: 100%;
+  min-height: 100%;
 `;
 
-const NoCommentImage = styled.img`
-  width: 20%;
+const NoPostImage = styled.img`
+  width: 30%;
+  max-width: 35%;
+  min-width: 20%;
 `;
