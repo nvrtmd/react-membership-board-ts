@@ -1,20 +1,20 @@
 # Yuzamin97 🌎
 ![image](https://user-images.githubusercontent.com/67324487/217621436-c6775b48-9bd9-41fd-a900-0556674be6cd.png)
 
-## ❤Description
+## 🌌Description
 - 회원가입 및 로그인 기능이 제공되는 게시판 서비스
   - 게시글 작성이 가능하며 댓글을 통해 회원 간 소통이 가능합니다.
 
 <br>
 
 
-## 🧡Deployed Link
+## 🪐Deployed Link
 
 <a href="https://web-yuzamin97-luj2cldvrt49y.sel3.cloudtype.app/" target="_blank">🌏Link🌍</a>
 
 <br>
 
-## 💛Implementation List
+## 🌍Implementation List
 1. 회원가입, 로그인/로그아웃 기능 구현
    - 아이디, 비밀번호, 닉네임 정보 입력 시 유효성 검사 실시
    - 유효한 정보가 입력되었을 시 회원가입 가능
@@ -33,15 +33,17 @@
    - My page에서 회원 탈퇴 가능
 <br>
 
-## 💚To Do List (23.02.09 ver.)
+## 🌏To Do List (23.02.09 ver.)
 - [ ] 홈 페이지 단장
+- [ ] SideNavBar에 홈으로 이동하는 버튼 생성 
 - [ ] Browser 컴포넌트의 닫기 버튼 클릭 시 Browser이 닫히는 기능 구현
 - [ ] 자신이 작성한 게시글의 상세 페이지에만 삭제 및 수정 버튼 표시
 - [ ] useCallback, memo 등을 사용한 성능 최적화
+- [ ] IntersectionObserver를 사용한 무한 스크롤 구현
 
 <br>
 
-## 💙Build Installation
+## 🌀Build Installation
 
 ```bash
 # install dependencies
@@ -53,7 +55,7 @@ $ yarn start
 <br>
 
 
-## 💜Preview
+## 🗺Preview
 <div style={display: flex;}>
 <img src="https://user-images.githubusercontent.com/67324487/217620582-41534483-95ee-4f4e-b0c6-7fc01cc57ed7.png" alt="preview" width="500"/>
 <img src="https://user-images.githubusercontent.com/67324487/217620619-1f78a131-58c4-420f-b245-21eb31fe3960.png" alt="drawing" width="500"/>
