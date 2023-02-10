@@ -18,7 +18,8 @@ export interface Post {
     member_id: string;
     member_nickname: string;
   };
-  comments: Comment[];
+  comments?: Comment[];
+  comments_count: number;
 }
 
 export interface Comment {
