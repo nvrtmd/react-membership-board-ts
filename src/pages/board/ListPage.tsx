@@ -82,5 +82,8 @@ const ButtonWrapper = styled.div`
 
 const ListWrapper = styled.div`
   padding: 0.5rem 2.5rem;
-  height: 100%;
+  display: table;
+  width: 100%;
+  height: inherit;
+  background: red;
 `;
