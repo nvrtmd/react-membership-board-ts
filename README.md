@@ -39,7 +39,7 @@
 - [ ] Browser 컴포넌트의 닫기 버튼 클릭 시 Browser이 닫히는 기능 구현
 - [ ] 자신이 작성한 게시글의 상세 페이지에만 삭제 및 수정 버튼 표시
 - [ ] useCallback, memo 등을 사용한 성능 최적화
-- [ ] IntersectionObserver를 사용한 무한 스크롤 구현
+- [x] IntersectionObserver를 사용한 무한 스크롤 구현
 - [ ] 소셜 로그인 기능 추가
 
 <br>
