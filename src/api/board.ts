@@ -2,10 +2,10 @@ import axios, { AxiosError } from 'axios';
 import { NewComment, NewPost } from 'global/types';
 
 const board = {
-  getPostList: async (start?: number, count?: number) => {
+  getPostList: async (start: number, count: number) => {
     try {
       let postListData;
-      if (start && count) {
+      if (start >= 0 && count >= 0) {
         postListData = await axios.get(`/post/list?start=${start}&count=${count}`);
       } else {
         postListData = await axios.get(`/post/list`);
