@@ -66,4 +66,5 @@ const BrowserWrapper = styled.div`
 const ListWrapper = styled.div`
   padding: 0.5rem 2.5rem;
   height: 100%;
+  min-height: 100%;
 `;
