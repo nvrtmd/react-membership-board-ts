@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { Browser } from 'components/common/Browser';
@@ -9,25 +9,42 @@ import { auth } from 'api/auth';
 import { board } from 'api/board';
 import { PostItem } from 'components/board/PostItem';
 import { NoPost } from 'components/common/NoPost';
+import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
 
 export const ListPage = () => {
-  const [postList, setPostList] = useState<Post[]>();
+  const [postList, setPostList] = useState<Post[]>([]);
+  const [start, setStart] = useState<number>(0);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetchPostList();
-  }, []);
+  const intersectRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const { isIntersect } = useIntersectionObserver(intersectRef, {
+    root: rootRef.current,
+    rootMargin: '50px',
+    threshold: 0.01,
+  });
 
   const fetchPostList = async () => {
     try {
-      const fetchedData = await board.getPostList();
-      setPostList(fetchedData);
+      const fetchedData = await board.getPostList(start, 5);
+      setPostList((prev) => [...prev, ...fetchedData]);
     } catch (err) {
       const error = err as CustomError;
       alert(error.message);
       navigate('/');
     }
   };
+
+  useEffect(() => {
+    fetchPostList();
+  }, [start]);
+
+  useEffect(() => {
+    if (isIntersect && start >= 0) {
+      setStart((prev) => {
+        return prev + 5;
+      });
+    }
+  }, [isIntersect]);
 
   const moveToPost = useCallback(
     (postIdx: number) => {
@@ -52,7 +69,7 @@ export const ListPage = () => {
   return (
     <Layout>
       <BrowserWrapper>
-        <Browser>
+        <Browser ref={rootRef}>
           <ButtonWrapper>
             <Button type="button" name="Create Post" restoreHandler={handleCreatePostButtonClick} />
           </ButtonWrapper>
@@ -63,6 +80,7 @@ export const ListPage = () => {
               <NoPost />
             )}
           </ListWrapper>
+          {<div ref={intersectRef}>Loading...</div>}
         </Browser>
       </BrowserWrapper>
     </Layout>
@@ -85,5 +103,4 @@ const ListWrapper = styled.div`
   display: table;
   width: 100%;
   height: inherit;
-  background: red;
 `;
