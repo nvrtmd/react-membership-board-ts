@@ -14,6 +14,7 @@ import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
 export const ListPage = () => {
   const [postList, setPostList] = useState<Post[]>([]);
   const [postListPage, setPostListPage] = useState<number>(0);
+  const [continueFetching, setContinueFetching] = useState<boolean>(true);
   const navigate = useNavigate();
   const intersectRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -26,6 +27,10 @@ export const ListPage = () => {
   const fetchPostList = async () => {
     try {
       const fetchedData = await board.getPostList(postListPage, 5);
+      if (fetchedData.length === 0) {
+        setContinueFetching(false);
+        return;
+      }
       setPostList((prev) => [...prev, ...fetchedData]);
     } catch (err) {
       const error = err as CustomError;
@@ -80,7 +85,7 @@ export const ListPage = () => {
               <NoPost />
             )}
           </ListWrapper>
-          {<div ref={intersectRef}>Loading...</div>}
+          {continueFetching && <div ref={intersectRef}>Loading...</div>}
         </Browser>
       </BrowserWrapper>
     </Layout>
