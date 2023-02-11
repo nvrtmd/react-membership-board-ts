@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, forwardRef, ForwardedRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -14,7 +14,7 @@ interface BrowserProps {
   children?: React.ReactNode;
 }
 
-export const Browser = ({ children }: BrowserProps) => {
+export const Browser = forwardRef(({ children }: BrowserProps, ref: ForwardedRef<HTMLDivElement>) => {
   const MENUS = ['File', 'Edit', 'View', 'Go', 'Favorite', 'Tools', 'Help'];
   return (
     <Wrapper>
@@ -31,14 +31,13 @@ export const Browser = ({ children }: BrowserProps) => {
         ))}
       </MenuBar>
       <AddressBar />
-      <Window>{children}</Window>
+      <Window ref={ref}>{children}</Window>
     </Wrapper>
   );
-};
+});
 
 const AddressBar = () => {
   const navigate = useNavigate();
-
   const handleButtonRestore = useCallback((pageMoveButtonName: string) => {
     switch (pageMoveButtonName) {
       case 'previous':

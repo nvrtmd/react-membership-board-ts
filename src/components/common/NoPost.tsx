@@ -4,18 +4,24 @@ import NoPostImg from 'assets/no_post_img.png';
 export const NoPost = () => {
   return (
     <NoPostWrapper>
-      <NoPostImage src={NoPostImg} />
-      <div>No Post</div>
+      <NoPostBox>
+        <NoPostImage src={NoPostImg} />
+        <div>No Post</div>
+      </NoPostBox>
     </NoPostWrapper>
   );
 };
 
 const NoPostWrapper = styled.div`
+  display: table-cell;
+`;
+
+const NoPostBox = styled.div`
+  height: 100%;
   display: flex;
-  align-items: center;
   flex-direction: column;
   justify-content: center;
-  min-height: 100%;
+  align-items: center;
 `;
 
 const NoPostImage = styled.img`
