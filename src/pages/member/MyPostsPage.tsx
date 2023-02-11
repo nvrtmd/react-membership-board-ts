@@ -67,5 +67,4 @@ const ListWrapper = styled.div`
   display: table;
   width: 100%;
   height: inherit;
-  background: red;
 `;
