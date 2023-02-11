@@ -23,10 +23,11 @@ export const ListPage = () => {
     rootMargin: '50px',
     threshold: 0.01,
   });
+  const COUNT = 5;
 
   const fetchPostList = async () => {
     try {
-      const fetchedData = await board.getPostList(postListPage, 5);
+      const fetchedData = await board.getPostList(postListPage, COUNT);
       if (fetchedData.length === 0) {
         setContinueFetching(false);
         return;
@@ -46,7 +47,7 @@ export const ListPage = () => {
   useEffect(() => {
     if (isIntersect && postListPage >= 0) {
       setPostListPage((prev) => {
-        return prev + 5;
+        return prev + COUNT;
       });
     }
   }, [isIntersect]);
