@@ -13,7 +13,7 @@ import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
 
 export const ListPage = () => {
   const [postList, setPostList] = useState<Post[]>([]);
-  const [start, setStart] = useState<number>(0);
+  const [postListPage, setPostListPage] = useState<number>(0);
   const navigate = useNavigate();
   const intersectRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -25,7 +25,7 @@ export const ListPage = () => {
 
   const fetchPostList = async () => {
     try {
-      const fetchedData = await board.getPostList(start, 5);
+      const fetchedData = await board.getPostList(postListPage, 5);
       setPostList((prev) => [...prev, ...fetchedData]);
     } catch (err) {
       const error = err as CustomError;
@@ -36,11 +36,11 @@ export const ListPage = () => {
 
   useEffect(() => {
     fetchPostList();
-  }, [start]);
+  }, [postListPage]);
 
   useEffect(() => {
-    if (isIntersect && start >= 0) {
-      setStart((prev) => {
+    if (isIntersect && postListPage >= 0) {
+      setPostListPage((prev) => {
         return prev + 5;
       });
     }
