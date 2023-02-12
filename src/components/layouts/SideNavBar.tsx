@@ -5,6 +5,7 @@ import { theme } from 'styles/theme';
 import BoardImg from 'assets/internet_img.png';
 import DocumentImg from 'assets/document_img.png';
 import CommentImg from 'assets/comment_img.png';
+import AboutImg from 'assets/about_img.png';
 
 interface NavItemProps {
   name: string;
@@ -47,6 +48,13 @@ export const SideNavBar = () => {
         handleClick={() => handleNavItemClick('My page')}
         isClicked={clickedNavItem === 'My page'}
         route="/member/info"
+      />
+      <NavItem
+        name="About"
+        image={AboutImg}
+        handleClick={() => handleNavItemClick('About')}
+        isClicked={clickedNavItem === 'About'}
+        route="/about"
       />
     </Wrapper>
   );
