@@ -46,7 +46,7 @@ export const SignInPage = () => {
               <SignInFormHeader>
                 <div>
                   <WindowsImage src={WindowsImg} />
-                  <div>Yuzamin 97</div>
+                  <div>Yuzamin97</div>
                 </div>
               </SignInFormHeader>
               <PageTitle>- Sign In -</PageTitle>
