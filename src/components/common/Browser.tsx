@@ -71,15 +71,16 @@ const AddressBar = () => {
 };
 
 const ControlButtons = () => {
+  const navigate = useNavigate();
   return (
     <ControlButtonsWrapper>
-      <Button type="button">
+      <Button type="button" restoreHandler={() => navigate('/')}>
         <MinimizeImage src={MinimizeImg} />
       </Button>
       <Button type="button">
         <ControlButtonImage src={MaximizeImg} />
       </Button>
-      <Button type="button">
+      <Button type="button" restoreHandler={() => navigate('/')}>
         <ControlButtonImage src={CloseImg} />
       </Button>
     </ControlButtonsWrapper>

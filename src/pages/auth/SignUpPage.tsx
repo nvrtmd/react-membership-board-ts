@@ -60,7 +60,7 @@ export const SignUpPage = () => {
               <SignUpFormHeader>
                 <div>
                   <WindowsImage src={WindowsImg} />
-                  <div>Yuzamin 97</div>
+                  <div>Yuzamin97</div>
                 </div>
               </SignUpFormHeader>
               <PageTitle>- Sign Up -</PageTitle>
