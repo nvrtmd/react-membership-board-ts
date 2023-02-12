@@ -10,10 +10,27 @@ const GlobalStyle = createGlobalStyle`
      font-style: normal;
     }
 
+  *:not(input) {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline-style:none;
+  }
+
   * {
     box-sizing: border-box;
     padding: 0;
-    margin: 0;      	
+    margin: 0;     
+    -webkit-user-drag:none; 
+    -moz-user-drag:none; 
+    -ms-user-drag:none; 
+    -khtml-user-drag: none;
+    -webkit-touch-callout: none;
+    -webkit-touch-callout: none !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); 	
     cursor: url("https://user-images.githubusercontent.com/67324487/215111447-c34d9bfb-4914-4f4b-a636-e3b7ac6757a8.png"), auto;
   }
   
