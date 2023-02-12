@@ -1,4 +1,4 @@
-import HomePage from 'pages/HomePage';
+import { HomePage } from 'pages/etc/HomePage';
 import { ListPage as PostListPage } from 'pages/board/ListPage';
 import { PostPage } from 'pages/board/PostPage';
 import { CreatePage } from 'pages/board/CreatePage';
