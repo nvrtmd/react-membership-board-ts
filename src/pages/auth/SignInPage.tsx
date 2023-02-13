@@ -59,7 +59,7 @@ export const SignInPage = () => {
                 changeHandler={handlePasswordChange}
               />
               <ButtonWrapper>
-                <Button name="SignIn" type="submit" />
+                <Button name="Sign In" type="submit" />
               </ButtonWrapper>
             </SignInForm>
           </SignInFormWrapper>
@@ -72,11 +72,13 @@ export const SignInPage = () => {
 const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
+  padding: 0 2rem;
 `;
 
 const SignInFormWrapper = styled.div`
   min-height: 100%;
   display: flex;
+  padding: 0.5rem 2.5rem;
 `;
 
 const SignInForm = styled.form`
