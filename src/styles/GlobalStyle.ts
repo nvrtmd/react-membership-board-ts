@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import { reset } from 'styled-reset';
+import { theme } from 'styles/theme';
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -9,6 +10,20 @@ const GlobalStyle = createGlobalStyle`
      font-weight: normal;
      font-style: normal;
     }
+
+  html {
+    font-size: 77%;
+    @media screen and ${theme.device.desktop} { // 1440
+      font-size: 73%;
+    }
+    @media screen and ${theme.device.tablet} { // 768
+      font-size: 70%;
+    }
+    @media screen and ${theme.device.mobile} { // 425
+      font-size: 62.5%; // 1rem === 10px
+    }
+
+  }
 
   *:not(input) {
     -webkit-touch-callout: none;
