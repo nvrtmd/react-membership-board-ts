@@ -12,12 +12,12 @@ const GlobalStyle = createGlobalStyle`
     }
 
   html {
-    font-size: 77%;
+    font-size: 100%; // 1rem === 16px
     @media screen and ${theme.device.desktop} { // 1440
-      font-size: 73%;
+      font-size: 87.5%; // 1rem === 14px
     }
     @media screen and ${theme.device.tablet} { // 768
-      font-size: 70%;
+      font-size: 75%; // 1rem === 12px
     }
     @media screen and ${theme.device.mobile} { // 425
       font-size: 62.5%; // 1rem === 10px
