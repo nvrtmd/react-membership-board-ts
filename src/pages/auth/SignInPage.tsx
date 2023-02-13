@@ -61,6 +61,9 @@ export const SignInPage = () => {
               <ButtonWrapper>
                 <Button name="Sign In" type="submit" />
               </ButtonWrapper>
+              <SignUpButtonWrapper onClick={() => navigate('/auth/signup')}>
+                <div>Not signed up yet?</div>
+              </SignUpButtonWrapper>
             </SignInForm>
           </SignInFormWrapper>
         </Browser>
@@ -108,4 +111,17 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 1rem;
+`;
+
+const SignUpButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  font-size: 1rem;
+  text-decoration: underline;
+  color: ${theme.color.grey};
+  &:hover > div {
+    cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
+      auto;
+  }
 `;
