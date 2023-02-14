@@ -26,7 +26,7 @@ const LayoutWrapper = styled.div`
 
 const Main = styled.main`
   background-color: #008080;
-  min-height: calc(100vh - ${theme.layout.bottomNavBarHeight});
+  height: calc(100vh - ${theme.layout.bottomNavBarHeight});
   display: flex;
 `;
 
