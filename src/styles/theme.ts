@@ -14,7 +14,20 @@ const layout = {
   bottomNavBarHeight: '2.8rem',
 };
 
+const breakpoint = {
+  desktop: 1440,
+  tablet: 768,
+  mobile: 425,
+};
+
+const device = {
+  desktop: `(max-width: ${breakpoint.desktop}px)`,
+  tablet: `(max-width: ${breakpoint.tablet}px)`,
+  mobile: `(max-width: ${breakpoint.mobile}px)`,
+};
+
 export const theme = {
   color,
   layout,
+  device,
 };

@@ -13,9 +13,9 @@ export const PostItem = ({ data, clickHandler }: PostItemProps) => {
     <PostWrapper onClick={() => clickHandler(data.post_idx)}>
       <PostIndex>{data.post_idx}</PostIndex>
       <PostTitle>
-        {data.post_title} <PostCommentsCount> ({data.comments_count})</PostCommentsCount>
+        {data.post_title.substring(0, 10) + '...'} <PostCommentsCount> ({data.comments_count})</PostCommentsCount>
       </PostTitle>
-      <PostContents>{data.post_contents}</PostContents>
+      <PostContents>{data.post_contents.substring(0, 10) + '...'}</PostContents>
       <PostInfo>
         <div>by {data.post_writer ? data.post_writer.member_nickname : 'deleted account'}</div>
         <div>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</div>

@@ -61,10 +61,13 @@ export const MyPostsPage = () => {
 const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
+  padding: 0 2rem;
 `;
 
 const ListWrapper = styled.div`
+  padding: 0.5rem 2.5rem;
   display: table;
+  table-layout: fixed;
   width: 100%;
   height: inherit;
 `;

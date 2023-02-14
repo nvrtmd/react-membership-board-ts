@@ -89,6 +89,7 @@ export const ModifyPage = () => {
 const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
+  padding: 0 2rem;
 `;
 
 const PostFormWrapper = styled.div`

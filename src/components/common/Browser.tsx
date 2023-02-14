@@ -36,6 +36,23 @@ export const Browser = forwardRef(({ children }: BrowserProps, ref: ForwardedRef
   );
 });
 
+const ControlButtons = () => {
+  const navigate = useNavigate();
+  return (
+    <ControlButtonsWrapper>
+      <Button type="button" restoreHandler={() => navigate('/')}>
+        <MinimizeImage src={MinimizeImg} />
+      </Button>
+      <Button type="button">
+        <ControlButtonImage src={MaximizeImg} />
+      </Button>
+      <Button type="button" restoreHandler={() => navigate('/')}>
+        <ControlButtonImage src={CloseImg} />
+      </Button>
+    </ControlButtonsWrapper>
+  );
+};
+
 const AddressBar = () => {
   const navigate = useNavigate();
   const handleButtonRestore = useCallback((pageMoveButtonName: string) => {
@@ -70,27 +87,10 @@ const AddressBar = () => {
   );
 };
 
-const ControlButtons = () => {
-  const navigate = useNavigate();
-  return (
-    <ControlButtonsWrapper>
-      <Button type="button" restoreHandler={() => navigate('/')}>
-        <MinimizeImage src={MinimizeImg} />
-      </Button>
-      <Button type="button">
-        <ControlButtonImage src={MaximizeImg} />
-      </Button>
-      <Button type="button" restoreHandler={() => navigate('/')}>
-        <ControlButtonImage src={CloseImg} />
-      </Button>
-    </ControlButtonsWrapper>
-  );
-};
-
 const Wrapper = styled.div`
   background: #c0c0c0;
   padding: 5px;
-  width: 90%;
+  width: 100%;
   max-width: 70rem;
   height: 90%;
   margin: auto;
@@ -118,6 +118,9 @@ const Title = styled.div`
 
 const ControlButtonsWrapper = styled.div`
   display: flex;
+  @media screen and (max-width: 170px) {
+    display: none;
+  }
 `;
 
 const PageImage = styled.img`
@@ -150,6 +153,9 @@ const Menu = styled.div`
   padding: 0.1rem 0.4rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  @media screen and (max-width: 170px) {
+    visibility: hidden;
+  }
 `;
 
 const AddressBarWrapper = styled.div`
@@ -163,6 +169,9 @@ const AddressBarWrapper = styled.div`
 
 const PageMoveButtonsWrapper = styled.div`
   display: flex;
+  @media screen and (max-width: 250px) {
+    overflow: hidden;
+  }
 `;
 
 const PageMoveButtonImage = styled.img`
@@ -180,6 +189,9 @@ const AddressBarBox = styled.div`
   align-items: center;
   width: 100%;
   min-width: 0;
+  @media screen and (max-width: 250px) {
+    display: none;
+  }
 `;
 
 const Address = styled.div`

@@ -39,7 +39,7 @@ export const CommentForm = ({
         {type === 'commentModifyForm' && (
           <Button name="Cancel" type="button" restoreHandler={commentModifyCancelHandler} />
         )}
-        <Button name="Submit" type="submit" />
+        <Button name="Write" type="submit" />
       </ButtonWrapper>
     </Form>
   );

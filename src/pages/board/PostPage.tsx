@@ -101,43 +101,45 @@ export const PostPage = () => {
     <Layout>
       <BrowserWrapper>
         <Browser>
-          {postData && (
-            <div>
-              <PostHeader>
-                <PostTitle>{postData.post_title}</PostTitle>
-                <PostWriter>
-                  by {postData.post_writer ? postData.post_writer.member_nickname : 'deleted account'}
-                </PostWriter>
-                <PostUpdatedDate>
-                  <div>{postData.updatedAt && moment(postData.updatedAt).format('YY.MM.DD HH:mm')}</div>
-                </PostUpdatedDate>
-              </PostHeader>
-              <PostBody>{postData.post_contents}</PostBody>
-              <FunctionButtons postIdx={String(postData.post_idx)} />
-            </div>
-          )}
-          <CommentContainer>
-            <CommentForm
-              submitHandler={handleCommentFormSubmit}
-              commentValue={comment}
-              commentChangeHandler={handleCommentChange}
-              formTitle="Comments"
-            />
-            <CommentList>
-              {commentList && commentList.length > 0 ? (
-                commentList.map((comment) => (
-                  <CommentItem
-                    key={comment.comment_idx}
-                    data={comment}
-                    commentListRefreshHandler={handleCommentListRefresh}
-                    isCommentWriter={comment.comment_writer.member_id === currentUserData?.id}
-                  />
-                ))
-              ) : (
-                <NoComment />
-              )}
-            </CommentList>
-          </CommentContainer>
+          <PostContainer>
+            {postData && (
+              <div>
+                <PostHeader>
+                  <PostTitle>{postData.post_title}</PostTitle>
+                  <PostWriter>
+                    by {postData.post_writer ? postData.post_writer.member_nickname : 'deleted account'}
+                  </PostWriter>
+                  <PostUpdatedDate>
+                    <div>{postData.updatedAt && moment(postData.updatedAt).format('YY.MM.DD HH:mm')}</div>
+                  </PostUpdatedDate>
+                </PostHeader>
+                <PostBody>{postData.post_contents}</PostBody>
+                <FunctionButtons postIdx={String(postData.post_idx)} />
+              </div>
+            )}
+            <CommentContainer>
+              <CommentForm
+                submitHandler={handleCommentFormSubmit}
+                commentValue={comment}
+                commentChangeHandler={handleCommentChange}
+                formTitle="Comments"
+              />
+              <CommentList>
+                {commentList && commentList.length > 0 ? (
+                  commentList.map((comment) => (
+                    <CommentItem
+                      key={comment.comment_idx}
+                      data={comment}
+                      commentListRefreshHandler={handleCommentListRefresh}
+                      isCommentWriter={comment.comment_writer.member_id === currentUserData?.id}
+                    />
+                  ))
+                ) : (
+                  <NoComment />
+                )}
+              </CommentList>
+            </CommentContainer>
+          </PostContainer>
         </Browser>
       </BrowserWrapper>
     </Layout>
@@ -213,6 +215,11 @@ const FunctionButton = ({ handleFunctionButtonRestore, name, children }: Functio
 const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
+  padding: 0 2rem;
+`;
+
+const PostContainer = styled.div`
+  padding: 1rem;
 `;
 
 const PostHeader = styled.div`
@@ -221,7 +228,7 @@ const PostHeader = styled.div`
 `;
 
 const PostTitle = styled.div`
-  font-size: 2.5rem;
+  font-size: 1.8rem;
 `;
 
 const PostWriter = styled.div`
@@ -229,9 +236,6 @@ const PostWriter = styled.div`
 `;
 
 const PostUpdatedDate = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 35%;
   font-size: 1rem;
 `;
 

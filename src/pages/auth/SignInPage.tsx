@@ -59,8 +59,11 @@ export const SignInPage = () => {
                 changeHandler={handlePasswordChange}
               />
               <ButtonWrapper>
-                <Button name="SignIn" type="submit" />
+                <Button name="Sign In" type="submit" />
               </ButtonWrapper>
+              <SignUpButtonWrapper onClick={() => navigate('/auth/signup')}>
+                <div>Not signed up yet?</div>
+              </SignUpButtonWrapper>
             </SignInForm>
           </SignInFormWrapper>
         </Browser>
@@ -72,11 +75,13 @@ export const SignInPage = () => {
 const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
+  padding: 0 2rem;
 `;
 
 const SignInFormWrapper = styled.div`
   min-height: 100%;
   display: flex;
+  padding: 0.5rem 2.5rem;
 `;
 
 const SignInForm = styled.form`
@@ -106,4 +111,17 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 1rem;
+`;
+
+const SignUpButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  font-size: 1rem;
+  text-decoration: underline;
+  color: ${theme.color.grey};
+  &:hover > div {
+    cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
+      auto;
+  }
 `;

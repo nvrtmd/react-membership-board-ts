@@ -60,7 +60,6 @@ const Wrapper = styled.nav`
   padding: 0 3px;
   background-color: #c0c0c0;
   height: ${theme.layout.bottomNavBarHeight};
-  position: relative;
 `;
 
 const StartImage = styled.img`

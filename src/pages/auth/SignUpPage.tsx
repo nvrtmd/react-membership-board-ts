@@ -84,7 +84,7 @@ export const SignUpPage = () => {
                 blurHandler={handlePasswordBlur}
               />
               <ValidationAlert isValid={!passwordState.isValid && passwordState.isValid !== null}>
-                숫자 혹은 특수 문자를 포함하여 8자 이상 입력하세요.
+                숫자/특수문자 포함 8자 이상 입력하세요.
               </ValidationAlert>
               <Input
                 title="nickname"
@@ -98,8 +98,11 @@ export const SignUpPage = () => {
                 영어/숫자/한글 4~12자를 입력하세요.
               </ValidationAlert>
               <ButtonWrapper>
-                <Button name="Submit" type="submit" />
+                <Button name="Sign Up" type="submit" />
               </ButtonWrapper>
+              <SignInButtonWrapper onClick={() => navigate('/auth/signin')}>
+                <div>Already signed up?</div>
+              </SignInButtonWrapper>
             </SignUpForm>
           </SignUpFormWrapper>
         </Browser>
@@ -111,11 +114,13 @@ export const SignUpPage = () => {
 const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
+  padding: 0 2rem;
 `;
 
 const SignUpFormWrapper = styled.div`
   min-height: 100%;
   display: flex;
+  padding: 0.5rem 2.5rem;
 `;
 
 const SignUpForm = styled.form`
@@ -135,6 +140,7 @@ const WindowsImage = styled.img`
   display: flex;
   margin: auto;
 `;
+
 const PageTitle = styled.div`
   text-align: center;
   font-size: 1.6rem;
@@ -156,4 +162,17 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 1rem;
+`;
+
+const SignInButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  font-size: 1rem;
+  text-decoration: underline;
+  color: ${theme.color.grey};
+  &:hover > div {
+    cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
+      auto;
+  }
 `;
