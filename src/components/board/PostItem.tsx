@@ -13,7 +13,7 @@ export const PostItem = ({ data, clickHandler }: PostItemProps) => {
     <PostWrapper onClick={() => clickHandler(data.post_idx)}>
       <PostIndex>{data.post_idx}</PostIndex>
       <PostTitle>
-        {data.post_title} <PostCommentsCount> ({data.comments_count})</PostCommentsCount>
+        {data.post_title.substring(0, 10) + '...'} <PostCommentsCount> ({data.comments_count})</PostCommentsCount>
       </PostTitle>
       <PostContents>{data.post_contents.substring(0, 10) + '...'}</PostContents>
       <PostInfo>
