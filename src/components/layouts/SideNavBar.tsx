@@ -84,6 +84,9 @@ const NavItem = ({ name, image, handleClick, isClicked, route }: NavItemProps) =
 };
 
 const Wrapper = styled.nav`
+  @media screen and (max-width: 250px) {
+    display: none;
+  }
   padding: 1rem;
 `;
 

@@ -118,7 +118,7 @@ const Title = styled.div`
 
 const ControlButtonsWrapper = styled.div`
   display: flex;
-  @media screen and (max-width: 250px) {
+  @media screen and (max-width: 170px) {
     display: none;
   }
 `;
@@ -153,7 +153,7 @@ const Menu = styled.div`
   padding: 0.1rem 0.4rem;
   overflow: hidden;
   text-overflow: ellipsis;
-  @media screen and (max-width: 200px) {
+  @media screen and (max-width: 170px) {
     visibility: hidden;
   }
 `;
