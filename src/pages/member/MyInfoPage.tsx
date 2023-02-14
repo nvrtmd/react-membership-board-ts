@@ -9,6 +9,7 @@ import { Input } from 'components/common/Input';
 import { Button } from 'components/common/Button';
 import { theme } from 'styles/theme';
 import { CustomError } from 'global/types';
+import WindowsImg from 'assets/windows_img.png';
 
 interface ValidationAlertProps {
   isValid: boolean;
@@ -93,6 +94,13 @@ export const MyInfoPage = () => {
         <Browser>
           <MemberInfoModifyFormWrapper>
             <MemberInfoModifyForm onSubmit={handleMemberInfoModifyFormSubmit}>
+              <MemberInfoModifyFormHeader>
+                <div>
+                  <WindowsImage src={WindowsImg} />
+                  <div>Yuzamin97</div>
+                </div>
+              </MemberInfoModifyFormHeader>
+
               <PageTitle>- My Info -</PageTitle>
               <Input
                 title="id"
@@ -142,11 +150,26 @@ export const MyInfoPage = () => {
 const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
+  padding: 0 2rem;
 `;
 
 const MemberInfoModifyFormWrapper = styled.div`
   min-height: 100%;
   display: flex;
+  padding: 0.5rem 2.5rem;
+`;
+
+const MemberInfoModifyFormHeader = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+`;
+
+const WindowsImage = styled.img`
+  width: 4rem;
+  display: flex;
+  margin: auto;
 `;
 
 const MemberInfoModifyForm = styled.form`
