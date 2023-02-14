@@ -10,19 +10,23 @@ interface LayoutProps {
 
 export const Layout = memo(({ children }: LayoutProps) => {
   return (
-    <>
+    <LayoutWrapper>
       <Main>
         <SideNavBar />
         <Section>{children}</Section>
       </Main>
       <BottomNavBar />
-    </>
+    </LayoutWrapper>
   );
 });
 
+const LayoutWrapper = styled.div`
+  position: relative;
+`;
+
 const Main = styled.main`
   background-color: #008080;
-  height: calc(100vh - ${theme.layout.bottomNavBarHeight});
+  min-height: calc(100vh - ${theme.layout.bottomNavBarHeight});
   display: flex;
 `;
 
