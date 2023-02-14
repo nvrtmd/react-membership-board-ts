@@ -90,10 +90,11 @@ const Wrapper = styled.nav`
 const NavItemBox = styled.div`
   padding: 0.3rem 0;
   text-align: center;
+  margin: 1rem 0;
 `;
 
 const NavItemName = styled.div<NavItemContentProps>`
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   font-family: 'sans-serif';
   color: ${theme.color.white};
   border: solid 0.2px transparent;
@@ -107,10 +108,10 @@ const NavItemName = styled.div<NavItemContentProps>`
 `;
 
 const NavItemImage = styled.img<NavItemContentProps>`
-  width: 3rem;
+  width: 3.5rem;
   ${({ isClicked }) =>
     isClicked &&
     `
-   opacity: 0.5; /* 50% opacity */
+   opacity: 0.5; 
   `}
 `;
