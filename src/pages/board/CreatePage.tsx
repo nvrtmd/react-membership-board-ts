@@ -67,7 +67,9 @@ export const CreatePage = () => {
 const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
+  padding: 0 2rem;
 `;
+
 const PostFormWrapper = styled.div`
   min-height: 100%;
   display: flex;
