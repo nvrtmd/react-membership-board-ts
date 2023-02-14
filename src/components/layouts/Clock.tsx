@@ -30,6 +30,9 @@ const ClockWrapper = styled.div`
   box-shadow: 3px 3px 0px 0px #808080 inset, -3px -3px 0px 0px #dfdfdf inset;
   -webkit-box-shadow: 3px 3px 0px 0px #808080 inset, -3px -3px 0px 0px #dfdfdf inset;
   -moz-box-shadow: 3px 3px 0px 0px #808080 inset, -3px -3px 0px 0px #dfdfdf inset;
+  @media screen and (max-width: 170px) {
+    display: none;
+  }
 `;
 
 const SchedulerImage = styled.img`
