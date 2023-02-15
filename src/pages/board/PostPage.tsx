@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Browser } from 'components/common/Browser';
 import { Button } from 'components/common/Button';
@@ -17,6 +17,7 @@ import { board } from 'api/board';
 import { auth } from 'api/auth';
 import { CommentForm } from 'components/board/CommentForm';
 import { member } from 'api/member';
+import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
 
 interface FunctionButtonsProps {
   postIdx: string;
@@ -31,12 +32,22 @@ interface FunctionButtonProps {
 export const PostPage = () => {
   const [currentUserData, setCurrentUserData] = useState<Member>();
   const [postData, setPostData] = useState<Post>();
-  const [commentList, setCommentList] = useState<Comment[]>();
+  const [commentList, setCommentList] = useState<Comment[]>([]);
+  const [continueFetching, setContinueFetching] = useState<boolean>(true);
+  const [commentListPage, setCommentListPage] = useState<number>(0);
   const {
     inputValue: comment,
     handleInputChange: handleCommentChange,
     handleResetInput: handleCommentReset,
   } = useInput('');
+  const intersectRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const { isIntersect } = useIntersectionObserver(intersectRef, {
+    root: rootRef.current,
+    rootMargin: '50px',
+    threshold: 0.01,
+  });
+  const COUNT = 5;
   const params = useParams();
   const navigate = useNavigate();
 
