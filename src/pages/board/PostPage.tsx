@@ -111,7 +111,7 @@ export const PostPage = () => {
   return (
     <Layout>
       <BrowserWrapper>
-        <Browser>
+        <Browser ref={rootRef}>
           <PostContainer>
             {postData && (
               <div>
