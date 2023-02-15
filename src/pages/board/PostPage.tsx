@@ -29,6 +29,10 @@ interface FunctionButtonProps {
   children: React.ReactNode;
 }
 
+interface CommentListBottomProps {
+  continueFetching: boolean;
+}
+
 export const PostPage = () => {
   const [currentUserData, setCurrentUserData] = useState<Member>();
   const [postData, setPostData] = useState<Post>();
@@ -148,6 +152,9 @@ export const PostPage = () => {
                 ) : (
                   <NoComment />
                 )}
+                <CommentListBottom continueFetching={continueFetching} ref={intersectRef}>
+                  Loading...
+                </CommentListBottom>
               </CommentList>
             </CommentContainer>
           </PostContainer>
@@ -276,3 +283,11 @@ export const CommentContainer = styled.div`
 `;
 
 const CommentList = styled.div``;
+
+const CommentListBottom = styled.div<CommentListBottomProps>`
+  ${({ continueFetching }) =>
+    !continueFetching &&
+    `
+    visibility: hidden !important;
+  `}
+`;
