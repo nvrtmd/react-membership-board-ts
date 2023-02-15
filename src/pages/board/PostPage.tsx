@@ -123,8 +123,12 @@ export const PostPage = () => {
   };
 
   const handleCommentListRefresh = async () => {
+    if (commentListPage > 0) {
+      setCommentListPage(0);
+    } else {
+      fetchCommentList();
+    }
     setCommentList([]);
-    setCommentListPage(0);
     setContinueFetching(true);
     commentListTop.current?.scrollIntoView({
       behavior: 'smooth',
