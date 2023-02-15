@@ -12,7 +12,7 @@ import { board } from 'api/board';
 interface CommentItemProps {
   data: Comment;
   isCommentWriter: boolean;
-  commentListRefreshHandler: (newCommentList: Comment[]) => void;
+  commentListRefreshHandler: () => void;
 }
 
 export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }: CommentItemProps) => {
@@ -36,8 +36,7 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
       }
       if (params.postIdx) {
         await board.modifyComment(params.postIdx, data.comment_idx, { contents: modifiedComment });
-        const fetchedData = await board.getPostData(params.postIdx);
-        commentListRefreshHandler(fetchedData.comments);
+        commentListRefreshHandler();
       }
     } catch (err) {
       const error = err as CustomError;
@@ -53,8 +52,7 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
       if (confirm('댓글을 삭제하시겠습니까?')) {
         if (params.postIdx) {
           await board.deleteComment(params.postIdx, data.comment_idx);
-          const fetchedData = await board.getPostData(params.postIdx);
-          commentListRefreshHandler(fetchedData.comments);
+          commentListRefreshHandler();
         }
       } else {
         return;

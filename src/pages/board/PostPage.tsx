@@ -46,6 +46,7 @@ export const PostPage = () => {
   } = useInput('');
   const intersectRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+  const commentListTop = useRef<HTMLDivElement>(null);
   const { isIntersect } = useIntersectionObserver(intersectRef, {
     root: rootRef.current,
     rootMargin: '50px',
@@ -67,7 +68,7 @@ export const PostPage = () => {
   }, [commentListPage]);
 
   useEffect(() => {
-    if (isIntersect && commentListPage >= 0) {
+    if (isIntersect && commentList.length && commentListPage >= 0) {
       setCommentListPage((prev) => {
         return prev + COUNT;
       });
@@ -125,6 +126,9 @@ export const PostPage = () => {
     setCommentList([]);
     setCommentListPage(0);
     setContinueFetching(true);
+    commentListTop.current?.scrollIntoView({
+      behavior: 'smooth',
+    });
   };
 
   const handleCommentFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -175,6 +179,7 @@ export const PostPage = () => {
                 formTitle="Comments"
               />
               <CommentList>
+                <div ref={commentListTop}></div>
                 {commentList && commentList.length > 0 ? (
                   commentList.map((comment) => (
                     <CommentItem
