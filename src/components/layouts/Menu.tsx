@@ -54,7 +54,7 @@ export const Menu = memo(({ menuRef, startButtonClickHandler }: MenuProps) => {
       <MenuWrapper>
         <MenuBox>
           <MenuImage src={SourceCodeImg} alt="source_code_image" />
-          <a href="https://github.com/nvrtmd/react-membership-board" target="_blank">
+          <a href="https://github.com/nvrtmd/react-membership-board-ts" target="_blank">
             Source Code
           </a>
         </MenuBox>
