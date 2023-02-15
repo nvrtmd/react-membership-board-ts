@@ -1,5 +1,6 @@
 # Yuzamin97 🌎
-![pr_image](https://user-images.githubusercontent.com/67324487/217747207-e4521f5e-ae22-4c26-aa2b-eb011d6f6437.gif)
+![image](https://user-images.githubusercontent.com/67324487/219047672-d0f219c3-1882-4c68-9bb7-5a476f5563b7.gif)
+
 
 ## 🌌Description
 - 회원가입 및 로그인 기능이 제공되는 게시판 서비스
