@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { Browser } from 'components/common/Browser';
@@ -7,10 +7,21 @@ import { CustomError, Post } from 'global/types';
 import { member } from 'api/member';
 import { PostItem } from 'components/board/PostItem';
 import { NoPost } from 'components/common/NoPost';
+import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
 
 export const MyPostsPage = () => {
-  const [postList, setPostList] = useState<Post[]>();
+  const [postList, setPostList] = useState<Post[]>([]);
+  const [postListPage, setPostListPage] = useState<number>(0);
+  const [continueFetching, setContinueFetching] = useState<boolean>(true);
   const navigate = useNavigate();
+  const intersectRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const { isIntersect } = useIntersectionObserver(intersectRef, {
+    root: rootRef.current,
+    rootMargin: '50px',
+    threshold: 0.01,
+  });
+  const COUNT = 5;
 
   useEffect(() => {
     fetchPostList();
