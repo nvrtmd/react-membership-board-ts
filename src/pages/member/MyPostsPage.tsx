@@ -9,6 +9,10 @@ import { PostItem } from 'components/board/PostItem';
 import { NoPost } from 'components/common/NoPost';
 import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
 
+interface PostListBottomProps {
+  continueFetching: boolean;
+}
+
 export const MyPostsPage = () => {
   const [postList, setPostList] = useState<Post[]>([]);
   const [postListPage, setPostListPage] = useState<number>(0);
@@ -63,6 +67,9 @@ export const MyPostsPage = () => {
               <NoPost />
             )}
           </ListWrapper>
+          <PostListBottom continueFetching={continueFetching} ref={intersectRef}>
+            Loading...
+          </PostListBottom>
         </Browser>
       </BrowserWrapper>
     </Layout>
@@ -81,4 +88,12 @@ const ListWrapper = styled.div`
   table-layout: fixed;
   width: 100%;
   height: inherit;
+`;
+
+const PostListBottom = styled.div<PostListBottomProps>`
+  ${({ continueFetching }) =>
+    !continueFetching &&
+    `
+    display: none !important;
+  `}
 `;
