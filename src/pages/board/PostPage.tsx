@@ -141,7 +141,11 @@ export const PostPage = () => {
       }
       if (params.postIdx) {
         await board.createComment(params.postIdx, { contents: comment });
-        handleCommentListRefresh();
+        if (commentList.length === 0) {
+          fetchCommentList();
+        } else {
+          handleCommentListRefresh();
+        }
       }
     } catch (err) {
       const error = err as CustomError;
