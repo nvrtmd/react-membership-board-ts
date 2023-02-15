@@ -60,6 +60,12 @@ export const PostPage = () => {
     fetchUserData();
   }, []);
 
+  useEffect(() => {
+    if (continueFetching) {
+      fetchCommentList();
+    }
+  }, [commentListPage]);
+
   const fetchUserData = async () => {
     try {
       const fetchedData = await member.getMemberInfo();
@@ -74,7 +80,6 @@ export const PostPage = () => {
       if (params.postIdx) {
         const fetchedData = await board.getPostData(params.postIdx);
         setPostData(fetchedData);
-        setCommentList(fetchedData.comments);
       } else {
         alert('게시글이 존재하지 않습니다.');
         navigate(-1);
@@ -83,6 +88,27 @@ export const PostPage = () => {
       const error = err as CustomError;
       alert(error.message);
       navigate(-1);
+      return;
+    }
+  };
+
+  const fetchCommentList = async () => {
+    try {
+      if (params.postIdx) {
+        const fetchedData = await board.getCommentList(params.postIdx, commentListPage, COUNT);
+        if (fetchedData.length === 0) {
+          setContinueFetching(false);
+          return;
+        }
+        setCommentList((prev) => [...prev, ...fetchedData]);
+      } else {
+        alert('게시글이 존재하지 않습니다.');
+        navigate(-1);
+      }
+    } catch (err) {
+      const error = err as CustomError;
+      alert(error.message);
+      navigate('/');
       return;
     }
   };
