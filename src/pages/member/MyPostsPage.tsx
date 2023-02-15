@@ -28,8 +28,10 @@ export const MyPostsPage = () => {
   const COUNT = 5;
 
   useEffect(() => {
-    fetchPostList();
-  }, []);
+    if (continueFetching) {
+      fetchPostList();
+    }
+  }, [postListPage]);
 
   const fetchPostList = async () => {
     try {
@@ -40,8 +42,12 @@ export const MyPostsPage = () => {
     }
 
     try {
-      const fetchedData = await member.getMemberPosts();
-      setPostList(fetchedData);
+      const fetchedData = await member.getMemberPosts(postListPage, COUNT);
+      if (fetchedData.length === 0) {
+        setContinueFetching(false);
+        return;
+      }
+      setPostList((prev) => [...prev, ...fetchedData]);
     } catch (err) {
       const error = err as CustomError;
       alert(error.message);
