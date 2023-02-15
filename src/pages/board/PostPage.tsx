@@ -121,8 +121,10 @@ export const PostPage = () => {
     }
   };
 
-  const handleCommentListRefresh = async (newCommentList: Comment[]) => {
-    setCommentList(newCommentList);
+  const handleCommentListRefresh = async () => {
+    setCommentList([]);
+    setCommentListPage(0);
+    setContinueFetching(true);
   };
 
   const handleCommentFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -135,8 +137,7 @@ export const PostPage = () => {
       }
       if (params.postIdx) {
         await board.createComment(params.postIdx, { contents: comment });
-        const fetchedData = await board.getPostData(params.postIdx);
-        handleCommentListRefresh(fetchedData.comments);
+        handleCommentListRefresh();
       }
     } catch (err) {
       const error = err as CustomError;
@@ -322,6 +323,6 @@ const CommentListBottom = styled.div<CommentListBottomProps>`
   ${({ continueFetching }) =>
     !continueFetching &&
     `
-    visibility: hidden !important;
+    display: none !important;
   `}
 `;
