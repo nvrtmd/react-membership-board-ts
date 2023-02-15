@@ -67,7 +67,7 @@ export const PostPage = () => {
   }, [commentListPage]);
 
   useEffect(() => {
-    if (isIntersect && commentListPage >= 0) {
+    if (isIntersect && commentList.length && commentListPage >= 0) {
       setCommentListPage((prev) => {
         return prev + COUNT;
       });
