@@ -66,6 +66,14 @@ export const PostPage = () => {
     }
   }, [commentListPage]);
 
+  useEffect(() => {
+    if (isIntersect && commentListPage >= 0) {
+      setCommentListPage((prev) => {
+        return prev + COUNT;
+      });
+    }
+  }, [isIntersect]);
+
   const fetchUserData = async () => {
     try {
       const fetchedData = await member.getMemberInfo();
