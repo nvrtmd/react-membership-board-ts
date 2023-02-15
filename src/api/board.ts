@@ -29,6 +29,22 @@ const board = {
       };
     }
   },
+  getCommentList: async (postIdx: string, start: number, count: number) => {
+    try {
+      let commentListData;
+      if (start >= 0 && count >= 0) {
+        commentListData = await axios.get(`/post/${postIdx}/comment/list?start=${start}&count=${count}`);
+      } else {
+        commentListData = await axios.get(`/post/${postIdx}/comment`);
+      }
+      return commentListData.data.data;
+    } catch {
+      throw {
+        code: 500,
+        message: '서버로부터 댓글 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',
+      };
+    }
+  },
   createPost: async (data: NewPost) => {
     try {
       await axios.post(`/post`, data, { withCredentials: true });

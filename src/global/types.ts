@@ -19,7 +19,7 @@ export interface Post {
     member_nickname: string;
   };
   comments?: Comment[];
-  comments_count: number;
+  comments_count?: number;
 }
 
 export interface Comment {
@@ -31,6 +31,9 @@ export interface Comment {
   };
   createdAt: Date;
   updatedAt: Date;
+  deletedAt?: Date | null;
+  member_idx?: number;
+  post_idx?: number;
 }
 
 export interface Member {

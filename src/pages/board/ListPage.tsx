@@ -11,6 +11,10 @@ import { PostItem } from 'components/board/PostItem';
 import { NoPost } from 'components/common/NoPost';
 import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
 
+interface PostListBottomProps {
+  continueFetching: boolean;
+}
+
 export const ListPage = () => {
   const [postList, setPostList] = useState<Post[]>([]);
   const [postListPage, setPostListPage] = useState<number>(0);
@@ -41,7 +45,9 @@ export const ListPage = () => {
   };
 
   useEffect(() => {
-    fetchPostList();
+    if (continueFetching) {
+      fetchPostList();
+    }
   }, [postListPage]);
 
   useEffect(() => {
@@ -86,7 +92,9 @@ export const ListPage = () => {
               <NoPost />
             )}
           </ListWrapper>
-          {continueFetching && <div ref={intersectRef}>Loading...</div>}
+          <PostListBottom continueFetching={continueFetching} ref={intersectRef}>
+            Loading...
+          </PostListBottom>
         </Browser>
       </BrowserWrapper>
     </Layout>
@@ -111,4 +119,12 @@ const ListWrapper = styled.div`
   table-layout: fixed;
   width: 100%;
   height: inherit;
+`;
+
+const PostListBottom = styled.div<PostListBottomProps>`
+  ${({ continueFetching }) =>
+    !continueFetching &&
+    `
+    display: none !important;
+  `}
 `;

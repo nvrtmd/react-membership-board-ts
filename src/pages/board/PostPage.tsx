@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Browser } from 'components/common/Browser';
 import { Button } from 'components/common/Button';
@@ -17,6 +17,7 @@ import { board } from 'api/board';
 import { auth } from 'api/auth';
 import { CommentForm } from 'components/board/CommentForm';
 import { member } from 'api/member';
+import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
 
 interface FunctionButtonsProps {
   postIdx: string;
@@ -28,15 +29,29 @@ interface FunctionButtonProps {
   children: React.ReactNode;
 }
 
+interface CommentListBottomProps {
+  continueFetching: boolean;
+}
+
 export const PostPage = () => {
   const [currentUserData, setCurrentUserData] = useState<Member>();
   const [postData, setPostData] = useState<Post>();
-  const [commentList, setCommentList] = useState<Comment[]>();
+  const [commentList, setCommentList] = useState<Comment[]>([]);
+  const [continueFetching, setContinueFetching] = useState<boolean>(true);
+  const [commentListPage, setCommentListPage] = useState<number>(0);
   const {
     inputValue: comment,
     handleInputChange: handleCommentChange,
     handleResetInput: handleCommentReset,
   } = useInput('');
+  const intersectRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const { isIntersect } = useIntersectionObserver(intersectRef, {
+    root: rootRef.current,
+    rootMargin: '50px',
+    threshold: 0.01,
+  });
+  const COUNT = 5;
   const params = useParams();
   const navigate = useNavigate();
 
@@ -44,6 +59,20 @@ export const PostPage = () => {
     fetchPostData();
     fetchUserData();
   }, []);
+
+  useEffect(() => {
+    if (continueFetching) {
+      fetchCommentList();
+    }
+  }, [commentListPage]);
+
+  useEffect(() => {
+    if (isIntersect && commentListPage >= 0) {
+      setCommentListPage((prev) => {
+        return prev + COUNT;
+      });
+    }
+  }, [isIntersect]);
 
   const fetchUserData = async () => {
     try {
@@ -59,7 +88,6 @@ export const PostPage = () => {
       if (params.postIdx) {
         const fetchedData = await board.getPostData(params.postIdx);
         setPostData(fetchedData);
-        setCommentList(fetchedData.comments);
       } else {
         alert('게시글이 존재하지 않습니다.');
         navigate(-1);
@@ -72,8 +100,31 @@ export const PostPage = () => {
     }
   };
 
-  const handleCommentListRefresh = async (newCommentList: Comment[]) => {
-    setCommentList(newCommentList);
+  const fetchCommentList = async () => {
+    try {
+      if (params.postIdx) {
+        const fetchedData = await board.getCommentList(params.postIdx, commentListPage, COUNT);
+        if (fetchedData.length === 0) {
+          setContinueFetching(false);
+          return;
+        }
+        setCommentList((prev) => [...prev, ...fetchedData]);
+      } else {
+        alert('게시글이 존재하지 않습니다.');
+        navigate(-1);
+      }
+    } catch (err) {
+      const error = err as CustomError;
+      alert(error.message);
+      navigate('/');
+      return;
+    }
+  };
+
+  const handleCommentListRefresh = async () => {
+    setCommentList([]);
+    setCommentListPage(0);
+    setContinueFetching(true);
   };
 
   const handleCommentFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -86,8 +137,7 @@ export const PostPage = () => {
       }
       if (params.postIdx) {
         await board.createComment(params.postIdx, { contents: comment });
-        const fetchedData = await board.getPostData(params.postIdx);
-        handleCommentListRefresh(fetchedData.comments);
+        handleCommentListRefresh();
       }
     } catch (err) {
       const error = err as CustomError;
@@ -100,7 +150,7 @@ export const PostPage = () => {
   return (
     <Layout>
       <BrowserWrapper>
-        <Browser>
+        <Browser ref={rootRef}>
           <PostContainer>
             {postData && (
               <div>
@@ -137,6 +187,9 @@ export const PostPage = () => {
                 ) : (
                   <NoComment />
                 )}
+                <CommentListBottom continueFetching={continueFetching} ref={intersectRef}>
+                  Loading...
+                </CommentListBottom>
               </CommentList>
             </CommentContainer>
           </PostContainer>
@@ -265,3 +318,11 @@ export const CommentContainer = styled.div`
 `;
 
 const CommentList = styled.div``;
+
+const CommentListBottom = styled.div<CommentListBottomProps>`
+  ${({ continueFetching }) =>
+    !continueFetching &&
+    `
+    display: none !important;
+  `}
+`;
