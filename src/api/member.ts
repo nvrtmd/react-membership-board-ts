@@ -19,7 +19,7 @@ const member = {
       if (start >= 0 && count >= 0) {
         memberPostsData = await axios.get(`/member/posts?start=${start}&count=${count}`, { withCredentials: true });
       } else {
-        memberPostsData = await axios.get(`/post/list`, { withCredentials: true });
+        memberPostsData = await axios.get(`/member/posts`, { withCredentials: true });
       }
       return memberPostsData.data.data;
     } catch {
