@@ -44,7 +44,7 @@ export const SideNavBar = () => {
         route="/member/posts"
       />
       <NavItem
-        name="My page"
+        name="My Page"
         image={CommentImg}
         handleClick={() => handleNavItemClick('My page')}
         isClicked={clickedNavItem === 'My page'}

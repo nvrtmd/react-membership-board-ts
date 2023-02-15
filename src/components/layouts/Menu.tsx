@@ -6,6 +6,11 @@ import PowerImg from 'assets/power_img.png';
 import SourceCodeImg from 'assets/source_code_img.png';
 import SignupImg from 'assets/sign_up_img.png';
 import SigninImg from 'assets/sign_in_img.png';
+import BoardImg from 'assets/internet_img.png';
+import DocumentImg from 'assets/document_img.png';
+import CommentImg from 'assets/comment_img.png';
+import AboutImg from 'assets/about_img.png';
+import HomeImg from 'assets/home_img.png';
 import { auth } from 'api/auth';
 import { CustomError } from 'global/types';
 
@@ -52,33 +57,55 @@ export const Menu = memo(({ menuRef, startButtonClickHandler }: MenuProps) => {
     <MenuContainer ref={menuRef}>
       <MenuTitle>Yuzamin97</MenuTitle>
       <MenuWrapper>
-        <MenuBox>
+        <OptionalMenuBox onClick={() => navigate('/board/list')}>
+          <MenuImage src={BoardImg} />
+          <div>Board</div>
+        </OptionalMenuBox>
+        {isCurrentUserSignedIn ? (
+          <>
+            <OptionalMenuBox onClick={() => navigate('/member/posts')}>
+              <MenuImage src={DocumentImg} />
+              <div>My Posts</div>
+            </OptionalMenuBox>
+            <OptionalMenuBox onClick={() => navigate('/member/info')}>
+              <MenuImage src={CommentImg} />
+              <div>My Page</div>
+            </OptionalMenuBox>
+            <DefaultMenuBox onClick={handleSignOutMenuClick}>
+              <MenuImage src={SigninImg} />
+              <div>Sign Out</div>
+            </DefaultMenuBox>
+          </>
+        ) : (
+          <>
+            <DefaultMenuBox onClick={() => navigate('/auth/signup')}>
+              <SignupImage src={SignupImg} />
+              <div>Sign Up</div>
+            </DefaultMenuBox>
+            <DefaultMenuBox onClick={() => navigate('/auth/signin')}>
+              <MenuImage src={SigninImg} />
+              <div>Sign In</div>
+            </DefaultMenuBox>
+          </>
+        )}
+        <OptionalMenuBox onClick={() => navigate('/')}>
+          <MenuImage src={HomeImg} />
+          <div>Home</div>
+        </OptionalMenuBox>
+        <OptionalMenuBox onClick={() => navigate('/about')}>
+          <MenuImage src={AboutImg} />
+          <div>About</div>
+        </OptionalMenuBox>
+        <DefaultMenuBox>
           <MenuImage src={SourceCodeImg} alt="source_code_image" />
           <a href="https://github.com/nvrtmd/react-membership-board-ts" target="_blank">
             Source Code
           </a>
-        </MenuBox>
-        {isCurrentUserSignedIn ? (
-          <MenuBox onClick={handleSignOutMenuClick}>
-            <MenuImage src={SigninImg} />
-            <div>Sign Out</div>
-          </MenuBox>
-        ) : (
-          <>
-            <MenuBox onClick={() => navigate('/auth/signup')}>
-              <SignupImage src={SignupImg} />
-              <div>Sign Up</div>
-            </MenuBox>
-            <MenuBox onClick={() => navigate('/auth/signin')}>
-              <MenuImage src={SigninImg} />
-              <div>Sign In</div>
-            </MenuBox>
-          </>
-        )}
-        <MenuBox onClick={handleShutdownMenuClick}>
+        </DefaultMenuBox>
+        <DefaultMenuBox onClick={handleShutdownMenuClick}>
           <MenuImage src={PowerImg} />
           <div>Shut Down</div>
-        </MenuBox>
+        </DefaultMenuBox>
       </MenuWrapper>
     </MenuContainer>
   );
@@ -106,13 +133,24 @@ const MenuTitle = styled.div`
 
 const MenuWrapper = styled.div``;
 
-const MenuBox = styled.div`
+const DefaultMenuBox = styled.div`
   padding: 10px 13px;
   display: flex;
   align-items: center;
   border: 1px black solid;
   &:hover {
     background: ${theme.color.navy};
+    color: ${theme.color.white};
+  }
+  &:hover > a {
+    cursor: url('https://user-images.githubusercontent.com/67324487/215111447-c34d9bfb-4914-4f4b-a636-e3b7ac6757a8.png'),
+      auto;
+  }
+`;
+
+const OptionalMenuBox = styled(DefaultMenuBox)`
+  @media screen and (min-width: 250px) {
+    display: none !important;
   }
 `;
 
