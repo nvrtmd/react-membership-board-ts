@@ -55,7 +55,7 @@ export const MyPostsPage = () => {
   return (
     <Layout>
       <BrowserWrapper>
-        <Browser>
+        <Browser ref={rootRef}>
           <ListWrapper>
             {postList && postList.length > 0 ? (
               postList.map((post) => <PostItem data={post} clickHandler={moveToPost} key={post.post_idx} />)
