@@ -34,7 +34,7 @@ export const MyPostsPage = () => {
   }, [postListPage]);
 
   useEffect(() => {
-    if (isIntersect && postListPage >= 0) {
+    if (isIntersect && postList.length && postListPage >= 0) {
       setPostListPage((prev) => {
         return prev + COUNT;
       });
