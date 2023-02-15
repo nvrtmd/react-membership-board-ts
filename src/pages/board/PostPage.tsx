@@ -46,7 +46,7 @@ export const PostPage = () => {
   } = useInput('');
   const intersectRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
-  const commentListTop = useRef<HTMLDivElement>(null);
+  const commentContainerTop = useRef<HTMLDivElement>(null);
   const { isIntersect } = useIntersectionObserver(intersectRef, {
     root: rootRef.current,
     rootMargin: '50px',
@@ -130,7 +130,7 @@ export const PostPage = () => {
     }
     setCommentList([]);
     setContinueFetching(true);
-    commentListTop.current?.scrollIntoView({
+    commentContainerTop.current?.scrollIntoView({
       behavior: 'smooth',
     });
   };
@@ -179,6 +179,7 @@ export const PostPage = () => {
                 <FunctionButtons postIdx={String(postData.post_idx)} />
               </div>
             )}
+            <div ref={commentContainerTop}></div>
             <CommentContainer>
               <CommentForm
                 submitHandler={handleCommentFormSubmit}
@@ -187,7 +188,6 @@ export const PostPage = () => {
                 formTitle="Comments"
               />
               <CommentList>
-                <div ref={commentListTop}></div>
                 {commentList && commentList.length > 0 ? (
                   commentList.map((comment) => (
                     <CommentItem
