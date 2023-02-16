@@ -36,4 +36,7 @@ const TextAreaBox = styled.textarea`
   height: 100%;
   font-size: 1.2rem;
   font-family: DungGeunMo;
+  &:focus {
+    background: ${theme.color.white};
+  }
 `;
