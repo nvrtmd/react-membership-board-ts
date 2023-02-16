@@ -204,7 +204,10 @@ export const PostPage = () => {
                       key={comment.comment_idx}
                       data={comment}
                       commentListRefreshHandler={handleCommentListRefresh}
-                      isCommentWriter={comment.comment_writer.member_id === currentUserData?.id}
+                      isCommentWriter={useMemo(
+                        () => currentUserData?.id === comment.comment_writer.member_id,
+                        [currentUserData, comment.comment_writer.member_id],
+                      )}
                     />
                   ))
                 ) : (
