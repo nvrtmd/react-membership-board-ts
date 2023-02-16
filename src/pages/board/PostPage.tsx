@@ -123,7 +123,7 @@ export const PostPage = () => {
     }
   };
 
-  const handleCommentListRefresh = async () => {
+  const handleCommentListRefresh = useCallback(() => {
     if (commentListPage > 0) {
       setCommentListPage(0);
     } else {
@@ -134,7 +134,7 @@ export const PostPage = () => {
     postContainerTop.current?.scrollIntoView({
       behavior: 'smooth',
     });
-  };
+  }, [commentListPage, commentList]);
 
   const handleCommentFormSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
