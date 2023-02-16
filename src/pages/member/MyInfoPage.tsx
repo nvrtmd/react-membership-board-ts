@@ -46,12 +46,7 @@ export const MyInfoPage = () => {
   }, []);
 
   const isMemberInfoModifyFormInputValid = () => {
-    if (idState.isValid && nicknameState.isValid) {
-      return true;
-    } else {
-      alert('입력하신 내용을 확인해주세요.');
-      return false;
-    }
+    return idState.isValid && nicknameState.isValid;
   };
 
   const handleMemberInfoModifyFormSubmit = useCallback(
@@ -68,6 +63,8 @@ export const MyInfoPage = () => {
           alert(error.message);
           return;
         }
+      } else {
+        alert('입력하신 내용이 올바른지 확인해주세요.');
       }
     },
     [idState.isValid, nicknameState.isValid],
