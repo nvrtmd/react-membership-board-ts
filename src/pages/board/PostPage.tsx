@@ -21,6 +21,7 @@ import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
 
 interface FunctionButtonsProps {
   postIdx: string;
+  isPostWriter: boolean;
 }
 
 interface FunctionButtonProps {
@@ -34,7 +35,7 @@ interface CommentListBottomProps {
 }
 
 export const PostPage = () => {
-  const [currentUserData, setCurrentUserData] = useState<Member>();
+  const [currentUserData, setCurrentUserData] = useState<Member | null>(null);
   const [postData, setPostData] = useState<Post>();
   const [commentList, setCommentList] = useState<Comment[]>([]);
   const [continueFetching, setContinueFetching] = useState<boolean>(true);
@@ -46,7 +47,7 @@ export const PostPage = () => {
   } = useInput('');
   const intersectRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
-  const commentContainerTop = useRef<HTMLDivElement>(null);
+  const postContainerTop = useRef<HTMLDivElement>(null);
   const { isIntersect } = useIntersectionObserver(intersectRef, {
     root: rootRef.current,
     rootMargin: '50px',
@@ -130,7 +131,7 @@ export const PostPage = () => {
     }
     setCommentList([]);
     setContinueFetching(true);
-    commentContainerTop.current?.scrollIntoView({
+    postContainerTop.current?.scrollIntoView({
       behavior: 'smooth',
     });
   };
@@ -163,6 +164,7 @@ export const PostPage = () => {
     <Layout>
       <BrowserWrapper>
         <Browser ref={rootRef}>
+          <div ref={postContainerTop}></div>
           <PostContainer>
             {postData && (
               <div>
@@ -176,10 +178,12 @@ export const PostPage = () => {
                   </PostUpdatedDate>
                 </PostHeader>
                 <PostBody>{postData.post_contents}</PostBody>
-                <FunctionButtons postIdx={String(postData.post_idx)} />
+                <FunctionButtons
+                  postIdx={String(postData.post_idx)}
+                  isPostWriter={currentUserData?.id === postData.post_writer.member_id}
+                />
               </div>
             )}
-            <div ref={commentContainerTop}></div>
             <CommentContainer>
               <CommentForm
                 submitHandler={handleCommentFormSubmit}
@@ -212,7 +216,7 @@ export const PostPage = () => {
   );
 };
 
-const FunctionButtons = ({ postIdx }: FunctionButtonsProps) => {
+const FunctionButtons = ({ postIdx, isPostWriter }: FunctionButtonsProps) => {
   const navigate = useNavigate();
   const params = useParams();
   const location = useLocation();
@@ -257,12 +261,16 @@ const FunctionButtons = ({ postIdx }: FunctionButtonsProps) => {
 
   return (
     <FunctionButtonsWrapper>
-      <FunctionButton handleFunctionButtonRestore={() => handleFunctionButtonRestore('Delete')} name="Delete">
-        <FunctionButtonImage src={DeletePostImg} />
-      </FunctionButton>
-      <FunctionButton handleFunctionButtonRestore={() => handleFunctionButtonRestore('Modify')} name="Modify">
-        <FunctionButtonImage src={ModifyPostImg} />
-      </FunctionButton>
+      {isPostWriter && (
+        <>
+          <FunctionButton handleFunctionButtonRestore={() => handleFunctionButtonRestore('Delete')} name="Delete">
+            <FunctionButtonImage src={DeletePostImg} />
+          </FunctionButton>
+          <FunctionButton handleFunctionButtonRestore={() => handleFunctionButtonRestore('Modify')} name="Modify">
+            <FunctionButtonImage src={ModifyPostImg} />
+          </FunctionButton>
+        </>
+      )}
       <FunctionButton handleFunctionButtonRestore={() => handleFunctionButtonRestore('List')} name="List">
         <FunctionButtonImage src={BackToPostListImg} />
       </FunctionButton>
