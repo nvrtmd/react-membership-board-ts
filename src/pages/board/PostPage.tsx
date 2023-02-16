@@ -190,6 +190,7 @@ export const PostPage = () => {
                 commentValue={comment}
                 commentChangeHandler={handleCommentChange}
                 formTitle="Comments"
+                isDisabled={currentUserData === null}
               />
               <CommentList>
                 {commentList && commentList.length > 0 ? (
