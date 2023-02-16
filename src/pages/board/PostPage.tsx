@@ -136,29 +136,32 @@ export const PostPage = () => {
     });
   };
 
-  const handleCommentFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      await auth.isSignedIn();
-      if (comment.length <= 0) {
-        alert('내용을 작성하세요.');
+  const handleCommentFormSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      try {
+        await auth.isSignedIn();
+        if (comment.length <= 0) {
+          alert('내용을 작성하세요.');
+          return;
+        }
+        if (params.postIdx) {
+          await board.createComment(params.postIdx, { contents: comment });
+          if (commentList.length === 0) {
+            fetchCommentList();
+          } else {
+            handleCommentListRefresh();
+          }
+        }
+      } catch (err) {
+        const error = err as CustomError;
+        alert(error.message);
         return;
       }
-      if (params.postIdx) {
-        await board.createComment(params.postIdx, { contents: comment });
-        if (commentList.length === 0) {
-          fetchCommentList();
-        } else {
-          handleCommentListRefresh();
-        }
-      }
-    } catch (err) {
-      const error = err as CustomError;
-      alert(error.message);
-      return;
-    }
-    handleCommentReset();
-  };
+      handleCommentReset();
+    },
+    [comment, commentList, params.postIdx, handleCommentListRefresh, handleCommentReset],
+  );
 
   const isPostWriter = useMemo(
     () => currentUserData?.id === postData?.post_writer.member_id,
