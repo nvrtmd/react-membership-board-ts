@@ -1,14 +1,24 @@
 import styled from 'styled-components/macro';
+import { theme } from 'styles/theme';
 
 interface TextAreaProps {
   placeholder: string;
   name: string;
   changeHandler: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   value: string | number;
+  isDisabled?: boolean;
 }
 
-export const TextArea = ({ placeholder, name, changeHandler, value }: TextAreaProps) => {
-  return <TextAreaBox name={name} placeholder={placeholder} onChange={changeHandler} value={value} />;
+export const TextArea = ({ placeholder, name, changeHandler, value, isDisabled }: TextAreaProps) => {
+  return (
+    <TextAreaBox
+      name={name}
+      placeholder={isDisabled ? 'Only signed in users can post comment' : placeholder}
+      onChange={changeHandler}
+      value={value}
+      disabled={isDisabled}
+    />
+  );
 };
 
 const TextAreaBox = styled.textarea`
@@ -18,6 +28,7 @@ const TextAreaBox = styled.textarea`
   outline: none;
   resize: none;
   background: none;
+  background: ${theme.color.lightGrey};
   box-shadow: 2px 2px 0px 0px #808080 inset, -2px -2px 0px 0px #dfdfdf inset;
   -webkit-box-shadow: 2px 2px 0px 0px #808080 inset, -2px -2px 0px 0px #dfdfdf inset;
   -moz-box-shadow: 2px 2px 0px 0px #808080 inset, -2px -2px 0px 0px #dfdfdf inset;
