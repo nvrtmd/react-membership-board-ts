@@ -7,13 +7,15 @@ interface ButtonProps {
   name?: string;
   children?: React.ReactNode;
   type: 'button' | 'submit' | 'reset';
+  isDisabled?: boolean;
 }
 
 interface ButtonWrapperProps {
   isPushed: boolean;
+  isDisabled?: boolean;
 }
 
-export const Button = memo(({ pushHandler, restoreHandler, name, children, type }: ButtonProps) => {
+export const Button = memo(({ pushHandler, restoreHandler, name, children, type, isDisabled }: ButtonProps) => {
   const [isPushed, setIsPushed] = useState<boolean>(false);
 
   const handleButtonPush = () => {
@@ -40,6 +42,7 @@ export const Button = memo(({ pushHandler, restoreHandler, name, children, type 
       onMouseUp={handleButtonRestore}
       onMouseOut={handleButtonMouseOut}
       type={type}
+      disabled={isDisabled}
     >
       {children}
       {name}
@@ -60,6 +63,13 @@ const ButtonWrapper = styled.button<ButtonWrapperProps>`
   box-shadow: 3px 3px 0px 0px #dfdfdf inset, -3px -3px 0px 0px #808080 inset;
   -webkit-box-shadow: 3px 3px 0px 0px #dfdfdf inset, -3px -3px 0px 0px #808080 inset;
   -moz-box-shadow: 3px 3px 0px 0px #dfdfdf inset, -3px -3px 0px 0px #808080 inset;
+  ${({ disabled }) =>
+    disabled &&
+    `
+    box-shadow: 3px 3px 0px 0px #808080 inset, -3px -3px 0px 0px #dfdfdf inset;
+    -webkit-box-shadow: 3px 3px 0px 0px #808080 inset, -3px -3px 0px 0px #dfdfdf inset;
+    -moz-box-shadow: 3px 3px 0px 0px #808080 inset, -3px -3px 0px 0px #dfdfdf inset;
+  `}
   ${({ isPushed }) =>
     isPushed &&
     `

@@ -10,6 +10,7 @@ interface CommentFormProps {
   formTitle?: string;
   type?: string;
   commentModifyCancelHandler?: () => void;
+  isDisabled?: boolean;
 }
 
 export const CommentForm = ({
@@ -19,6 +20,7 @@ export const CommentForm = ({
   formTitle,
   type,
   commentModifyCancelHandler,
+  isDisabled,
 }: CommentFormProps) => {
   return (
     <Form onSubmit={submitHandler}>
@@ -33,13 +35,14 @@ export const CommentForm = ({
           name="comment"
           changeHandler={commentChangeHandler}
           value={commentValue}
+          isDisabled={isDisabled}
         />
       </ContentsWrapper>
       <ButtonWrapper>
         {type === 'commentModifyForm' && (
           <Button name="Cancel" type="button" restoreHandler={commentModifyCancelHandler} />
         )}
-        <Button name="Write" type="submit" />
+        <Button name="Write" type="submit" isDisabled={isDisabled} />
       </ButtonWrapper>
     </Form>
   );
