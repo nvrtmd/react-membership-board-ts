@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Browser } from 'components/common/Browser';
 import { Button } from 'components/common/Button';
@@ -160,6 +160,11 @@ export const PostPage = () => {
     handleCommentReset();
   };
 
+  const isPostWriter = useMemo(
+    () => currentUserData?.id === postData?.post_writer.member_id,
+    [currentUserData, postData?.post_writer.member_id],
+  );
+
   return (
     <Layout>
       <BrowserWrapper>
@@ -178,10 +183,7 @@ export const PostPage = () => {
                   </PostUpdatedDate>
                 </PostHeader>
                 <PostBody>{postData.post_contents}</PostBody>
-                <FunctionButtons
-                  postIdx={String(postData.post_idx)}
-                  isPostWriter={currentUserData?.id === postData.post_writer.member_id}
-                />
+                <FunctionButtons postIdx={String(postData.post_idx)} isPostWriter={isPostWriter} />
               </div>
             )}
             <CommentContainer>
