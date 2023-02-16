@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { Browser } from 'components/common/Browser';
@@ -54,27 +54,30 @@ export const MyInfoPage = () => {
     }
   };
 
-  const handleMemberInfoModifyFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (isMemberInfoModifyFormInputValid()) {
-      try {
-        await member.modifyMemberInfo({ id: idState.value, nickname: nicknameState.value });
-        alert('회원 정보가 수정되었습니다.');
-        handleIsModifyModeToggle();
-        fetchMemberData();
-      } catch (err) {
-        const error = err as CustomError;
-        alert(error.message);
-        return;
+  const handleMemberInfoModifyFormSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (isMemberInfoModifyFormInputValid()) {
+        try {
+          await member.modifyMemberInfo({ id: idState.value, nickname: nicknameState.value });
+          alert('회원 정보가 수정되었습니다.');
+          handleIsModifyModeToggle();
+          fetchMemberData();
+        } catch (err) {
+          const error = err as CustomError;
+          alert(error.message);
+          return;
+        }
       }
-    }
-  };
+    },
+    [idState.isValid, nicknameState.isValid],
+  );
 
-  const handleIsModifyModeToggle = () => {
+  const handleIsModifyModeToggle = useCallback(() => {
     setIsModifyMode((prev) => !prev);
-  };
+  }, []);
 
-  const handleDeleteAccountButtonClick = async () => {
+  const handleDeleteAccountButtonClick = useCallback(async () => {
     try {
       if (confirm('정말로 탈퇴하시겠습니까?')) {
         await member.deleteAccount();
@@ -86,7 +89,7 @@ export const MyInfoPage = () => {
       const error = err as CustomError;
       alert(error.message);
     }
-  };
+  }, []);
 
   return (
     <Layout>
