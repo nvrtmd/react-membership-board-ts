@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -20,7 +20,7 @@ interface NavItemContentProps {
   isClicked: boolean;
 }
 
-export const SideNavBar = () => {
+export const SideNavBar = memo(() => {
   const [clickedNavItem, setClickedNavItem] = useState('');
 
   const handleNavItemClick = (navItemName: string) => {
@@ -66,7 +66,7 @@ export const SideNavBar = () => {
       />
     </Wrapper>
   );
-};
+});
 
 const NavItem = ({ name, image, handleClick, isClicked, route }: NavItemProps) => {
   const navigate = useNavigate();
