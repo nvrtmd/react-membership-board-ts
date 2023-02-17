@@ -149,7 +149,7 @@ const DefaultMenuBox = styled.div`
 `;
 
 const OptionalMenuBox = styled(DefaultMenuBox)`
-  @media screen and (min-width: 250px) {
+  @media screen and (min-width: ${theme.breakpoint.mobile}) {
     display: none !important;
   }
 `;
