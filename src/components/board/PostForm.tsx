@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import styled from 'styled-components/macro';
 import { Input } from 'components/common/Input';
 import { TextArea } from 'components/common/TextArea';
@@ -14,46 +14,48 @@ interface PostFormProps {
   cancelButtonClickHandler: () => void;
 }
 
-export const PostForm = ({
-  submitHandler,
-  formTitle,
-  titleValue,
-  titleChangeHandler,
-  contentsValue,
-  contentsChangeHandler,
-  cancelButtonClickHandler,
-}: PostFormProps) => {
-  const formTitleComponent = useMemo(() => <FormTitle>{formTitle}</FormTitle>, []);
-  return (
-    <Form onSubmit={submitHandler}>
-      {formTitleComponent}
-      <Input
-        name="title"
-        type="title"
-        value={titleValue}
-        changeHandler={titleChangeHandler}
-        placeholder="Write your title"
-      />
-      {useMemo(
-        () => (
-          <ContentsWrapper>
-            <TextArea
-              placeholder="Write your contents"
-              name="contents"
-              changeHandler={contentsChangeHandler}
-              value={contentsValue}
-            />
-          </ContentsWrapper>
-        ),
-        [contentsValue],
-      )}
-      <ButtonWrapper>
-        <Button name="Create" type="submit" />
-        <Button name="Cancel" type="button" restoreHandler={cancelButtonClickHandler} />
-      </ButtonWrapper>
-    </Form>
-  );
-};
+export const PostForm = memo(
+  ({
+    submitHandler,
+    formTitle,
+    titleValue,
+    titleChangeHandler,
+    contentsValue,
+    contentsChangeHandler,
+    cancelButtonClickHandler,
+  }: PostFormProps) => {
+    const formTitleComponent = useMemo(() => <FormTitle>{formTitle}</FormTitle>, []);
+    return (
+      <Form onSubmit={submitHandler}>
+        {formTitleComponent}
+        <Input
+          name="title"
+          type="title"
+          value={titleValue}
+          changeHandler={titleChangeHandler}
+          placeholder="Write your title"
+        />
+        {useMemo(
+          () => (
+            <ContentsWrapper>
+              <TextArea
+                placeholder="Write your contents"
+                name="contents"
+                changeHandler={contentsChangeHandler}
+                value={contentsValue}
+              />
+            </ContentsWrapper>
+          ),
+          [contentsValue],
+        )}
+        <ButtonWrapper>
+          <Button name="Create" type="submit" />
+          <Button name="Cancel" type="button" restoreHandler={cancelButtonClickHandler} />
+        </ButtonWrapper>
+      </Form>
+    );
+  },
+);
 
 const Form = styled.form`
   width: 100%;
