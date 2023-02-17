@@ -77,9 +77,12 @@ const PostInfo = styled.div`
   color: ${theme.color.grey};
   display: flex;
   justify-content: space-between;
-  font-size: 1.2rem;
+  font-size: 1rem;
   &:hover > div {
     cursor: url('https://user-images.githubusercontent.com/67324487/215111457-633e4a12-d4ad-442a-934d-398619fd486b.png'),
       auto;
+  }
+  @media screen and (max-width: 300px) {
+    display: none;
   }
 `;
