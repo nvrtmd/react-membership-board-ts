@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { Browser } from 'components/common/Browser';
@@ -16,6 +16,20 @@ interface ValidationAlertProps {
 }
 
 export const MyInfoPage = () => {
+  return (
+    <Layout>
+      <BrowserWrapper>
+        <Browser>
+          <MemberInfoModifyFormWrapper>
+            <MemberInfoModifyForm />
+          </MemberInfoModifyFormWrapper>
+        </Browser>
+      </BrowserWrapper>
+    </Layout>
+  );
+};
+
+export const MemberInfoModifyForm = () => {
   const {
     inputState: idState,
     handleInputChange: handleIdChange,
@@ -88,62 +102,84 @@ export const MyInfoPage = () => {
     }
   }, []);
 
-  return (
-    <Layout>
-      <BrowserWrapper>
-        <Browser>
-          <MemberInfoModifyFormWrapper>
-            <MemberInfoModifyForm onSubmit={handleMemberInfoModifyFormSubmit}>
-              <MemberInfoModifyFormHeader>
-                <div>
-                  <WindowsImage src={WindowsImg} />
-                  <div>Yuzamin97</div>
-                </div>
-              </MemberInfoModifyFormHeader>
+  const formHeader = useMemo(
+    () => (
+      <>
+        <FormHeader>
+          <div>
+            <WindowsImage src={WindowsImg} />
+            <div>Yuzamin97</div>
+          </div>
+        </FormHeader>
 
-              <PageTitle>- My Info -</PageTitle>
+        <PageTitle>- My Info -</PageTitle>
+      </>
+    ),
+    [],
+  );
+
+  const formFooter = useMemo(
+    () =>
+      isModifyMode ? (
+        <ButtonWrapper>
+          <Button name="Cancel" type="button" restoreHandler={handleIsModifyModeToggle} />
+          <Button name="Modify" type="submit" />
+        </ButtonWrapper>
+      ) : (
+        <ModifyInfoButtonWrapper>
+          <div>
+            <ModifyInfoButton onClick={handleIsModifyModeToggle}>Modify Info</ModifyInfoButton>
+            <DeleteAccountButton onClick={handleDeleteAccountButtonClick}>Delete Account</DeleteAccountButton>
+          </div>
+        </ModifyInfoButtonWrapper>
+      ),
+    [isModifyMode],
+  );
+
+  const inputControlList = [
+    {
+      title: 'id',
+      value: idState.value,
+      changeHandler: handleIdChange,
+      blurHandler: handleIdBlur,
+      isValid: !idState.isValid && idState.isValid !== null,
+      alertMessage: '영문 4 ~ 12자를 입력하세요.',
+    },
+    {
+      title: 'nickname',
+      value: nicknameState.value,
+      changeHandler: handleNicknameChange,
+      blurHandler: handleNicknameBlur,
+      isValid: !nicknameState.isValid && nicknameState.isValid !== null,
+      alertMessage: '영어/숫자/한글 4~12자를 입력하세요.',
+    },
+  ];
+
+  return (
+    <Form onSubmit={handleMemberInfoModifyFormSubmit}>
+      {formHeader}
+      {inputControlList.map((input) =>
+        useMemo(
+          () => (
+            <>
               <Input
-                title="id"
-                name="id"
-                type="id"
-                value={idState.value}
-                changeHandler={handleIdChange}
-                blurHandler={handleIdBlur}
+                key={input.title}
+                title={input.title}
+                name={input.title}
+                type={input.title}
+                value={input.value}
+                changeHandler={input.changeHandler}
+                blurHandler={input.blurHandler}
                 readOnly={!isModifyMode}
               />
-              <ValidationAlert isValid={!idState.isValid && idState.isValid !== null}>
-                영문 4 ~ 12자를 입력하세요.
-              </ValidationAlert>
-              <Input
-                title="nickname"
-                name="nickname"
-                type="nickname"
-                value={nicknameState.value}
-                changeHandler={handleNicknameChange}
-                blurHandler={handleNicknameBlur}
-                readOnly={!isModifyMode}
-              />
-              <ValidationAlert isValid={!nicknameState.isValid && nicknameState.isValid !== null}>
-                영어/숫자/한글 4~12자를 입력하세요.
-              </ValidationAlert>
-              {isModifyMode ? (
-                <ButtonWrapper>
-                  <Button name="Cancel" type="button" restoreHandler={handleIsModifyModeToggle} />
-                  <Button name="Modify" type="submit" />
-                </ButtonWrapper>
-              ) : (
-                <ModifyInfoButtonWrapper>
-                  <div>
-                    <ModifyInfoButton onClick={handleIsModifyModeToggle}>Modify Info</ModifyInfoButton>
-                    <DeleteAccountButton onClick={handleDeleteAccountButtonClick}>Delete Account</DeleteAccountButton>
-                  </div>
-                </ModifyInfoButtonWrapper>
-              )}
-            </MemberInfoModifyForm>
-          </MemberInfoModifyFormWrapper>
-        </Browser>
-      </BrowserWrapper>
-    </Layout>
+              <ValidationAlert isValid={input.isValid}>{input.alertMessage}</ValidationAlert>
+            </>
+          ),
+          [input.value, input.isValid, isModifyMode],
+        ),
+      )}
+      {formFooter}
+    </Form>
   );
 };
 
@@ -159,7 +195,7 @@ const MemberInfoModifyFormWrapper = styled.div`
   padding: 0.5rem 2.5rem;
 `;
 
-const MemberInfoModifyFormHeader = styled.div`
+const FormHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -172,7 +208,7 @@ const WindowsImage = styled.img`
   margin: auto;
 `;
 
-const MemberInfoModifyForm = styled.form`
+const Form = styled.form`
   margin: auto;
   padding: 2rem 0;
 `;
