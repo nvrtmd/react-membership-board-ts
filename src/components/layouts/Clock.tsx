@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components/macro';
 import SchedulerImg from 'assets/scheduler_img.png';
 
@@ -12,9 +12,11 @@ export const Clock = () => {
     return () => clearInterval(id);
   }, []);
 
+  const schedulerImage = useMemo(() => <SchedulerImage src={SchedulerImg} />, []);
+
   return (
     <ClockWrapper>
-      <SchedulerImage src={SchedulerImg} />
+      {schedulerImage}
       {time.toLocaleTimeString('en-US', {
         hour: '2-digit',
         minute: '2-digit',
