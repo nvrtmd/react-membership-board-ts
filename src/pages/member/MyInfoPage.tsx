@@ -45,11 +45,14 @@ export const MemberInfoModifyForm = () => {
   const [isModifyMode, setIsModifyMode] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  let originalMemberData: { member_id: string; member_nickname: string };
+
   const fetchMemberData = async () => {
     try {
       const fetchedData = await member.getMemberInfo();
       handleIdSet(fetchedData.member_id);
       handleNicknameSet(fetchedData.member_nickname);
+      originalMemberData = fetchedData;
     } catch {
       console.log('비로그인 회원입니다.');
     }
@@ -88,6 +91,12 @@ export const MemberInfoModifyForm = () => {
     setIsModifyMode((prev) => !prev);
   }, []);
 
+  const handleCancelButtonClick = useCallback(() => {
+    handleIdSet(originalMemberData.member_id);
+    handleNicknameSet(originalMemberData.member_nickname);
+    handleIsModifyModeToggle();
+  }, []);
+
   const handleDeleteAccountButtonClick = useCallback(async () => {
     try {
       if (confirm('정말로 탈퇴하시겠습니까?')) {
@@ -111,7 +120,6 @@ export const MemberInfoModifyForm = () => {
             <div>Yuzamin97</div>
           </div>
         </FormHeader>
-
         <PageTitle>- My Info -</PageTitle>
       </>
     ),
@@ -122,7 +130,7 @@ export const MemberInfoModifyForm = () => {
     () =>
       isModifyMode ? (
         <ButtonWrapper>
-          <Button name="Cancel" type="button" restoreHandler={handleIsModifyModeToggle} />
+          <Button name="Cancel" type="button" restoreHandler={handleCancelButtonClick} />
           <Button name="Modify" type="submit" />
         </ButtonWrapper>
       ) : (
