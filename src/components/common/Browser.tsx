@@ -1,4 +1,4 @@
-import { useCallback, forwardRef, ForwardedRef } from 'react';
+import { useCallback, forwardRef, ForwardedRef, memo, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -14,29 +14,39 @@ interface BrowserProps {
   children?: React.ReactNode;
 }
 
-export const Browser = forwardRef(({ children }: BrowserProps, ref: ForwardedRef<HTMLDivElement>) => {
+export const Browser = memo(
+  forwardRef(({ children }: BrowserProps, ref: ForwardedRef<HTMLDivElement>) => {
+    return (
+      <Wrapper>
+        <TitleBar />
+        <MenuBar />
+        <AddressBar />
+        <Window ref={ref}>{children}</Window>
+      </Wrapper>
+    );
+  }),
+);
+
+export const MenuBar = memo(() => {
   const MENUS = ['File', 'Edit', 'View', 'Go', 'Favorite', 'Tools', 'Help'];
+  const menus = useMemo(() => MENUS.map((menu, i) => <Menu key={i}>{menu}</Menu>), []);
+
+  return <MenuBarWrapper>{menus}</MenuBarWrapper>;
+});
+
+export const TitleBar = memo(() => {
   return (
-    <Wrapper>
-      <TitleBar>
-        <Title>
-          <PageImage src={WindowPageImg} alt="window page image" />
-          {location.href}
-        </Title>
-        <ControlButtons />
-      </TitleBar>
-      <MenuBar>
-        {MENUS.map((menu, i) => (
-          <Menu key={i}>{menu}</Menu>
-        ))}
-      </MenuBar>
-      <AddressBar />
-      <Window ref={ref}>{children}</Window>
-    </Wrapper>
+    <TitleBarContainer>
+      <TitleBarWrapper>
+        <PageImage src={WindowPageImg} alt="window page image" />
+        {location.href}
+      </TitleBarWrapper>
+      <ControlButtons />
+    </TitleBarContainer>
   );
 });
 
-const ControlButtons = () => {
+const ControlButtons = memo(() => {
   const navigate = useNavigate();
   return (
     <ControlButtonsWrapper>
@@ -51,9 +61,9 @@ const ControlButtons = () => {
       </Button>
     </ControlButtonsWrapper>
   );
-};
+});
 
-const AddressBar = () => {
+const AddressBar = memo(() => {
   const navigate = useNavigate();
   const handleButtonRestore = useCallback((pageMoveButtonName: string) => {
     switch (pageMoveButtonName) {
@@ -85,7 +95,7 @@ const AddressBar = () => {
       </AddressBarBox>
     </AddressBarWrapper>
   );
-};
+});
 
 const Wrapper = styled.div`
   background: #c0c0c0;
@@ -101,7 +111,7 @@ const Wrapper = styled.div`
   -moz-box-shadow: 1.5px 1.5px 0px 0px #dfdfdf inset, -1.5px -1.5px 0px 0px #020215 inset;
 `;
 
-const TitleBar = styled.div`
+const TitleBarContainer = styled.div`
   background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
   padding: 4px 1px 3px;
   font-size: 1.2rem;
@@ -109,7 +119,7 @@ const TitleBar = styled.div`
   justify-content: space-between;
 `;
 
-const Title = styled.div`
+const TitleBarWrapper = styled.div`
   color: ${theme.color.white};
   white-space: nowrap;
   overflow: hidden;
@@ -136,7 +146,7 @@ const MinimizeImage = styled(ControlButtonImage)`
   padding: 0.8rem 0 0 0;
 `;
 
-const MenuBar = styled.div`
+const MenuBarWrapper = styled.div`
   border: 1.5px solid #8e8e8e;
   font-family: 'sans-serif';
   font-size: 0.9rem;
