@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -15,6 +16,20 @@ interface ValidationAlertProps {
 }
 
 export const SignUpPage = () => {
+  return (
+    <Layout>
+      <BrowserWrapper>
+        <Browser>
+          <SignUpFormWrapper>
+            <SignUpForm />
+          </SignUpFormWrapper>
+        </Browser>
+      </BrowserWrapper>
+    </Layout>
+  );
+};
+
+const SignUpForm = () => {
   const navigate = useNavigate();
   const { inputState: idState, handleInputChange: handleIdChange, handleInputBlur: handleIdBlur } = useValidInput('id');
   const {
@@ -51,63 +66,85 @@ export const SignUpPage = () => {
     }
   };
 
+  const formHeader = useMemo(
+    () => (
+      <>
+        <FormHeader>
+          <div>
+            <WindowsImage src={WindowsImg} />
+            <div>Yuzamin97</div>
+          </div>
+        </FormHeader>
+        <PageTitle>- Sign Up -</PageTitle>
+      </>
+    ),
+    [],
+  );
+
+  const formFooter = useMemo(
+    () => (
+      <>
+        <ButtonWrapper>
+          <Button name="Sign Up" type="submit" />
+        </ButtonWrapper>
+        <SignInButtonWrapper onClick={() => navigate('/auth/signin')}>
+          <div>Already signed up?</div>
+        </SignInButtonWrapper>
+      </>
+    ),
+    [],
+  );
+
+  const inputControlList = [
+    {
+      title: 'id',
+      value: idState.value,
+      changeHandler: handleIdChange,
+      blurHandler: handleIdBlur,
+      isValid: !idState.isValid && idState.isValid !== null,
+      alertMessage: '영문 4 ~ 12자를 입력하세요.',
+    },
+    {
+      title: 'password',
+      value: passwordState.value,
+      changeHandler: handlePasswordChange,
+      blurHandler: handlePasswordBlur,
+      isValid: !passwordState.isValid && passwordState.isValid !== null,
+      alertMessage: '숫자/특수문자 포함 8자 이상 입력하세요.',
+    },
+    {
+      title: 'nickname',
+      value: nicknameState.value,
+      changeHandler: handleNicknameChange,
+      blurHandler: handleNicknameBlur,
+      isValid: !nicknameState.isValid && nicknameState.isValid !== null,
+      alertMessage: '영어/숫자/한글 4~12자를 입력하세요.',
+    },
+  ];
   return (
-    <Layout>
-      <BrowserWrapper>
-        <Browser>
-          <SignUpFormWrapper>
-            <SignUpForm onSubmit={handleSignUpFormSubmit}>
-              <SignUpFormHeader>
-                <div>
-                  <WindowsImage src={WindowsImg} />
-                  <div>Yuzamin97</div>
-                </div>
-              </SignUpFormHeader>
-              <PageTitle>- Sign Up -</PageTitle>
+    <Form onSubmit={handleSignUpFormSubmit}>
+      {formHeader}
+      {inputControlList.map((input) =>
+        useMemo(
+          () => (
+            <>
               <Input
-                title="id"
-                name="id"
-                type="id"
-                value={idState.value}
-                changeHandler={handleIdChange}
-                blurHandler={handleIdBlur}
+                key={input.title}
+                title={input.title}
+                name={input.title}
+                type={input.title}
+                value={input.value}
+                changeHandler={input.changeHandler}
+                blurHandler={input.blurHandler}
               />
-              <ValidationAlert isValid={!idState.isValid && idState.isValid !== null}>
-                영문 4 ~ 12자를 입력하세요.
-              </ValidationAlert>
-              <Input
-                title="password"
-                name="password"
-                type="password"
-                value={passwordState.value}
-                changeHandler={handlePasswordChange}
-                blurHandler={handlePasswordBlur}
-              />
-              <ValidationAlert isValid={!passwordState.isValid && passwordState.isValid !== null}>
-                숫자/특수문자 포함 8자 이상 입력하세요.
-              </ValidationAlert>
-              <Input
-                title="nickname"
-                name="nickname"
-                type="nickname"
-                value={nicknameState.value}
-                changeHandler={handleNicknameChange}
-                blurHandler={handleNicknameBlur}
-              />
-              <ValidationAlert isValid={!nicknameState.isValid && nicknameState.isValid !== null}>
-                영어/숫자/한글 4~12자를 입력하세요.
-              </ValidationAlert>
-              <ButtonWrapper>
-                <Button name="Sign Up" type="submit" />
-              </ButtonWrapper>
-              <SignInButtonWrapper onClick={() => navigate('/auth/signin')}>
-                <div>Already signed up?</div>
-              </SignInButtonWrapper>
-            </SignUpForm>
-          </SignUpFormWrapper>
-        </Browser>
-      </BrowserWrapper>
-    </Layout>
+              <ValidationAlert isValid={input.isValid}>{input.alertMessage}</ValidationAlert>
+            </>
+          ),
+          [input.value, input.isValid],
+        ),
+      )}
+      {formFooter}
+    </Form>
   );
 };
 
@@ -123,12 +160,12 @@ const SignUpFormWrapper = styled.div`
   padding: 0.5rem 2.5rem;
 `;
 
-const SignUpForm = styled.form`
+const Form = styled.form`
   margin: auto;
   padding: 2rem 0;
 `;
 
-const SignUpFormHeader = styled.div`
+const FormHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
