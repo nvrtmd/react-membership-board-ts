@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import styled from 'styled-components/macro';
 import moment from 'moment';
 import { theme } from 'styles/theme';
@@ -8,21 +9,24 @@ interface PostItemProps {
   clickHandler: (postIdx: number) => void;
 }
 
-export const PostItem = ({ data, clickHandler }: PostItemProps) => {
+export const PostItem = memo(({ data, clickHandler }: PostItemProps) => {
   return (
     <PostWrapper onClick={() => clickHandler(data.post_idx)}>
       <PostIndex>{data.post_idx}</PostIndex>
       <PostTitle>
-        {data.post_title.substring(0, 10) + '...'} <PostCommentsCount> ({data.comments_count})</PostCommentsCount>
+        {data.post_title.length > 10 ? data.post_title.substring(0, 10) + '...' : data.post_title}
+        <PostCommentsCount> ({data.comments_count})</PostCommentsCount>
       </PostTitle>
-      <PostContents>{data.post_contents.substring(0, 10) + '...'}</PostContents>
+      <PostContents>
+        {data.post_contents.length > 10 ? data.post_contents.substring(0, 10) + '...' : data.post_contents}
+      </PostContents>
       <PostInfo>
         <div>by {data.post_writer ? data.post_writer.member_nickname : 'deleted account'}</div>
         <div>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</div>
       </PostInfo>
     </PostWrapper>
   );
-};
+});
 
 const PostWrapper = styled.div`
   border: 1px solid green;
