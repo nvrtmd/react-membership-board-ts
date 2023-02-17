@@ -48,7 +48,7 @@ export const useValidInput = (inputType: string) => {
 
   const handleInputBlur = useCallback(() => {
     dispatchInput({ actionType: 'INPUT_BLUR', value: inputState.value, inputType });
-  }, []);
+  }, [inputState.value]);
 
   const handleInputSet = useCallback((inputValue: string) => {
     dispatchInput({ actionType: 'INPUT_SET', value: inputValue, inputType });
