@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -23,11 +23,11 @@ export const Menu = memo(({ menuRef, startButtonClickHandler }: MenuProps) => {
   const navigate = useNavigate();
   const [isCurrentUserSignedIn, setIsCurrentUserSignedIn] = useState<boolean>();
 
-  const handleShutdownMenuClick = (): void => {
+  const handleShutdownMenuClick = useCallback((): void => {
     window.close();
-  };
+  }, []);
 
-  const handleSignOutMenuClick = async () => {
+  const handleSignOutMenuClick = useCallback(async () => {
     try {
       await auth.signOut();
       alert('로그아웃 되었습니다.');
@@ -38,7 +38,7 @@ export const Menu = memo(({ menuRef, startButtonClickHandler }: MenuProps) => {
       alert(error.message);
       return;
     }
-  };
+  }, []);
 
   const confirmCurrentUserSignedInState = async () => {
     try {
