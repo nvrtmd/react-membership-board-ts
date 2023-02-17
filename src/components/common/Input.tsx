@@ -12,24 +12,26 @@ interface InputProps {
   readOnly?: boolean;
 }
 
-export const Input = ({ title, name, placeholder, changeHandler, blurHandler, type, value, readOnly }: InputProps) => {
-  const inputTitle = useMemo(() => <InputTitle htmlFor={name}>{title}</InputTitle>, []);
-  return (
-    <InputWrapper>
-      {inputTitle}
-      <InputBox
-        name={name}
-        type={type}
-        id={name}
-        onChange={changeHandler}
-        onBlur={blurHandler}
-        placeholder={placeholder}
-        value={value}
-        readOnly={readOnly}
-      />
-    </InputWrapper>
-  );
-};
+export const Input = memo(
+  ({ title, name, placeholder, changeHandler, blurHandler, type, value, readOnly }: InputProps) => {
+    const inputTitle = useMemo(() => <InputTitle htmlFor={name}>{title}</InputTitle>, []);
+    return (
+      <InputWrapper>
+        {inputTitle}
+        <InputBox
+          name={name}
+          type={type}
+          id={name}
+          onChange={changeHandler}
+          onBlur={blurHandler}
+          placeholder={placeholder}
+          value={value}
+          readOnly={readOnly}
+        />
+      </InputWrapper>
+    );
+  },
+);
 
 const InputWrapper = styled.div`
   font-size: 1.2rem;

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 
@@ -14,7 +15,7 @@ interface TextAreaBoxProps {
   isComment?: boolean;
 }
 
-export const TextArea = ({ placeholder, name, changeHandler, value, isDisabled, isComment }: TextAreaProps) => {
+export const TextArea = memo(({ placeholder, name, changeHandler, value, isDisabled, isComment }: TextAreaProps) => {
   return (
     <TextAreaBox
       name={name}
@@ -25,7 +26,7 @@ export const TextArea = ({ placeholder, name, changeHandler, value, isDisabled, 
       isComment={isComment}
     />
   );
-};
+});
 
 const TextAreaBox = styled.textarea<TextAreaBoxProps>`
   cursor: url('https://user-images.githubusercontent.com/67324487/215311257-3abd7f34-8b4f-450c-a527-ed2e72801fbb.png'),
