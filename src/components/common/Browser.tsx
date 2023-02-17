@@ -14,18 +14,16 @@ interface BrowserProps {
   children?: React.ReactNode;
 }
 
-export const Browser = memo(
-  forwardRef(({ children }: BrowserProps, ref: ForwardedRef<HTMLDivElement>) => {
-    return (
-      <Wrapper>
-        <TitleBar />
-        <MenuBar />
-        <AddressBar />
-        <Window ref={ref}>{children}</Window>
-      </Wrapper>
-    );
-  }),
-);
+export const Browser = forwardRef(({ children }: BrowserProps, ref: ForwardedRef<HTMLDivElement>) => {
+  return (
+    <Wrapper>
+      <TitleBar />
+      <MenuBar />
+      <AddressBar />
+      <Window ref={ref}>{children}</Window>
+    </Wrapper>
+  );
+});
 
 export const MenuBar = memo(() => {
   const MENUS = ['File', 'Edit', 'View', 'Go', 'Favorite', 'Tools', 'Help'];
