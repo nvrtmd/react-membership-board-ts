@@ -1,4 +1,4 @@
-import { useState, memo } from 'react';
+import { useState, memo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -23,9 +23,9 @@ interface NavItemContentProps {
 export const SideNavBar = memo(() => {
   const [clickedNavItem, setClickedNavItem] = useState('');
 
-  const handleNavItemClick = (navItemName: string) => {
+  const handleNavItemClick = useCallback((navItemName: string) => {
     setClickedNavItem(navItemName);
-  };
+  }, []);
 
   return (
     <Wrapper>
@@ -71,9 +71,9 @@ export const SideNavBar = memo(() => {
 const NavItem = ({ name, image, handleClick, isClicked, route }: NavItemProps) => {
   const navigate = useNavigate();
 
-  const handleDoubleClick = () => {
+  const handleDoubleClick = useCallback(() => {
     navigate(route);
-  };
+  }, []);
 
   return (
     <NavItemBox onClick={handleClick} onDoubleClick={handleDoubleClick}>
