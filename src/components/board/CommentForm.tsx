@@ -36,6 +36,7 @@ export const CommentForm = ({
           changeHandler={commentChangeHandler}
           value={commentValue}
           isDisabled={isDisabled}
+          isComment={true}
         />
       </ContentsWrapper>
       <ButtonWrapper>
