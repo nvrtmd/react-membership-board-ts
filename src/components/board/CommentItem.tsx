@@ -15,6 +15,13 @@ interface CommentItemProps {
   commentListRefreshHandler: () => void;
 }
 
+interface CommentBodyProps {
+  data: Comment;
+  isCommentWriter: boolean;
+  commentListRefreshHandler: () => void;
+  isModifyButtonClickedToggleHandler: () => void;
+}
+
 export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }: CommentItemProps) => {
   const [isModifyButtonClicked, setIsModifyButtonClicked] = useState<boolean>(false);
   const { inputValue: modifiedComment, handleInputChange: handleModifiedCommentChange } = useInput(
@@ -46,6 +53,37 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
     handleIsModifyButtonClickedToggle();
   };
 
+  return (
+    <CommentsWrapper>
+      <CommentWriter>{data.comment_writer.member_nickname}</CommentWriter>
+      {isModifyButtonClicked ? (
+        <CommentForm
+          submitHandler={handleCommentModifyFormSubmit}
+          commentValue={modifiedComment}
+          commentChangeHandler={handleModifiedCommentChange}
+          type="commentModifyForm"
+          commentModifyCancelHandler={handleIsModifyButtonClickedToggle}
+        />
+      ) : (
+        <CommentBody
+          data={data}
+          isCommentWriter={isCommentWriter}
+          isModifyButtonClickedToggleHandler={handleIsModifyButtonClickedToggle}
+          commentListRefreshHandler={commentListRefreshHandler}
+        />
+      )}
+    </CommentsWrapper>
+  );
+};
+
+export const CommentBody = ({
+  data,
+  isCommentWriter,
+  isModifyButtonClickedToggleHandler,
+  commentListRefreshHandler,
+}: CommentBodyProps) => {
+  const params = useParams();
+
   const handleCommentDeleteButtonClick = async () => {
     try {
       await auth.isSignedIn();
@@ -65,31 +103,18 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
   };
 
   return (
-    <CommentsWrapper>
-      <CommentWriter>{data.comment_writer.member_nickname}</CommentWriter>
-      {isModifyButtonClicked ? (
-        <CommentForm
-          submitHandler={handleCommentModifyFormSubmit}
-          commentValue={modifiedComment}
-          commentChangeHandler={handleModifiedCommentChange}
-          type="commentModifyForm"
-          commentModifyCancelHandler={handleIsModifyButtonClickedToggle}
-        />
-      ) : (
-        <>
-          <CommentContents>{data.comment_contents}</CommentContents>
-          <CommentInfo>
-            <CommentUpdatedDate>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</CommentUpdatedDate>
-            {isCommentWriter && (
-              <FunctionButtons>
-                <FunctionButton onClick={handleIsModifyButtonClickedToggle}>Modify</FunctionButton>&nbsp;
-                <FunctionButton onClick={handleCommentDeleteButtonClick}>Delete</FunctionButton>
-              </FunctionButtons>
-            )}
-          </CommentInfo>
-        </>
-      )}
-    </CommentsWrapper>
+    <>
+      <CommentContents>{data.comment_contents}</CommentContents>
+      <CommentInfo>
+        <CommentUpdatedDate>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</CommentUpdatedDate>
+        {isCommentWriter && (
+          <FunctionButtons>
+            <FunctionButton onClick={isModifyButtonClickedToggleHandler}>Modify</FunctionButton>&nbsp;
+            <FunctionButton onClick={handleCommentDeleteButtonClick}>Delete</FunctionButton>
+          </FunctionButtons>
+        )}
+      </CommentInfo>
+    </>
   );
 };
 
