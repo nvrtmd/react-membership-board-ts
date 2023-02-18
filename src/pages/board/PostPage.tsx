@@ -41,6 +41,14 @@ interface CommentAreaProps {
   postContainerTopRef: React.RefObject<HTMLDivElement>;
 }
 
+interface CommentListProps {
+  data: Comment[];
+  commentListRefreshHandler: () => void;
+  currentUserData: Member | null;
+  continueFetching: boolean;
+  intersectRef: React.RefObject<HTMLDivElement>;
+}
+
 interface CommentListBottomProps {
   continueFetching: boolean;
 }
@@ -298,13 +306,27 @@ const CommentArea = memo(({ currentUserData, rootRef, postContainerTopRef }: Com
         formTitle="Comments"
         isDisabled={currentUserData === null}
       />
-      <CommentList>
-        {commentList && commentList.length > 0 ? (
-          commentList.map((comment) => (
+      <CommentList
+        data={commentList}
+        commentListRefreshHandler={handleCommentListRefresh}
+        currentUserData={currentUserData}
+        continueFetching={continueFetching}
+        intersectRef={intersectRef}
+      />
+    </CommentWrapper>
+  );
+});
+
+const CommentList = memo(
+  ({ data, commentListRefreshHandler, currentUserData, continueFetching, intersectRef }: CommentListProps) => {
+    return (
+      <>
+        {data && data.length > 0 ? (
+          data.map((comment) => (
             <CommentItem
               key={comment.comment_idx}
               data={comment}
-              commentListRefreshHandler={handleCommentListRefresh}
+              commentListRefreshHandler={commentListRefreshHandler}
               isCommentWriter={comment.comment_writer.member_id === currentUserData?.id}
             />
           ))
@@ -314,10 +336,10 @@ const CommentArea = memo(({ currentUserData, rootRef, postContainerTopRef }: Com
         <CommentListBottom continueFetching={continueFetching} ref={intersectRef}>
           Loading...
         </CommentListBottom>
-      </CommentList>
-    </CommentWrapper>
-  );
-});
+      </>
+    );
+  },
+);
 
 const BrowserWrapper = styled.div`
   display: flex;
@@ -370,8 +392,6 @@ export const CommentWrapper = styled.div`
   padding: 1rem 0 0;
   margin-top: 2rem;
 `;
-
-const CommentList = styled.div``;
 
 const CommentListBottom = styled.div<CommentListBottomProps>`
   ${({ continueFetching }) =>
