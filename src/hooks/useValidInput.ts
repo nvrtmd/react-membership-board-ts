@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, useCallback } from 'react';
 import { validator } from 'utils/validation';
 
 interface State {
@@ -35,20 +35,24 @@ const initialState: State = {
 export const useValidInput = (inputType: string) => {
   const [inputState, dispatchInput] = useReducer(inputReducer, initialState);
 
-  const handleResetInput = () => {
+  const handleResetInput = useCallback(() => {
     dispatchInput({ actionType: 'INPUT_RESET', value: '', inputType });
-  };
+  }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>) => {
-    dispatchInput({ actionType: 'INPUT_CHANGE', value: e.target.value, inputType });
-  };
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>) => {
+      dispatchInput({ actionType: 'INPUT_CHANGE', value: e.target.value, inputType });
+    },
+    [],
+  );
 
-  const handleInputBlur = () => {
+  const handleInputBlur = useCallback(() => {
     dispatchInput({ actionType: 'INPUT_BLUR', value: inputState.value, inputType });
-  };
-  const handleInputSet = (inputValue: string) => {
+  }, [inputState.value]);
+
+  const handleInputSet = useCallback((inputValue: string) => {
     dispatchInput({ actionType: 'INPUT_SET', value: inputValue, inputType });
-  };
+  }, []);
 
   return { inputState, handleInputBlur, handleResetInput, handleInputChange, handleInputSet };
 };

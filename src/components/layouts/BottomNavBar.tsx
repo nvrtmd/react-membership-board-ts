@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, memo } from 'react';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import StartImg from 'assets/start_img.png';
@@ -6,7 +6,7 @@ import { PushLockButton } from 'components/common/PushLockButton';
 import { Menu } from './Menu';
 import { Clock } from './Clock';
 
-export const BottomNavBar = () => {
+export const BottomNavBar = memo(() => {
   const [isPushed, setIsPushed] = useState<boolean>(false);
   const startButtonRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -51,7 +51,7 @@ export const BottomNavBar = () => {
       </Wrapper>
     </>
   );
-};
+});
 
 const Wrapper = styled.nav`
   display: flex;

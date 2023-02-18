@@ -15,19 +15,20 @@ const layout = {
 };
 
 const breakpoint = {
-  desktop: 1440,
-  tablet: 768,
-  mobile: 425,
+  desktop: '1440px',
+  tablet: '768px',
+  mobile: '425px',
 };
 
 const device = {
-  desktop: `(max-width: ${breakpoint.desktop}px)`,
-  tablet: `(max-width: ${breakpoint.tablet}px)`,
-  mobile: `(max-width: ${breakpoint.mobile}px)`,
+  desktop: `(max-width: ${breakpoint.desktop})`,
+  tablet: `(max-width: ${breakpoint.tablet})`,
+  mobile: `(max-width: ${breakpoint.mobile})`,
 };
 
 export const theme = {
   color,
   layout,
   device,
+  breakpoint,
 };

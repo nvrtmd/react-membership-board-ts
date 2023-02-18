@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { Browser } from 'components/common/Browser';
@@ -42,28 +42,25 @@ export const ModifyPage = () => {
     return true;
   };
 
-  const handlePostFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (isPostFormInputValid() && params.postIdx) {
-      try {
-        await board.modifyPost(params.postIdx, { title, contents });
-        alert('게시글이 수정되었습니다.');
-        navigate(-1);
-      } catch (err) {
-        const error = err as CustomError;
-        alert(error.message);
-        return;
+  const handlePostFormSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (isPostFormInputValid() && params.postIdx) {
+        try {
+          await board.modifyPost(params.postIdx, { title, contents });
+          alert('게시글이 수정되었습니다.');
+          navigate(-1);
+        } catch (err) {
+          const error = err as CustomError;
+          alert(error.message);
+          return;
+        }
       }
-    }
-  };
+    },
+    [title, contents],
+  );
 
-  const handleCancelButtonClick = () => {
-    if (confirm('게시글 수정을 취소하시겠습니까?')) {
-      navigate(-1);
-    } else {
-      return;
-    }
-  };
+  const handleCancelButtonClick = useCallback(() => confirm('게시글 수정을 취소하시겠습니까?') && navigate(-1), []);
 
   return (
     <Layout>

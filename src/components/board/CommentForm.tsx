@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import styled from 'styled-components/macro';
 import { TextArea } from 'components/common/TextArea';
 import CommentImg from 'assets/comment.png';
@@ -22,13 +23,31 @@ export const CommentForm = ({
   commentModifyCancelHandler,
   isDisabled,
 }: CommentFormProps) => {
-  return (
-    <Form onSubmit={submitHandler}>
-      {formTitle && (
+  const formHeader = useMemo(
+    () =>
+      formTitle && (
         <FormTitle>
           <CommentImage src={CommentImg} /> {formTitle}
         </FormTitle>
-      )}
+      ),
+    [],
+  );
+
+  const formFooter = useMemo(
+    () => (
+      <ButtonWrapper>
+        {type === 'commentModifyForm' && (
+          <Button name="Cancel" type="button" restoreHandler={commentModifyCancelHandler} />
+        )}
+        <Button name="Write" type="submit" isDisabled={isDisabled} />
+      </ButtonWrapper>
+    ),
+    [isDisabled],
+  );
+
+  return (
+    <Form onSubmit={submitHandler}>
+      {formHeader}
       <ContentsWrapper>
         <TextArea
           placeholder="Write your comment"
@@ -36,14 +55,10 @@ export const CommentForm = ({
           changeHandler={commentChangeHandler}
           value={commentValue}
           isDisabled={isDisabled}
+          isComment={true}
         />
       </ContentsWrapper>
-      <ButtonWrapper>
-        {type === 'commentModifyForm' && (
-          <Button name="Cancel" type="button" restoreHandler={commentModifyCancelHandler} />
-        )}
-        <Button name="Write" type="submit" isDisabled={isDisabled} />
-      </ButtonWrapper>
+      {formFooter}
     </Form>
   );
 };

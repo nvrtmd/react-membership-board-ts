@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
 import { BottomNavBar } from 'components/layouts/BottomNavBar';
@@ -8,7 +7,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-export const Layout = memo(({ children }: LayoutProps) => {
+export const Layout = ({ children }: LayoutProps) => {
   return (
     <LayoutWrapper>
       <Main>
@@ -18,7 +17,7 @@ export const Layout = memo(({ children }: LayoutProps) => {
       <BottomNavBar />
     </LayoutWrapper>
   );
-});
+};
 
 const LayoutWrapper = styled.div`
   position: relative;

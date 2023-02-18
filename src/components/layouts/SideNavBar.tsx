@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -20,11 +20,20 @@ interface NavItemContentProps {
   isClicked: boolean;
 }
 
-export const SideNavBar = () => {
+export const SideNavBar = memo(() => {
   const [clickedNavItem, setClickedNavItem] = useState('');
 
-  const handleNavItemClick = (navItemName: string) => {
+  const handleNavItemClick = useCallback((navItemName: string) => {
     setClickedNavItem(navItemName);
+  }, []);
+
+  const isClicked = (name: string) => {
+    switch (name) {
+      case name:
+        return clickedNavItem === name;
+      default:
+        return false;
+    }
   };
 
   return (
@@ -33,47 +42,47 @@ export const SideNavBar = () => {
         name="Board"
         image={BoardImg}
         handleClick={() => handleNavItemClick('Board')}
-        isClicked={clickedNavItem === 'Board'}
+        isClicked={isClicked('Board')}
         route="/board/list"
       />
       <NavItem
         name="My Posts"
         image={DocumentImg}
         handleClick={() => handleNavItemClick('My Posts')}
-        isClicked={clickedNavItem === 'My Posts'}
+        isClicked={isClicked('My Posts')}
         route="/member/posts"
       />
       <NavItem
         name="My Page"
         image={CommentImg}
-        handleClick={() => handleNavItemClick('My page')}
-        isClicked={clickedNavItem === 'My page'}
+        handleClick={() => handleNavItemClick('My Page')}
+        isClicked={isClicked('My Page')}
         route="/member/info"
       />
       <NavItem
         name="Home"
         image={HomeImg}
         handleClick={() => handleNavItemClick('Home')}
-        isClicked={clickedNavItem === 'Home'}
+        isClicked={isClicked('Home')}
         route="/"
       />
       <NavItem
         name="About"
         image={AboutImg}
         handleClick={() => handleNavItemClick('About')}
-        isClicked={clickedNavItem === 'About'}
+        isClicked={isClicked('About')}
         route="/about"
       />
     </Wrapper>
   );
-};
+});
 
 const NavItem = ({ name, image, handleClick, isClicked, route }: NavItemProps) => {
   const navigate = useNavigate();
 
-  const handleDoubleClick = () => {
+  const handleDoubleClick = useCallback(() => {
     navigate(route);
-  };
+  }, []);
 
   return (
     <NavItemBox onClick={handleClick} onDoubleClick={handleDoubleClick}>
@@ -84,7 +93,7 @@ const NavItem = ({ name, image, handleClick, isClicked, route }: NavItemProps) =
 };
 
 const Wrapper = styled.nav`
-  @media screen and (max-width: 250px) {
+  @media screen and ${theme.device.mobile} {
     display: none;
   }
   padding: 1rem;

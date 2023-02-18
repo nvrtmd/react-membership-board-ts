@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import styled from 'styled-components/macro';
 import { Input } from 'components/common/Input';
 import { TextArea } from 'components/common/TextArea';
@@ -22,9 +23,19 @@ export const PostForm = ({
   contentsChangeHandler,
   cancelButtonClickHandler,
 }: PostFormProps) => {
+  const formHeader = useMemo(() => <FormTitle>{formTitle}</FormTitle>, []);
+  const formFooter = useMemo(
+    () => (
+      <ButtonWrapper>
+        <Button name="Create" type="submit" />
+        <Button name="Cancel" type="button" restoreHandler={cancelButtonClickHandler} />
+      </ButtonWrapper>
+    ),
+    [],
+  );
   return (
     <Form onSubmit={submitHandler}>
-      <FormTitle>{formTitle}</FormTitle>
+      {formHeader}
       <Input
         name="title"
         type="title"
@@ -32,18 +43,20 @@ export const PostForm = ({
         changeHandler={titleChangeHandler}
         placeholder="Write your title"
       />
-      <ContentsWrapper>
-        <TextArea
-          placeholder="Write your contents"
-          name="comment"
-          changeHandler={contentsChangeHandler}
-          value={contentsValue}
-        />
-      </ContentsWrapper>
-      <ButtonWrapper>
-        <Button name="Create" type="submit" />
-        <Button name="Cancel" type="button" restoreHandler={cancelButtonClickHandler} />
-      </ButtonWrapper>
+      {useMemo(
+        () => (
+          <ContentsWrapper>
+            <TextArea
+              placeholder="Write your contents"
+              name="contents"
+              changeHandler={contentsChangeHandler}
+              value={contentsValue}
+            />
+          </ContentsWrapper>
+        ),
+        [contentsValue],
+      )}
+      {formFooter}
     </Form>
   );
 };

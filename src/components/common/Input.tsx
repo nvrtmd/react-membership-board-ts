@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import styled from 'styled-components/macro';
 
 interface InputProps {
@@ -14,9 +14,10 @@ interface InputProps {
 
 export const Input = memo(
   ({ title, name, placeholder, changeHandler, blurHandler, type, value, readOnly }: InputProps) => {
+    const inputTitle = useMemo(() => <InputTitle htmlFor={name}>{title}</InputTitle>, []);
     return (
       <InputWrapper>
-        <InputTitle htmlFor={name}>{title}</InputTitle>
+        {inputTitle}
         <InputBox
           name={name}
           type={type}

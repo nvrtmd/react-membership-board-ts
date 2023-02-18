@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -19,15 +19,15 @@ interface MenuProps {
   startButtonClickHandler: () => void;
 }
 
-export const Menu = memo(({ menuRef, startButtonClickHandler }: MenuProps) => {
+export const Menu = ({ menuRef, startButtonClickHandler }: MenuProps) => {
   const navigate = useNavigate();
   const [isCurrentUserSignedIn, setIsCurrentUserSignedIn] = useState<boolean>();
 
-  const handleShutdownMenuClick = (): void => {
+  const handleShutdownMenuClick = useCallback((): void => {
     window.close();
-  };
+  }, []);
 
-  const handleSignOutMenuClick = async () => {
+  const handleSignOutMenuClick = useCallback(async () => {
     try {
       await auth.signOut();
       alert('로그아웃 되었습니다.');
@@ -38,7 +38,7 @@ export const Menu = memo(({ menuRef, startButtonClickHandler }: MenuProps) => {
       alert(error.message);
       return;
     }
-  };
+  }, []);
 
   const confirmCurrentUserSignedInState = async () => {
     try {
@@ -53,63 +53,66 @@ export const Menu = memo(({ menuRef, startButtonClickHandler }: MenuProps) => {
     confirmCurrentUserSignedInState();
   }, []);
 
-  return (
-    <MenuContainer ref={menuRef}>
-      <MenuTitle>Yuzamin97</MenuTitle>
-      <MenuWrapper>
-        <OptionalMenuBox onClick={() => navigate('/board/list')}>
-          <MenuImage src={BoardImg} />
-          <div>Board</div>
-        </OptionalMenuBox>
-        {isCurrentUserSignedIn ? (
-          <>
-            <OptionalMenuBox onClick={() => navigate('/member/posts')}>
-              <MenuImage src={DocumentImg} />
-              <div>My Posts</div>
-            </OptionalMenuBox>
-            <OptionalMenuBox onClick={() => navigate('/member/info')}>
-              <MenuImage src={CommentImg} />
-              <div>My Page</div>
-            </OptionalMenuBox>
-            <DefaultMenuBox onClick={handleSignOutMenuClick}>
-              <MenuImage src={SigninImg} />
-              <div>Sign Out</div>
-            </DefaultMenuBox>
-          </>
-        ) : (
-          <>
-            <DefaultMenuBox onClick={() => navigate('/auth/signup')}>
-              <SignupImage src={SignupImg} />
-              <div>Sign Up</div>
-            </DefaultMenuBox>
-            <DefaultMenuBox onClick={() => navigate('/auth/signin')}>
-              <MenuImage src={SigninImg} />
-              <div>Sign In</div>
-            </DefaultMenuBox>
-          </>
-        )}
-        <OptionalMenuBox onClick={() => navigate('/')}>
-          <MenuImage src={HomeImg} />
-          <div>Home</div>
-        </OptionalMenuBox>
-        <OptionalMenuBox onClick={() => navigate('/about')}>
-          <MenuImage src={AboutImg} />
-          <div>About</div>
-        </OptionalMenuBox>
-        <DefaultMenuBox>
-          <MenuImage src={SourceCodeImg} alt="source_code_image" />
-          <a href="https://github.com/nvrtmd/react-membership-board-ts" target="_blank">
-            Source Code
-          </a>
-        </DefaultMenuBox>
-        <DefaultMenuBox onClick={handleShutdownMenuClick}>
-          <MenuImage src={PowerImg} />
-          <div>Shut Down</div>
-        </DefaultMenuBox>
-      </MenuWrapper>
-    </MenuContainer>
+  return useMemo(
+    () => (
+      <MenuContainer ref={menuRef}>
+        <MenuTitle>Yuzamin97</MenuTitle>
+        <MenuWrapper>
+          <OptionalMenuBox onClick={() => navigate('/board/list')}>
+            <MenuImage src={BoardImg} />
+            <div>Board</div>
+          </OptionalMenuBox>
+          {isCurrentUserSignedIn ? (
+            <>
+              <OptionalMenuBox onClick={() => navigate('/member/posts')}>
+                <MenuImage src={DocumentImg} />
+                <div>My Posts</div>
+              </OptionalMenuBox>
+              <OptionalMenuBox onClick={() => navigate('/member/info')}>
+                <MenuImage src={CommentImg} />
+                <div>My Page</div>
+              </OptionalMenuBox>
+              <DefaultMenuBox onClick={handleSignOutMenuClick}>
+                <MenuImage src={SigninImg} />
+                <div>Sign Out</div>
+              </DefaultMenuBox>
+            </>
+          ) : (
+            <>
+              <DefaultMenuBox onClick={() => navigate('/auth/signup')}>
+                <SignupImage src={SignupImg} />
+                <div>Sign Up</div>
+              </DefaultMenuBox>
+              <DefaultMenuBox onClick={() => navigate('/auth/signin')}>
+                <MenuImage src={SigninImg} />
+                <div>Sign In</div>
+              </DefaultMenuBox>
+            </>
+          )}
+          <OptionalMenuBox onClick={() => navigate('/')}>
+            <MenuImage src={HomeImg} />
+            <div>Home</div>
+          </OptionalMenuBox>
+          <OptionalMenuBox onClick={() => navigate('/about')}>
+            <MenuImage src={AboutImg} />
+            <div>About</div>
+          </OptionalMenuBox>
+          <DefaultMenuBox>
+            <MenuImage src={SourceCodeImg} alt="source_code_image" />
+            <a href="https://github.com/nvrtmd/react-membership-board-ts" target="_blank">
+              Source Code
+            </a>
+          </DefaultMenuBox>
+          <DefaultMenuBox onClick={handleShutdownMenuClick}>
+            <MenuImage src={PowerImg} />
+            <div>Shut Down</div>
+          </DefaultMenuBox>
+        </MenuWrapper>
+      </MenuContainer>
+    ),
+    [],
   );
-});
+};
 
 const MenuContainer = styled.div`
   display: flex;
@@ -149,7 +152,7 @@ const DefaultMenuBox = styled.div`
 `;
 
 const OptionalMenuBox = styled(DefaultMenuBox)`
-  @media screen and (min-width: 250px) {
+  @media screen and (min-width: ${theme.breakpoint.mobile}) {
     display: none !important;
   }
 `;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -15,6 +15,13 @@ interface CommentItemProps {
   commentListRefreshHandler: () => void;
 }
 
+interface CommentBodyProps {
+  data: Comment;
+  isCommentWriter: boolean;
+  commentListRefreshHandler: () => void;
+  isModifyButtonClickedToggleHandler: () => void;
+}
+
 export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }: CommentItemProps) => {
   const [isModifyButtonClicked, setIsModifyButtonClicked] = useState<boolean>(false);
   const { inputValue: modifiedComment, handleInputChange: handleModifiedCommentChange } = useInput(
@@ -22,11 +29,11 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
   );
   const params = useParams();
 
-  const handleIsModifyButtonClickedToggle = () => {
+  const handleIsModifyButtonClickedToggle = useCallback(() => {
     setIsModifyButtonClicked((prev) => !prev);
-  };
+  }, []);
 
-  const handleCommentModifyFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCommentModifyFormSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await auth.isSignedIn();
@@ -44,7 +51,38 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
       return;
     }
     handleIsModifyButtonClickedToggle();
-  };
+  }, []);
+
+  return (
+    <CommentsWrapper>
+      <CommentWriter>{data.comment_writer.member_nickname}</CommentWriter>
+      {isModifyButtonClicked ? (
+        <CommentForm
+          submitHandler={handleCommentModifyFormSubmit}
+          commentValue={modifiedComment}
+          commentChangeHandler={handleModifiedCommentChange}
+          type="commentModifyForm"
+          commentModifyCancelHandler={handleIsModifyButtonClickedToggle}
+        />
+      ) : (
+        <CommentBody
+          data={data}
+          isCommentWriter={isCommentWriter}
+          isModifyButtonClickedToggleHandler={handleIsModifyButtonClickedToggle}
+          commentListRefreshHandler={commentListRefreshHandler}
+        />
+      )}
+    </CommentsWrapper>
+  );
+};
+
+export const CommentBody = ({
+  data,
+  isCommentWriter,
+  isModifyButtonClickedToggleHandler,
+  commentListRefreshHandler,
+}: CommentBodyProps) => {
+  const params = useParams();
 
   const handleCommentDeleteButtonClick = async () => {
     try {
@@ -65,31 +103,18 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
   };
 
   return (
-    <CommentsWrapper>
-      <CommentWriter>{data.comment_writer.member_nickname}</CommentWriter>
-      {isModifyButtonClicked ? (
-        <CommentForm
-          submitHandler={handleCommentModifyFormSubmit}
-          commentValue={modifiedComment}
-          commentChangeHandler={handleModifiedCommentChange}
-          type="commentModifyForm"
-          commentModifyCancelHandler={handleIsModifyButtonClickedToggle}
-        />
-      ) : (
-        <>
-          <CommentBody>{data.comment_contents}</CommentBody>
-          <CommentInfo>
-            <CommentUpdatedDate>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</CommentUpdatedDate>
-            {isCommentWriter && (
-              <FunctionButtons>
-                <FunctionButton onClick={handleIsModifyButtonClickedToggle}>Modify</FunctionButton>&nbsp;
-                <FunctionButton onClick={handleCommentDeleteButtonClick}>Delete</FunctionButton>
-              </FunctionButtons>
-            )}
-          </CommentInfo>
-        </>
-      )}
-    </CommentsWrapper>
+    <>
+      <CommentContents>{data.comment_contents}</CommentContents>
+      <CommentInfo>
+        <CommentUpdatedDate>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</CommentUpdatedDate>
+        {isCommentWriter && (
+          <FunctionButtons>
+            <FunctionButton onClick={isModifyButtonClickedToggleHandler}>Modify</FunctionButton>&nbsp;
+            <FunctionButton onClick={handleCommentDeleteButtonClick}>Delete</FunctionButton>
+          </FunctionButtons>
+        )}
+      </CommentInfo>
+    </>
   );
 };
 
@@ -106,7 +131,7 @@ const CommentWriter = styled.div`
   font-size: 1.2rem;
 `;
 
-const CommentBody = styled.div`
+const CommentContents = styled.div`
   font-size: 1.3rem;
 `;
 

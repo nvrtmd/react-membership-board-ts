@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { Browser } from 'components/common/Browser';
@@ -20,28 +21,25 @@ export const CreatePage = () => {
     return true;
   };
 
-  const handlePostFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (isPostFormInputValid()) {
-      try {
-        await board.createPost({ title, contents });
-        alert('게시글이 작성되었습니다.');
-        navigate('/board/list');
-      } catch (err) {
-        const error = err as CustomError;
-        alert(error.message);
-        return;
+  const handlePostFormSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (isPostFormInputValid()) {
+        try {
+          await board.createPost({ title, contents });
+          alert('게시글이 작성되었습니다.');
+          navigate('/board/list');
+        } catch (err) {
+          const error = err as CustomError;
+          alert(error.message);
+          return;
+        }
       }
-    }
-  };
+    },
+    [title, contents],
+  );
 
-  const handleCancelButtonClick = () => {
-    if (confirm('게시글 작성을 취소하시겠습니까?')) {
-      navigate(-1);
-    } else {
-      return;
-    }
-  };
+  const handleCancelButtonClick = useCallback(() => confirm('게시글 작성을 취소하시겠습니까?') && navigate(-1), []);
 
   return (
     <Layout>

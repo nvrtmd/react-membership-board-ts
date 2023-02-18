@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Browser } from 'components/common/Browser';
 import { Button } from 'components/common/Button';
@@ -19,6 +19,11 @@ import { CommentForm } from 'components/board/CommentForm';
 import { member } from 'api/member';
 import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
 
+interface PostAreaProps {
+  data: Post;
+  isPostWriter: boolean;
+}
+
 interface FunctionButtonsProps {
   postIdx: string;
   isPostWriter: boolean;
@@ -30,6 +35,20 @@ interface FunctionButtonProps {
   children: React.ReactNode;
 }
 
+interface CommentAreaProps {
+  currentUserData: Member | null;
+  rootRef: React.RefObject<HTMLDivElement>;
+  postContainerTopRef: React.RefObject<HTMLDivElement>;
+}
+
+interface CommentListProps {
+  data: Comment[];
+  commentListRefreshHandler: () => void;
+  currentUserData: Member | null;
+  continueFetching: boolean;
+  intersectRef: React.RefObject<HTMLDivElement>;
+}
+
 interface CommentListBottomProps {
   continueFetching: boolean;
 }
@@ -37,23 +56,8 @@ interface CommentListBottomProps {
 export const PostPage = () => {
   const [currentUserData, setCurrentUserData] = useState<Member | null>(null);
   const [postData, setPostData] = useState<Post>();
-  const [commentList, setCommentList] = useState<Comment[]>([]);
-  const [continueFetching, setContinueFetching] = useState<boolean>(true);
-  const [commentListPage, setCommentListPage] = useState<number>(0);
-  const {
-    inputValue: comment,
-    handleInputChange: handleCommentChange,
-    handleResetInput: handleCommentReset,
-  } = useInput('');
-  const intersectRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
-  const postContainerTop = useRef<HTMLDivElement>(null);
-  const { isIntersect } = useIntersectionObserver(intersectRef, {
-    root: rootRef.current,
-    rootMargin: '50px',
-    threshold: 0.01,
-  });
-  const COUNT = 5;
+  const postContainerTopRef = useRef<HTMLDivElement>(null);
   const params = useParams();
   const navigate = useNavigate();
 
@@ -61,20 +65,6 @@ export const PostPage = () => {
     fetchPostData();
     fetchUserData();
   }, []);
-
-  useEffect(() => {
-    if (continueFetching) {
-      fetchCommentList();
-    }
-  }, [commentListPage]);
-
-  useEffect(() => {
-    if (isIntersect && commentList.length && commentListPage >= 0) {
-      setCommentListPage((prev) => {
-        return prev + COUNT;
-      });
-    }
-  }, [isIntersect]);
 
   const fetchUserData = async () => {
     try {
@@ -102,120 +92,45 @@ export const PostPage = () => {
     }
   };
 
-  const fetchCommentList = async () => {
-    try {
-      if (params.postIdx) {
-        const fetchedData = await board.getCommentList(params.postIdx, commentListPage, COUNT);
-        if (fetchedData.length === 0) {
-          setContinueFetching(false);
-          return;
-        }
-        setCommentList((prev) => [...prev, ...fetchedData]);
-      } else {
-        alert('게시글이 존재하지 않습니다.');
-        navigate(-1);
-      }
-    } catch (err) {
-      const error = err as CustomError;
-      alert(error.message);
-      navigate('/');
-      return;
-    }
-  };
-
-  const handleCommentListRefresh = async () => {
-    if (commentListPage > 0) {
-      setCommentListPage(0);
-    } else {
-      fetchCommentList();
-    }
-    setCommentList([]);
-    setContinueFetching(true);
-    postContainerTop.current?.scrollIntoView({
-      behavior: 'smooth',
-    });
-  };
-
-  const handleCommentFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      await auth.isSignedIn();
-      if (comment.length <= 0) {
-        alert('내용을 작성하세요.');
-        return;
-      }
-      if (params.postIdx) {
-        await board.createComment(params.postIdx, { contents: comment });
-        if (commentList.length === 0) {
-          fetchCommentList();
-        } else {
-          handleCommentListRefresh();
-        }
-      }
-    } catch (err) {
-      const error = err as CustomError;
-      alert(error.message);
-      return;
-    }
-    handleCommentReset();
-  };
+  const isPostWriter = useMemo(
+    () => currentUserData?.id === postData?.post_writer.member_id,
+    [currentUserData, postData?.post_writer.member_id],
+  );
 
   return (
     <Layout>
       <BrowserWrapper>
         <Browser ref={rootRef}>
-          <div ref={postContainerTop}></div>
+          <div ref={postContainerTopRef}></div>
           <PostContainer>
-            {postData && (
-              <div>
-                <PostHeader>
-                  <PostTitle>{postData.post_title}</PostTitle>
-                  <PostWriter>
-                    by {postData.post_writer ? postData.post_writer.member_nickname : 'deleted account'}
-                  </PostWriter>
-                  <PostUpdatedDate>
-                    <div>{postData.updatedAt && moment(postData.updatedAt).format('YY.MM.DD HH:mm')}</div>
-                  </PostUpdatedDate>
-                </PostHeader>
-                <PostBody>{postData.post_contents}</PostBody>
-                <FunctionButtons
-                  postIdx={String(postData.post_idx)}
-                  isPostWriter={currentUserData?.id === postData.post_writer.member_id}
-                />
-              </div>
-            )}
-            <CommentContainer>
-              <CommentForm
-                submitHandler={handleCommentFormSubmit}
-                commentValue={comment}
-                commentChangeHandler={handleCommentChange}
-                formTitle="Comments"
-                isDisabled={currentUserData === null}
-              />
-              <CommentList>
-                {commentList && commentList.length > 0 ? (
-                  commentList.map((comment) => (
-                    <CommentItem
-                      key={comment.comment_idx}
-                      data={comment}
-                      commentListRefreshHandler={handleCommentListRefresh}
-                      isCommentWriter={comment.comment_writer.member_id === currentUserData?.id}
-                    />
-                  ))
-                ) : (
-                  <NoComment />
-                )}
-                <CommentListBottom continueFetching={continueFetching} ref={intersectRef}>
-                  Loading...
-                </CommentListBottom>
-              </CommentList>
-            </CommentContainer>
+            {postData && <PostArea data={postData} isPostWriter={isPostWriter} />}
+            <CommentArea
+              currentUserData={currentUserData}
+              rootRef={rootRef}
+              postContainerTopRef={postContainerTopRef}
+            />
           </PostContainer>
         </Browser>
       </BrowserWrapper>
     </Layout>
   );
 };
+
+const PostArea = memo(({ data, isPostWriter }: PostAreaProps) => {
+  return (
+    <>
+      <PostHeader>
+        <PostTitle>{data.post_title}</PostTitle>
+        <PostWriter>by {data.post_writer ? data.post_writer.member_nickname : 'deleted account'}</PostWriter>
+        <PostUpdatedDate>
+          <div>{data.updatedAt && moment(data.updatedAt).format('YY.MM.DD HH:mm')}</div>
+        </PostUpdatedDate>
+      </PostHeader>
+      <PostBody>{data.post_contents}</PostBody>
+      <FunctionButtons postIdx={String(data.post_idx)} isPostWriter={isPostWriter} />
+    </>
+  );
+});
 
 const FunctionButtons = ({ postIdx, isPostWriter }: FunctionButtonsProps) => {
   const navigate = useNavigate();
@@ -287,6 +202,145 @@ const FunctionButton = ({ handleFunctionButtonRestore, name, children }: Functio
   );
 };
 
+const CommentArea = memo(({ currentUserData, rootRef, postContainerTopRef }: CommentAreaProps) => {
+  const [continueFetching, setContinueFetching] = useState<boolean>(true);
+  const [commentList, setCommentList] = useState<Comment[]>([]);
+  const [commentListPage, setCommentListPage] = useState<number>(0);
+
+  const {
+    inputValue: comment,
+    handleInputChange: handleCommentChange,
+    handleResetInput: handleCommentReset,
+  } = useInput('');
+  const intersectRef = useRef<HTMLDivElement>(null);
+  const { isIntersect } = useIntersectionObserver(intersectRef, {
+    root: rootRef.current,
+    rootMargin: '50px',
+    threshold: 0.01,
+  });
+  const params = useParams();
+  const navigate = useNavigate();
+  const COUNT = 5;
+
+  useEffect(() => {
+    if (continueFetching) {
+      fetchCommentList();
+    }
+  }, [commentListPage]);
+
+  useEffect(() => {
+    if (isIntersect && commentList.length && commentListPage >= 0) {
+      setCommentListPage((prev) => {
+        return prev + COUNT;
+      });
+    }
+  }, [isIntersect]);
+
+  const fetchCommentList = async () => {
+    try {
+      if (params.postIdx) {
+        const fetchedData = await board.getCommentList(params.postIdx, commentListPage, COUNT);
+        if (fetchedData.length === 0) {
+          setContinueFetching(false);
+          return;
+        }
+        setCommentList((prev) => [...prev, ...fetchedData]);
+      } else {
+        alert('게시글이 존재하지 않습니다.');
+        navigate(-1);
+      }
+    } catch (err) {
+      const error = err as CustomError;
+      alert(error.message);
+      navigate('/');
+      return;
+    }
+  };
+
+  const handleCommentListRefresh = useCallback(() => {
+    if (commentListPage > 0) {
+      setCommentListPage(0);
+    } else {
+      fetchCommentList();
+    }
+    setCommentList([]);
+    setContinueFetching(true);
+    postContainerTopRef.current?.scrollIntoView({
+      behavior: 'smooth',
+    });
+  }, [commentListPage, commentList]);
+
+  const handleCommentFormSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      try {
+        await auth.isSignedIn();
+        if (comment.length <= 0) {
+          alert('내용을 작성하세요.');
+          return;
+        }
+        if (params.postIdx) {
+          await board.createComment(params.postIdx, { contents: comment });
+          if (commentList.length === 0) {
+            fetchCommentList();
+          } else {
+            handleCommentListRefresh();
+          }
+        }
+      } catch (err) {
+        const error = err as CustomError;
+        alert(error.message);
+        return;
+      }
+      handleCommentReset();
+    },
+    [comment, commentList, params.postIdx, handleCommentListRefresh, handleCommentReset],
+  );
+
+  return (
+    <CommentWrapper>
+      <CommentForm
+        submitHandler={handleCommentFormSubmit}
+        commentValue={comment}
+        commentChangeHandler={handleCommentChange}
+        formTitle="Comments"
+        isDisabled={currentUserData === null}
+      />
+      <CommentList
+        data={commentList}
+        commentListRefreshHandler={handleCommentListRefresh}
+        currentUserData={currentUserData}
+        continueFetching={continueFetching}
+        intersectRef={intersectRef}
+      />
+    </CommentWrapper>
+  );
+});
+
+const CommentList = memo(
+  ({ data, commentListRefreshHandler, currentUserData, continueFetching, intersectRef }: CommentListProps) => {
+    return (
+      <>
+        {data && data.length > 0 ? (
+          data.map((comment) => (
+            <CommentItem
+              key={comment.comment_idx}
+              data={comment}
+              commentListRefreshHandler={commentListRefreshHandler}
+              isCommentWriter={comment.comment_writer.member_id === currentUserData?.id}
+            />
+          ))
+        ) : (
+          <NoComment />
+        )}
+        <CommentListBottom continueFetching={continueFetching} ref={intersectRef}>
+          Loading...
+        </CommentListBottom>
+      </>
+    );
+  },
+);
+
 const BrowserWrapper = styled.div`
   display: flex;
   height: 100%;
@@ -332,14 +386,12 @@ const FunctionButtonImage = styled.img`
   margin-right: 3px;
 `;
 
-export const CommentContainer = styled.div`
+export const CommentWrapper = styled.div`
   border-top: 1px solid ${theme.color.grey};
   border-style: dashed solid;
   padding: 1rem 0 0;
   margin-top: 2rem;
 `;
-
-const CommentList = styled.div``;
 
 const CommentListBottom = styled.div<CommentListBottomProps>`
   ${({ continueFetching }) =>

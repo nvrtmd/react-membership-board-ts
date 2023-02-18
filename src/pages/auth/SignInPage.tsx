@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -11,6 +12,20 @@ import { auth } from 'api/auth';
 import { CustomError } from 'global/types';
 
 export const SignInPage = () => {
+  return (
+    <Layout>
+      <BrowserWrapper>
+        <Browser>
+          <SignInFormWrapper>
+            <SignInForm />
+          </SignInFormWrapper>
+        </Browser>
+      </BrowserWrapper>
+    </Layout>
+  );
+};
+
+export const SignInForm = () => {
   const navigate = useNavigate();
   const { inputValue: id, handleInputChange: handleIdChange } = useInput('');
   const { inputValue: password, handleInputChange: handlePasswordChange } = useInput('');
@@ -37,38 +52,67 @@ export const SignInPage = () => {
     }
   };
 
+  const formHeader = useMemo(
+    () => (
+      <>
+        <FormHeader>
+          <div>
+            <WindowsImage src={WindowsImg} />
+            <div>Yuzamin97</div>
+          </div>
+        </FormHeader>
+        <PageTitle>- Sign In -</PageTitle>
+      </>
+    ),
+    [],
+  );
+
+  const formFooter = useMemo(
+    () => (
+      <>
+        <ButtonWrapper>
+          <Button name="Sign In" type="submit" />
+        </ButtonWrapper>
+        <SignUpButtonWrapper onClick={() => navigate('/auth/signup')}>
+          <div>Not signed up yet?</div>
+        </SignUpButtonWrapper>
+      </>
+    ),
+    [],
+  );
+
+  const inputControlList = [
+    {
+      title: 'id',
+      value: id,
+      changeHandler: handleIdChange,
+    },
+    {
+      title: 'password',
+      value: password,
+      changeHandler: handlePasswordChange,
+    },
+  ];
+
   return (
-    <Layout>
-      <BrowserWrapper>
-        <Browser>
-          <SignInFormWrapper>
-            <SignInForm onSubmit={handleSignInFormSubmit}>
-              <SignInFormHeader>
-                <div>
-                  <WindowsImage src={WindowsImg} />
-                  <div>Yuzamin97</div>
-                </div>
-              </SignInFormHeader>
-              <PageTitle>- Sign In -</PageTitle>
-              <Input title="id" name="id" type="id" value={id} changeHandler={handleIdChange} />
-              <Input
-                title="password"
-                name="password"
-                type="password"
-                value={password}
-                changeHandler={handlePasswordChange}
-              />
-              <ButtonWrapper>
-                <Button name="Sign In" type="submit" />
-              </ButtonWrapper>
-              <SignUpButtonWrapper onClick={() => navigate('/auth/signup')}>
-                <div>Not signed up yet?</div>
-              </SignUpButtonWrapper>
-            </SignInForm>
-          </SignInFormWrapper>
-        </Browser>
-      </BrowserWrapper>
-    </Layout>
+    <Form onSubmit={handleSignInFormSubmit}>
+      {formHeader}
+      {inputControlList.map((input) =>
+        useMemo(
+          () => (
+            <Input
+              title={input.title}
+              name={input.title}
+              type={input.title}
+              value={input.value}
+              changeHandler={input.changeHandler}
+            />
+          ),
+          [input.value],
+        ),
+      )}
+      {formFooter}
+    </Form>
   );
 };
 
@@ -84,12 +128,12 @@ const SignInFormWrapper = styled.div`
   padding: 0.5rem 2.5rem;
 `;
 
-const SignInForm = styled.form`
+const Form = styled.form`
   margin: auto;
   padding: 2rem 0;
 `;
 
-const SignInFormHeader = styled.div`
+const FormHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,5 +1,4 @@
 import styled from 'styled-components/macro';
-import { theme } from 'styles/theme';
 import NoCommentImg from 'assets/no_comment.png';
 
 export const NoComment = () => {
