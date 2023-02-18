@@ -110,7 +110,7 @@ export const Menu = ({ menuRef, startButtonClickHandler }: MenuProps) => {
         </MenuWrapper>
       </MenuContainer>
     ),
-    [],
+    [isCurrentUserSignedIn],
   );
 };
 
