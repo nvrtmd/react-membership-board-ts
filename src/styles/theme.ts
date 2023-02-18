@@ -18,6 +18,7 @@ const breakpoint = {
   desktop: '1440px',
   tablet: '768px',
   mobile: '425px',
+  narrow: '170px',
 };
 
 const heightBreakpoint = {
@@ -30,6 +31,7 @@ const device = {
   desktop: `(max-width: ${breakpoint.desktop})`,
   tablet: `(max-width: ${breakpoint.tablet})`,
   mobile: `(max-width: ${breakpoint.mobile})`,
+  narrow: `(max-width: ${breakpoint.narrow})`,
   long: `(max-height: ${heightBreakpoint.long})`,
 };
 
