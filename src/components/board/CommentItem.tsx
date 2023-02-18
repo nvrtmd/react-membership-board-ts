@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -29,11 +29,11 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
   );
   const params = useParams();
 
-  const handleIsModifyButtonClickedToggle = () => {
+  const handleIsModifyButtonClickedToggle = useCallback(() => {
     setIsModifyButtonClicked((prev) => !prev);
-  };
+  }, []);
 
-  const handleCommentModifyFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCommentModifyFormSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await auth.isSignedIn();
@@ -51,7 +51,7 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
       return;
     }
     handleIsModifyButtonClickedToggle();
-  };
+  }, []);
 
   return (
     <CommentsWrapper>
