@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Browser } from 'components/common/Browser';
 import { Button } from 'components/common/Button';
@@ -18,6 +18,11 @@ import { auth } from 'api/auth';
 import { CommentForm } from 'components/board/CommentForm';
 import { member } from 'api/member';
 import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
+
+interface PostAreaProps {
+  data: Post;
+  isPostWriter: boolean;
+}
 
 interface FunctionButtonsProps {
   postIdx: string;
@@ -174,21 +179,7 @@ export const PostPage = () => {
         <Browser ref={rootRef}>
           <div ref={postContainerTop}></div>
           <PostContainer>
-            {postData && (
-              <div>
-                <PostHeader>
-                  <PostTitle>{postData.post_title}</PostTitle>
-                  <PostWriter>
-                    by {postData.post_writer ? postData.post_writer.member_nickname : 'deleted account'}
-                  </PostWriter>
-                  <PostUpdatedDate>
-                    <div>{postData.updatedAt && moment(postData.updatedAt).format('YY.MM.DD HH:mm')}</div>
-                  </PostUpdatedDate>
-                </PostHeader>
-                <PostBody>{postData.post_contents}</PostBody>
-                <FunctionButtons postIdx={String(postData.post_idx)} isPostWriter={isPostWriter} />
-              </div>
-            )}
+            {postData && <PostArea data={postData} isPostWriter={isPostWriter} />}
             <CommentContainer>
               <CommentForm
                 submitHandler={handleCommentFormSubmit}
@@ -221,6 +212,22 @@ export const PostPage = () => {
     </Layout>
   );
 };
+
+const PostArea = memo(({ data, isPostWriter }: PostAreaProps) => {
+  return (
+    <>
+      <PostHeader>
+        <PostTitle>{data.post_title}</PostTitle>
+        <PostWriter>by {data.post_writer ? data.post_writer.member_nickname : 'deleted account'}</PostWriter>
+        <PostUpdatedDate>
+          <div>{data.updatedAt && moment(data.updatedAt).format('YY.MM.DD HH:mm')}</div>
+        </PostUpdatedDate>
+      </PostHeader>
+      <PostBody>{data.post_contents}</PostBody>
+      <FunctionButtons postIdx={String(data.post_idx)} isPostWriter={isPostWriter} />
+    </>
+  );
+});
 
 const FunctionButtons = ({ postIdx, isPostWriter }: FunctionButtonsProps) => {
   const navigate = useNavigate();
