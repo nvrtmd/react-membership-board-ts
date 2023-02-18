@@ -20,10 +20,17 @@ const breakpoint = {
   mobile: '425px',
 };
 
+const heightBreakpoint = {
+  long: '615px',
+  medium: '500px',
+  short: '400px',
+};
+
 const device = {
   desktop: `(max-width: ${breakpoint.desktop})`,
   tablet: `(max-width: ${breakpoint.tablet})`,
   mobile: `(max-width: ${breakpoint.mobile})`,
+  long: `(max-height: ${heightBreakpoint.long})`,
 };
 
 export const theme = {
@@ -31,4 +38,5 @@ export const theme = {
   layout,
   device,
   breakpoint,
+  heightBreakpoint,
 };
