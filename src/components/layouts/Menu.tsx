@@ -11,7 +11,7 @@ import DocumentImg from 'assets/document_img.png';
 import CommentImg from 'assets/comment_img.png';
 import AboutImg from 'assets/about_img.png';
 import HomeImg from 'assets/home_img.png';
-import { auth } from 'api/auth';
+import { auth } from 'apis/auth';
 import { CustomError } from 'global/types';
 
 interface MenuProps {

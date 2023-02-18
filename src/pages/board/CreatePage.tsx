@@ -4,7 +4,7 @@ import styled from 'styled-components/macro';
 import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
 import { useInput } from 'hooks/useInput';
-import { board } from 'api/board';
+import { board } from 'apis/board';
 import { PostForm } from 'components/board/PostForm';
 import { CustomError } from 'global/types';
 

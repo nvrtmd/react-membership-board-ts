@@ -6,8 +6,8 @@ import { Comment, CustomError } from 'global/types';
 import moment from 'moment';
 import { CommentForm } from 'components/board/CommentForm';
 import { useInput } from 'hooks/useInput';
-import { auth } from 'api/auth';
-import { board } from 'api/board';
+import { auth } from 'apis/auth';
+import { board } from 'apis/board';
 
 interface CommentItemProps {
   data: Comment;

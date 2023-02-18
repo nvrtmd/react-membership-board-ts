@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
-import { member } from 'api/member';
+import { member } from 'apis/member';
 import { useValidInput } from 'hooks/useValidInput';
 import { Input } from 'components/common/Input';
 import { Button } from 'components/common/Button';

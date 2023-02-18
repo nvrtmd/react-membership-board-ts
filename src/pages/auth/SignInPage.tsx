@@ -8,7 +8,7 @@ import { Browser } from 'components/common/Browser';
 import { Input } from 'components/common/Input';
 import { Button } from 'components/common/Button';
 import WindowsImg from 'assets/windows_img.png';
-import { auth } from 'api/auth';
+import { auth } from 'apis/auth';
 import { CustomError } from 'global/types';
 
 export const SignInPage = () => {

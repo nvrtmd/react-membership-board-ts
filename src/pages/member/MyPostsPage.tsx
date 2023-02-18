@@ -4,7 +4,7 @@ import styled from 'styled-components/macro';
 import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
 import { CustomError, Post } from 'global/types';
-import { member } from 'api/member';
+import { member } from 'apis/member';
 import { PostItem } from 'components/board/PostItem';
 import { NoPost } from 'components/common/NoPost';
 import { useIntersectionObserver } from 'hooks/useIntersectionObserver';

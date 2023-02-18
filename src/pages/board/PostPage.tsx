@@ -13,10 +13,10 @@ import { Post, Comment, Member, CustomError } from 'global/types';
 import { CommentItem } from 'components/board/CommentItem';
 import { NoComment } from 'components/board/NoComment';
 import { useInput } from 'hooks/useInput';
-import { board } from 'api/board';
-import { auth } from 'api/auth';
+import { board } from 'apis/board';
+import { auth } from 'apis/auth';
 import { CommentForm } from 'components/board/CommentForm';
-import { member } from 'api/member';
+import { member } from 'apis/member';
 import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
 
 interface PostAreaProps {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Member } from 'global/types';
-import { member } from 'api/member';
+import { member } from 'apis/member';
 
 const auth = {
   signUp: async (data: Member) => {
