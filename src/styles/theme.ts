@@ -25,6 +25,7 @@ const heightBreakpoint = {
   long: '615px',
   medium: '500px',
   short: '400px',
+  extraShort: '330px',
 };
 
 const device = {
@@ -33,6 +34,7 @@ const device = {
   mobile: `(max-width: ${breakpoint.mobile})`,
   narrow: `(max-width: ${breakpoint.narrow})`,
   long: `(max-height: ${heightBreakpoint.long})`,
+  extraShort: `(max-height: ${heightBreakpoint.extraShort})`,
 };
 
 export const theme = {

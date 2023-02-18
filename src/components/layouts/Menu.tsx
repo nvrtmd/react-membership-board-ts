@@ -89,24 +89,26 @@ export const Menu = ({ menuRef, startButtonClickHandler }: MenuProps) => {
               </DefaultMenuBox>
             </>
           )}
-          <OptionalMenuBox onClick={() => navigate('/')}>
-            <MenuImage src={HomeImg} />
-            <div>Home</div>
-          </OptionalMenuBox>
-          <OptionalMenuBox onClick={() => navigate('/about')}>
-            <MenuImage src={AboutImg} />
-            <div>About</div>
-          </OptionalMenuBox>
-          <DefaultMenuBox>
-            <MenuImage src={SourceCodeImg} alt="source_code_image" />
-            <a href="https://github.com/nvrtmd/react-membership-board-ts" target="_blank">
-              Source Code
-            </a>
-          </DefaultMenuBox>
-          <DefaultMenuBox onClick={handleShutdownMenuClick}>
-            <MenuImage src={PowerImg} />
-            <div>Shut Down</div>
-          </DefaultMenuBox>
+          <OptionalMenuWrapper>
+            <OptionalMenuBox onClick={() => navigate('/')}>
+              <MenuImage src={HomeImg} />
+              <div>Home</div>
+            </OptionalMenuBox>
+            <OptionalMenuBox onClick={() => navigate('/about')}>
+              <MenuImage src={AboutImg} />
+              <div>About</div>
+            </OptionalMenuBox>
+            <DefaultMenuBox>
+              <MenuImage src={SourceCodeImg} alt="source_code_image" />
+              <a href="https://github.com/nvrtmd/react-membership-board-ts" target="_blank">
+                Source Code
+              </a>
+            </DefaultMenuBox>
+            <DefaultMenuBox onClick={handleShutdownMenuClick}>
+              <MenuImage src={PowerImg} />
+              <div>Shut Down</div>
+            </DefaultMenuBox>
+          </OptionalMenuWrapper>
         </MenuWrapper>
       </MenuContainer>
     ),
@@ -115,7 +117,7 @@ export const Menu = ({ menuRef, startButtonClickHandler }: MenuProps) => {
 };
 
 const MenuContainer = styled.div`
-  @media screen and (max-height: 400px) {
+  @media screen and (max-height: ${theme.heightBreakpoint.short}) {
     font-size: 0.9rem;
   }
 
@@ -166,7 +168,7 @@ const OptionalMenuBox = styled(DefaultMenuBox)`
 `;
 
 const MenuImage = styled.img`
-  @media screen and (max-height: 400px) {
+  @media screen and (max-height: ${theme.heightBreakpoint.short}) {
     width: 1rem;
     height: 1rem;
   }
@@ -190,4 +192,10 @@ const SignupImage = styled(MenuImage)`
   width: 1.5rem;
   height: 1rem;
   margin-right: 1rem;
+`;
+
+const OptionalMenuWrapper = styled.div`
+  @media screen and ${theme.device.extraShort} {
+    display: none;
+  }
 `;
