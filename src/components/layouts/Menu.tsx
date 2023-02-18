@@ -115,6 +115,14 @@ export const Menu = ({ menuRef, startButtonClickHandler }: MenuProps) => {
 };
 
 const MenuContainer = styled.div`
+  @media screen and (max-height: 400px) {
+    font-size: 0.9rem;
+  }
+
+  @media screen and ${theme.device.narrow} {
+    font-size: 0.5rem;
+  }
+
   display: flex;
   position: absolute;
   bottom: ${theme.layout.bottomNavBarHeight};
@@ -158,12 +166,27 @@ const OptionalMenuBox = styled(DefaultMenuBox)`
 `;
 
 const MenuImage = styled.img`
+  @media screen and (max-height: 400px) {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  @media screen and ${theme.device.narrow} {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+
   width: 1.5rem;
   height: 1.5rem;
   margin-right: 1rem;
 `;
 
-const SignupImage = styled.img`
+const SignupImage = styled(MenuImage)`
+  @media screen and ${theme.device.narrow} {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+
   width: 1.5rem;
   height: 1rem;
   margin-right: 1rem;
