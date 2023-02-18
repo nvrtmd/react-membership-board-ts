@@ -89,32 +89,42 @@ export const Menu = ({ menuRef, startButtonClickHandler }: MenuProps) => {
               </DefaultMenuBox>
             </>
           )}
-          <OptionalMenuBox onClick={() => navigate('/')}>
-            <MenuImage src={HomeImg} />
-            <div>Home</div>
-          </OptionalMenuBox>
-          <OptionalMenuBox onClick={() => navigate('/about')}>
-            <MenuImage src={AboutImg} />
-            <div>About</div>
-          </OptionalMenuBox>
-          <DefaultMenuBox>
-            <MenuImage src={SourceCodeImg} alt="source_code_image" />
-            <a href="https://github.com/nvrtmd/react-membership-board-ts" target="_blank">
-              Source Code
-            </a>
-          </DefaultMenuBox>
-          <DefaultMenuBox onClick={handleShutdownMenuClick}>
-            <MenuImage src={PowerImg} />
-            <div>Shut Down</div>
-          </DefaultMenuBox>
+          <OptionalMenuWrapper>
+            <OptionalMenuBox onClick={() => navigate('/')}>
+              <MenuImage src={HomeImg} />
+              <div>Home</div>
+            </OptionalMenuBox>
+            <OptionalMenuBox onClick={() => navigate('/about')}>
+              <MenuImage src={AboutImg} />
+              <div>About</div>
+            </OptionalMenuBox>
+            <DefaultMenuBox>
+              <MenuImage src={SourceCodeImg} alt="source_code_image" />
+              <a href="https://github.com/nvrtmd/react-membership-board-ts" target="_blank">
+                Source Code
+              </a>
+            </DefaultMenuBox>
+            <DefaultMenuBox onClick={handleShutdownMenuClick}>
+              <MenuImage src={PowerImg} />
+              <div>Shut Down</div>
+            </DefaultMenuBox>
+          </OptionalMenuWrapper>
         </MenuWrapper>
       </MenuContainer>
     ),
-    [],
+    [isCurrentUserSignedIn],
   );
 };
 
 const MenuContainer = styled.div`
+  @media screen and (max-height: ${theme.heightBreakpoint.short}) {
+    font-size: 0.9rem;
+  }
+
+  @media screen and ${theme.device.narrow} {
+    font-size: 0.5rem;
+  }
+
   display: flex;
   position: absolute;
   bottom: ${theme.layout.bottomNavBarHeight};
@@ -158,13 +168,34 @@ const OptionalMenuBox = styled(DefaultMenuBox)`
 `;
 
 const MenuImage = styled.img`
+  @media screen and (max-height: ${theme.heightBreakpoint.short}) {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  @media screen and ${theme.device.narrow} {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+
   width: 1.5rem;
   height: 1.5rem;
   margin-right: 1rem;
 `;
 
-const SignupImage = styled.img`
+const SignupImage = styled(MenuImage)`
+  @media screen and ${theme.device.narrow} {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+
   width: 1.5rem;
   height: 1rem;
   margin-right: 1rem;
+`;
+
+const OptionalMenuWrapper = styled.div`
+  @media screen and ${theme.device.extraShort} {
+    display: none;
+  }
 `;

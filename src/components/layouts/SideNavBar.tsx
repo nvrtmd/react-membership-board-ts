@@ -93,7 +93,7 @@ const NavItem = ({ name, image, handleClick, isClicked, route }: NavItemProps) =
 };
 
 const Wrapper = styled.nav`
-  @media screen and ${theme.device.mobile} {
+  @media screen and ${theme.device.mobile}, (max-height: 400px) {
     display: none;
   }
   padding: 1rem;
@@ -106,6 +106,14 @@ const NavItemBox = styled.div`
 `;
 
 const NavItemName = styled.div<NavItemContentProps>`
+  @media screen and ${theme.device.long} {
+    font-size: 0.8rem;
+  }
+
+  @media screen and (max-height: ${theme.heightBreakpoint.medium}) {
+    font-size: 0.5rem;
+  }
+
   font-size: 1.2rem;
   font-family: 'sans-serif';
   color: ${theme.color.white};
@@ -120,6 +128,14 @@ const NavItemName = styled.div<NavItemContentProps>`
 `;
 
 const NavItemImage = styled.img<NavItemContentProps>`
+  @media screen and ${theme.device.long} {
+    width: 2rem;
+  }
+
+  @media screen and (max-height: ${theme.heightBreakpoint.medium}) {
+    width: 1rem;
+  }
+
   width: 3.5rem;
   ${({ isClicked }) =>
     isClicked &&

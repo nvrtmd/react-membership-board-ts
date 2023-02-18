@@ -18,12 +18,23 @@ const breakpoint = {
   desktop: '1440px',
   tablet: '768px',
   mobile: '425px',
+  narrow: '170px',
+};
+
+const heightBreakpoint = {
+  long: '615px',
+  medium: '500px',
+  short: '400px',
+  extraShort: '330px',
 };
 
 const device = {
   desktop: `(max-width: ${breakpoint.desktop})`,
   tablet: `(max-width: ${breakpoint.tablet})`,
   mobile: `(max-width: ${breakpoint.mobile})`,
+  narrow: `(max-width: ${breakpoint.narrow})`,
+  long: `(max-height: ${heightBreakpoint.long})`,
+  extraShort: `(max-height: ${heightBreakpoint.extraShort})`,
 };
 
 export const theme = {
@@ -31,4 +42,5 @@ export const theme = {
   layout,
   device,
   breakpoint,
+  heightBreakpoint,
 };
