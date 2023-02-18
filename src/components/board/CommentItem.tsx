@@ -77,7 +77,7 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
         />
       ) : (
         <>
-          <CommentBody>{data.comment_contents}</CommentBody>
+          <CommentContents>{data.comment_contents}</CommentContents>
           <CommentInfo>
             <CommentUpdatedDate>{moment(data.updatedAt).format('YY.MM.DD HH:mm')}</CommentUpdatedDate>
             {isCommentWriter && (
@@ -106,7 +106,7 @@ const CommentWriter = styled.div`
   font-size: 1.2rem;
 `;
 
-const CommentBody = styled.div`
+const CommentContents = styled.div`
   font-size: 1.3rem;
 `;
 
