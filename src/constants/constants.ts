@@ -7,6 +7,7 @@ export const MEMBER_ALERT_MESSAGE = {
 
 export const AUTH_ALERT_MESSAGE = {
   ID_OR_PASSWORD_EMPTY_ALERT: '아이디 또는 비밀번호를 입력하세요.',
+  SIGN_OUT_ALERT: '로그아웃 되었습니다.',
 };
 
 export const VALIDATION_ALERT_MESSAGE = {
@@ -27,5 +28,13 @@ export const BOARD_ALERT_MESSAGE = {
   NEED_SIGN_IN_CONFIRM: '로그인이 필요합니다. 확인 버튼을 클릭하면 로그인 페이지로 이동합니다.',
   POST_CREATED_ALERT: '게시글이 작성되었습니다.',
   POST_CREATE_CANCEL_CONFIRM: '게시글 작성을 취소하시겠습니까?',
+  COMMENT_DELETE_CONFIRM: '댓글을 삭제하시겠습니까?',
   LOADING_TEXT: 'Loading...',
+};
+
+export const BOARD_PLACEHOLDER = {
+  ONLY_SIGNED_IN_USERS_CAN_COMMENT: 'Only signed in users can post comment.',
+  WRITE_YOUR_TITLE: 'Write your title',
+  WRITE_YOUR_CONTENTS: 'Write your contents',
+  WRITE_YOUR_COMMENT: 'Write your comment',
 };
