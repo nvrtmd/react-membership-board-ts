@@ -1,16 +1,16 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import { theme } from 'styles/theme';
+import { auth } from 'apis/auth';
 import { useInput } from 'hooks/useInput';
-import { Layout } from 'components/layouts/Layout';
 import { Browser } from 'components/common/Browser';
 import { Input } from 'components/common/Input';
 import { Button } from 'components/common/Button';
-import WindowsImg from 'assets/windows_img.png';
-import { auth } from 'apis/auth';
-import { CustomError } from 'global/types';
+import { Layout } from 'components/layouts/Layout';
+import { theme } from 'styles/theme';
 import { AUTH_ALERT_MESSAGE } from 'constants/constants';
+import { CustomError } from 'global/types';
+import WindowsImg from 'assets/windows_img.png';
 
 export const SignInPage = () => {
   return (

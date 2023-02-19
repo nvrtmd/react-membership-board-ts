@@ -1,24 +1,24 @@
 import { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import styled from 'styled-components/macro';
+import moment from 'moment';
+import { auth } from 'apis/auth';
+import { board } from 'apis/board';
+import { member } from 'apis/member';
+import { useInput } from 'hooks/useInput';
+import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
+import { CommentItem } from 'components/board/CommentItem';
+import { NoComment } from 'components/board/NoComment';
+import { CommentForm } from 'components/board/CommentForm';
 import { Browser } from 'components/common/Browser';
 import { Button } from 'components/common/Button';
+import { Layout } from 'components/layouts/Layout';
+import { theme } from 'styles/theme';
+import { BOARD_ALERT_MESSAGE, MEMBER_ALERT_MESSAGE } from 'constants/constants';
+import { Post, Comment, Member, CustomError } from 'global/types';
 import DeletePostImg from 'assets/delete_post.png';
 import ModifyPostImg from 'assets/modify_post.png';
 import BackToPostListImg from 'assets/post_list.png';
-import styled from 'styled-components/macro';
-import { theme } from 'styles/theme';
-import moment from 'moment';
-import { Layout } from 'components/layouts/Layout';
-import { Post, Comment, Member, CustomError } from 'global/types';
-import { CommentItem } from 'components/board/CommentItem';
-import { NoComment } from 'components/board/NoComment';
-import { useInput } from 'hooks/useInput';
-import { board } from 'apis/board';
-import { auth } from 'apis/auth';
-import { CommentForm } from 'components/board/CommentForm';
-import { member } from 'apis/member';
-import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
-import { BOARD_ALERT_MESSAGE, MEMBER_ALERT_MESSAGE } from 'constants/constants';
 
 interface PostAreaProps {
   data: Post;

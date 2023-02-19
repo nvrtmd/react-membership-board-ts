@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { Member } from 'global/types';
 import { member } from 'apis/member';
 import { AUTH_ERROR_MESSAGE } from 'constants/constants';
+import { Member } from 'global/types';
 
 const auth = {
   signUp: async (data: Member) => {

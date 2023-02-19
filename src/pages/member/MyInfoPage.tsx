@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import { Browser } from 'components/common/Browser';
-import { Layout } from 'components/layouts/Layout';
 import { member } from 'apis/member';
 import { useValidInput } from 'hooks/useValidInput';
+import { Browser } from 'components/common/Browser';
 import { Input } from 'components/common/Input';
 import { Button } from 'components/common/Button';
+import { Layout } from 'components/layouts/Layout';
 import { theme } from 'styles/theme';
-import { CustomError } from 'global/types';
 import WindowsImg from 'assets/windows_img.png';
 import { MEMBER_ALERT_MESSAGE, VALIDATION_ALERT_MESSAGE } from 'constants/constants';
+import { CustomError } from 'global/types';
 
 interface ValidationAlertProps {
   isValid: boolean;

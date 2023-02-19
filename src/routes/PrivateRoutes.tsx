@@ -1,6 +1,6 @@
-import { auth } from 'apis/auth';
 import { useState, useEffect } from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
+import { auth } from 'apis/auth';
 
 export const PrivateRoutes = () => {
   const [isCurrentUserSignedIn, setIsCurrentUserSignedIn] = useState<boolean>(true);

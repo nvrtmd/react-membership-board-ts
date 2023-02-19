@@ -1,15 +1,15 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HomePage } from 'pages/etc/HomePage';
+import { AboutPage } from 'pages/etc/AboutPage';
 import { ListPage as PostListPage } from 'pages/board/ListPage';
 import { PostPage } from 'pages/board/PostPage';
 import { CreatePage } from 'pages/board/CreatePage';
 import { ModifyPage } from 'pages/board/ModifyPage';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { SignUpPage } from 'pages/auth/SignUpPage';
 import { SignInPage } from 'pages/auth/SignInPage';
-import { MyPostsPage } from 'pages/member/MyPostsPage';
 import { PrivateRoutes } from 'routes/PrivateRoutes';
+import { MyPostsPage } from 'pages/member/MyPostsPage';
 import { MyInfoPage } from 'pages/member/MyInfoPage';
-import { AboutPage } from 'pages/etc/AboutPage';
 
 function App() {
   return (

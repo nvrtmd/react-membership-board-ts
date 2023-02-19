@@ -1,7 +1,7 @@
-import { BOARD_PLACEHOLDER } from 'constants/constants';
 import { memo } from 'react';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
+import { BOARD_PLACEHOLDER } from 'constants/constants';
 
 interface TextAreaProps {
   placeholder: string;

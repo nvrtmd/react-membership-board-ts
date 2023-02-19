@@ -1,8 +1,8 @@
 import styled from 'styled-components/macro';
 import { Layout } from 'components/layouts/Layout';
 import FullLogoImg from 'assets/full_logo_img.png';
-import StartImg from 'assets/start_img.png';
 import GithubImg from 'assets/github_img.png';
+import StartImg from 'assets/start_img.png';
 
 export const AboutPage = () => {
   return (

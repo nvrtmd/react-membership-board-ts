@@ -1,8 +1,8 @@
 import { useCallback, forwardRef, ForwardedRef, memo, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import { theme } from 'styles/theme';
 import { Button } from 'components/common/Button';
+import { theme } from 'styles/theme';
 import MinimizeImg from 'assets/minimize_img.jpg';
 import MaximizeImg from 'assets/maximize_img.jpg';
 import CloseImg from 'assets/close_img.jpg';
