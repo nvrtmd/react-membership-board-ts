@@ -1,3 +1,4 @@
+import { BOARD_PLACEHOLDER } from 'constants/constants';
 import { memo } from 'react';
 import styled from 'styled-components/macro';
 import { theme } from 'styles/theme';
@@ -19,7 +20,7 @@ export const TextArea = memo(({ placeholder, name, changeHandler, value, isDisab
   return (
     <TextAreaBox
       name={name}
-      placeholder={isDisabled ? 'Only signed in users can post comment' : placeholder}
+      placeholder={isDisabled ? BOARD_PLACEHOLDER.ONLY_SIGNED_IN_USERS_CAN_COMMENT : placeholder}
       onChange={changeHandler}
       value={value}
       disabled={isDisabled}

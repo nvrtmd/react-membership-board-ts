@@ -4,10 +4,11 @@ import styled from 'styled-components/macro';
 import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
 import { CustomError, Post } from 'global/types';
-import { member } from 'api/member';
+import { member } from 'apis/member';
 import { PostItem } from 'components/board/PostItem';
 import { NoPost } from 'components/common/NoPost';
 import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
+import { BOARD_ALERT_MESSAGE, MEMBER_ALERT_MESSAGE } from 'constants/constants';
 
 interface PostListBottomProps {
   continueFetching: boolean;
@@ -45,7 +46,7 @@ export const MyPostsPage = () => {
     try {
       await member.getMemberInfo();
     } catch (err) {
-      console.log('비로그인 회원입니다.');
+      console.log(MEMBER_ALERT_MESSAGE.NOT_SIGNED_IN_USER_ALERT);
       return;
     }
 
@@ -82,7 +83,7 @@ export const MyPostsPage = () => {
             )}
           </ListWrapper>
           <PostListBottom continueFetching={continueFetching} ref={intersectRef}>
-            Loading...
+            {BOARD_ALERT_MESSAGE.LOADING_TEXT}
           </PostListBottom>
         </Browser>
       </BrowserWrapper>

@@ -11,8 +11,9 @@ import DocumentImg from 'assets/document_img.png';
 import CommentImg from 'assets/comment_img.png';
 import AboutImg from 'assets/about_img.png';
 import HomeImg from 'assets/home_img.png';
-import { auth } from 'api/auth';
+import { auth } from 'apis/auth';
 import { CustomError } from 'global/types';
+import { AUTH_ALERT_MESSAGE } from 'constants/constants';
 
 interface MenuProps {
   menuRef: React.RefObject<HTMLDivElement>;
@@ -30,7 +31,7 @@ export const Menu = ({ menuRef, startButtonClickHandler }: MenuProps) => {
   const handleSignOutMenuClick = useCallback(async () => {
     try {
       await auth.signOut();
-      alert('로그아웃 되었습니다.');
+      alert(AUTH_ALERT_MESSAGE.SIGN_OUT_ALERT);
       startButtonClickHandler();
       navigate('/');
     } catch (err) {

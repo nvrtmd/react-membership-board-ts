@@ -4,9 +4,10 @@ import styled from 'styled-components/macro';
 import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
 import { useInput } from 'hooks/useInput';
-import { board } from 'api/board';
+import { board } from 'apis/board';
 import { PostForm } from 'components/board/PostForm';
 import { CustomError } from 'global/types';
+import { BOARD_ALERT_MESSAGE, BOARD_ERROR_MESSAGE } from 'constants/constants';
 
 export const ModifyPage = () => {
   const { inputValue: title, setInputValue: setTitle, handleInputChange: handleTitleChange } = useInput('');
@@ -25,18 +26,18 @@ export const ModifyPage = () => {
         setTitle(fetchedData.post_title);
         setContents(fetchedData.post_contents);
       } else {
-        alert('게시글이 존재하지 않습니다.');
+        alert(BOARD_ALERT_MESSAGE.POST_NOT_EXIST_ALERT);
         navigate(-1);
       }
     } catch {
-      alert('서버로부터 게시글 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+      alert(BOARD_ERROR_MESSAGE.CANNOT_GET_POST_DATA_FROM_SERVER);
       navigate(-1);
     }
   };
 
   const isPostFormInputValid = () => {
     if (!title.length || !contents.length) {
-      alert('제목 또는 본문을 작성하세요.');
+      alert(BOARD_ALERT_MESSAGE.TITLE_OR_CONTENTS_EMPTY_ALERT);
       return false;
     }
     return true;
@@ -48,7 +49,7 @@ export const ModifyPage = () => {
       if (isPostFormInputValid() && params.postIdx) {
         try {
           await board.modifyPost(params.postIdx, { title, contents });
-          alert('게시글이 수정되었습니다.');
+          alert(BOARD_ALERT_MESSAGE.POST_MODIFIED_ALERT);
           navigate(-1);
         } catch (err) {
           const error = err as CustomError;
@@ -60,7 +61,10 @@ export const ModifyPage = () => {
     [title, contents],
   );
 
-  const handleCancelButtonClick = useCallback(() => confirm('게시글 수정을 취소하시겠습니까?') && navigate(-1), []);
+  const handleCancelButtonClick = useCallback(
+    () => confirm(BOARD_ALERT_MESSAGE.POST_MODIFIED_CANCEL_CONFIRM) && navigate(-1),
+    [],
+  );
 
   return (
     <Layout>

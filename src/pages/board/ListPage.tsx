@@ -5,11 +5,12 @@ import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
 import { CustomError, Post } from 'global/types';
 import { Button } from 'components/common/Button';
-import { auth } from 'api/auth';
-import { board } from 'api/board';
+import { auth } from 'apis/auth';
+import { board } from 'apis/board';
 import { PostItem } from 'components/board/PostItem';
 import { NoPost } from 'components/common/NoPost';
 import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
+import { BOARD_ALERT_MESSAGE } from 'constants/constants';
 
 interface PostListBottomProps {
   continueFetching: boolean;
@@ -70,7 +71,7 @@ export const ListPage = () => {
       await auth.isSignedIn();
       navigate('/board/create');
     } catch {
-      if (confirm('로그인이 필요합니다. 확인 버튼을 클릭하면 로그인 페이지로 이동합니다.')) {
+      if (confirm(BOARD_ALERT_MESSAGE.NEED_SIGN_IN_CONFIRM)) {
         navigate('/auth/signin');
       } else {
         return;
@@ -93,7 +94,7 @@ export const ListPage = () => {
             )}
           </ListWrapper>
           <PostListBottom continueFetching={continueFetching} ref={intersectRef}>
-            Loading...
+            {BOARD_ALERT_MESSAGE.LOADING_TEXT}
           </PostListBottom>
         </Browser>
       </BrowserWrapper>

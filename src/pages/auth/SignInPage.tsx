@@ -8,8 +8,9 @@ import { Browser } from 'components/common/Browser';
 import { Input } from 'components/common/Input';
 import { Button } from 'components/common/Button';
 import WindowsImg from 'assets/windows_img.png';
-import { auth } from 'api/auth';
+import { auth } from 'apis/auth';
 import { CustomError } from 'global/types';
+import { AUTH_ALERT_MESSAGE } from 'constants/constants';
 
 export const SignInPage = () => {
   return (
@@ -32,7 +33,7 @@ export const SignInForm = () => {
 
   const isSignInFormInputValid = () => {
     if (!id.length || !password.length) {
-      alert('아이디 또는 비밀번호를 입력하세요.');
+      alert(AUTH_ALERT_MESSAGE.ID_OR_PASSWORD_EMPTY_ALERT);
       return false;
     }
     return true;

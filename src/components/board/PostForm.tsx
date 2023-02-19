@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import { Input } from 'components/common/Input';
 import { TextArea } from 'components/common/TextArea';
 import { Button } from 'components/common/Button';
+import { BOARD_PLACEHOLDER } from 'constants/constants';
 
 interface PostFormProps {
   submitHandler: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -41,13 +42,13 @@ export const PostForm = ({
         type="title"
         value={titleValue}
         changeHandler={titleChangeHandler}
-        placeholder="Write your title"
+        placeholder={BOARD_PLACEHOLDER.WRITE_YOUR_TITLE}
       />
       {useMemo(
         () => (
           <ContentsWrapper>
             <TextArea
-              placeholder="Write your contents"
+              placeholder={BOARD_PLACEHOLDER.WRITE_YOUR_CONTENTS}
               name="contents"
               changeHandler={contentsChangeHandler}
               value={contentsValue}
