@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import { Browser } from 'components/common/Browser';
-import { Layout } from 'components/layouts/Layout';
-import { CustomError, Post } from 'global/types';
-import { Button } from 'components/common/Button';
 import { auth } from 'apis/auth';
 import { board } from 'apis/board';
-import { PostItem } from 'components/board/PostItem';
-import { NoPost } from 'components/common/NoPost';
 import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
+import { PostItem } from 'components/board/PostItem';
+import { Browser } from 'components/common/Browser';
+import { Button } from 'components/common/Button';
+import { NoPost } from 'components/common/NoPost';
+import { Layout } from 'components/layouts/Layout';
 import { BOARD_ALERT_MESSAGE } from 'constants/constants';
+import { CustomError, Post } from 'global/types';
 
 interface PostListBottomProps {
   continueFetching: boolean;

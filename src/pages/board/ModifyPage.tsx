@@ -1,13 +1,13 @@
 import { useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
+import { board } from 'apis/board';
+import { useInput } from 'hooks/useInput';
+import { PostForm } from 'components/board/PostForm';
 import { Browser } from 'components/common/Browser';
 import { Layout } from 'components/layouts/Layout';
-import { useInput } from 'hooks/useInput';
-import { board } from 'apis/board';
-import { PostForm } from 'components/board/PostForm';
-import { CustomError } from 'global/types';
 import { BOARD_ALERT_MESSAGE, BOARD_ERROR_MESSAGE } from 'constants/constants';
+import { CustomError } from 'global/types';
 
 export const ModifyPage = () => {
   const { inputValue: title, setInputValue: setTitle, handleInputChange: handleTitleChange } = useInput('');
