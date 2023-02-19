@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import { BOARD_ERROR_MESSAGE } from 'constants/constants';
 import { NewComment, NewPost } from 'global/types';
 
 const board = {
@@ -14,7 +15,7 @@ const board = {
     } catch {
       throw {
         code: 500,
-        message: '서버로부터 게시글 목록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',
+        message: BOARD_ERROR_MESSAGE.CANNOT_GET_POST_LIST_FROM_SERVER,
       };
     }
   },
@@ -25,7 +26,7 @@ const board = {
     } catch {
       throw {
         code: 500,
-        message: '서버로부터 게시글 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',
+        message: BOARD_ERROR_MESSAGE.CANNOT_GET_POST_DATA_FROM_SERVER,
       };
     }
   },
@@ -41,7 +42,7 @@ const board = {
     } catch {
       throw {
         code: 500,
-        message: '서버로부터 댓글 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',
+        message: BOARD_ERROR_MESSAGE.CANNOT_GET_COMMENT_LIST,
       };
     }
   },
@@ -51,7 +52,7 @@ const board = {
     } catch {
       throw {
         code: 500,
-        message: '게시글 작성에 실패하였습니다. 잠시 후 다시 시도해주세요.',
+        message: BOARD_ERROR_MESSAGE.CANNOT_CREATE_POST,
       };
     }
   },
@@ -62,11 +63,11 @@ const board = {
       const error = err as AxiosError;
       switch (error.response?.status) {
         case 500:
-          throw { code: 500, message: '로그인이 필요합니다.' };
+          throw { code: 500, message: BOARD_ERROR_MESSAGE.NEED_SIGN_IN };
         case 403:
-          throw { code: 403, message: '게시글 수정 및 삭제는 작성자만 가능합니다.' };
+          throw { code: 403, message: BOARD_ERROR_MESSAGE.ONLY_WRITER_CAN_MODIFY_OR_DELETE_POST };
         default:
-          throw { code: 500, message: '게시글 수정 및 삭제에 실패하였습니다. 잠시 후 다시 시도해주세요.' };
+          throw { code: 500, message: BOARD_ERROR_MESSAGE.CANNOT_MODIFY_OR_DELETE_POST };
       }
     }
   },
@@ -76,7 +77,7 @@ const board = {
     } catch {
       throw {
         code: 500,
-        message: '게시글 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.',
+        message: BOARD_ERROR_MESSAGE.CANNOT_MODIFY_POST,
       };
     }
   },
@@ -86,7 +87,7 @@ const board = {
     } catch {
       throw {
         code: 500,
-        message: '게시글을 삭제하지 못했습니다. 잠시 후 다시 시도해주세요.',
+        message: BOARD_ERROR_MESSAGE.CANNOT_DELETE_POST,
       };
     }
   },
@@ -96,7 +97,7 @@ const board = {
     } catch {
       throw {
         code: 500,
-        message: '댓글 작성에 실패하였습니다. 잠시 후 다시 시도해주세요.',
+        message: BOARD_ERROR_MESSAGE.CANNOT_CREATE_COMMENT,
       };
     }
   },
@@ -106,7 +107,7 @@ const board = {
     } catch {
       throw {
         code: 500,
-        message: '댓글 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.',
+        message: BOARD_ERROR_MESSAGE.CANNOT_MODIFY_COMMENT,
       };
     }
   },
@@ -116,7 +117,7 @@ const board = {
     } catch {
       throw {
         code: 500,
-        message: '댓글을 삭제하지 못했습니다. 잠시 후 다시 시도해주세요.',
+        message: BOARD_ERROR_MESSAGE.CANNOT_DELETE_COMMENT,
       };
     }
   },

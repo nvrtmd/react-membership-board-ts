@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Member } from 'global/types';
 import { member } from 'apis/member';
+import { AUTH_ERROR_MESSAGE } from 'constants/constants';
 
 const auth = {
   signUp: async (data: Member) => {
@@ -9,7 +10,7 @@ const auth = {
     } catch {
       throw {
         code: 500,
-        message: '중복된 아이디가 존재합니다.',
+        message: AUTH_ERROR_MESSAGE.DUPLICATED_ID,
       };
     }
   },
@@ -19,7 +20,7 @@ const auth = {
     } catch {
       throw {
         code: 500,
-        message: '존재하지 않는 아이디 또는 비밀번호입니다.',
+        message: AUTH_ERROR_MESSAGE.NOT_EXISTED_ID_OR_PASSWORD,
       };
     }
   },
@@ -29,7 +30,7 @@ const auth = {
     } catch {
       throw {
         code: 500,
-        message: '로그아웃에 실패하였습니다. 잠시 후 다시 시도해주세요.',
+        message: AUTH_ERROR_MESSAGE.CANNOT_SIGN_OUT,
       };
     }
   },
@@ -37,7 +38,7 @@ const auth = {
     try {
       await member.getMemberInfo();
     } catch (err) {
-      throw { code: 500, message: '로그인이 필요합니다.' };
+      throw { code: 500, message: AUTH_ERROR_MESSAGE.NEED_SIGN_IN };
     }
   },
 };
