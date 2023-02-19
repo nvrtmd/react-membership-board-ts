@@ -10,6 +10,7 @@ import { Button } from 'components/common/Button';
 import { theme } from 'styles/theme';
 import { CustomError } from 'global/types';
 import WindowsImg from 'assets/windows_img.png';
+import { MEMBER_ALERT_MESSAGE, VALIDATION_ALERT_MESSAGE } from 'constants/constants';
 
 interface ValidationAlertProps {
   isValid: boolean;
@@ -54,7 +55,7 @@ export const MemberInfoModifyForm = () => {
       handleNicknameSet(fetchedData.member_nickname);
       originalMemberData = fetchedData;
     } catch {
-      console.log('비로그인 회원입니다.');
+      console.log(MEMBER_ALERT_MESSAGE.NOT_SIGNED_IN_USER_ALERT);
     }
   };
 
@@ -72,7 +73,7 @@ export const MemberInfoModifyForm = () => {
       if (isMemberInfoModifyFormInputValid()) {
         try {
           await member.modifyMemberInfo({ id: idState.value, nickname: nicknameState.value });
-          alert('회원 정보가 수정되었습니다.');
+          alert(MEMBER_ALERT_MESSAGE.MEMBER_INFO_MODIFIED_ALERT);
           handleIsModifyModeToggle();
           fetchMemberData();
         } catch (err) {
@@ -81,7 +82,7 @@ export const MemberInfoModifyForm = () => {
           return;
         }
       } else {
-        alert('입력하신 내용이 올바른지 확인해주세요.');
+        alert(MEMBER_ALERT_MESSAGE.CHECK_YOUR_INPUT_ALERT);
       }
     },
     [idState.isValid, nicknameState.isValid],
@@ -99,7 +100,7 @@ export const MemberInfoModifyForm = () => {
 
   const handleDeleteAccountButtonClick = useCallback(async () => {
     try {
-      if (confirm('정말로 탈퇴하시겠습니까?')) {
+      if (confirm(MEMBER_ALERT_MESSAGE.DELETE_ACCOUNT_CONFIRM)) {
         await member.deleteAccount();
         navigate('/');
       } else {
@@ -151,7 +152,7 @@ export const MemberInfoModifyForm = () => {
       changeHandler: handleIdChange,
       blurHandler: handleIdBlur,
       isValid: !idState.isValid && idState.isValid !== null,
-      alertMessage: '영문 4 ~ 12자를 입력하세요.',
+      alertMessage: VALIDATION_ALERT_MESSAGE.ID_VALIDATION_ALERT,
     },
     {
       title: 'nickname',
@@ -159,7 +160,7 @@ export const MemberInfoModifyForm = () => {
       changeHandler: handleNicknameChange,
       blurHandler: handleNicknameBlur,
       isValid: !nicknameState.isValid && nicknameState.isValid !== null,
-      alertMessage: '영어/숫자/한글 4~12자를 입력하세요.',
+      alertMessage: VALIDATION_ALERT_MESSAGE.NICKNAME_VALIDATION_ALERT,
     },
   ];
 
