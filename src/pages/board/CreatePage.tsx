@@ -7,6 +7,7 @@ import { useInput } from 'hooks/useInput';
 import { board } from 'apis/board';
 import { PostForm } from 'components/board/PostForm';
 import { CustomError } from 'global/types';
+import { BOARD_ALERT_MESSAGE } from 'constants/constants';
 
 export const CreatePage = () => {
   const { inputValue: title, handleInputChange: handleTitleChange } = useInput('');
@@ -15,7 +16,7 @@ export const CreatePage = () => {
 
   const isPostFormInputValid = () => {
     if (!title.length || !contents.length) {
-      alert('제목 또는 본문을 작성하세요.');
+      alert(BOARD_ALERT_MESSAGE.TITLE_OR_CONTENTS_EMPTY_ALERT);
       return false;
     }
     return true;
@@ -27,7 +28,7 @@ export const CreatePage = () => {
       if (isPostFormInputValid()) {
         try {
           await board.createPost({ title, contents });
-          alert('게시글이 작성되었습니다.');
+          alert(BOARD_ALERT_MESSAGE.POST_CREATED_ALERT);
           navigate('/board/list');
         } catch (err) {
           const error = err as CustomError;
@@ -39,7 +40,10 @@ export const CreatePage = () => {
     [title, contents],
   );
 
-  const handleCancelButtonClick = useCallback(() => confirm('게시글 작성을 취소하시겠습니까?') && navigate(-1), []);
+  const handleCancelButtonClick = useCallback(
+    () => confirm(BOARD_ALERT_MESSAGE.POST_CREATE_CANCEL_CONFIRM) && navigate(-1),
+    [],
+  );
 
   return (
     <Layout>

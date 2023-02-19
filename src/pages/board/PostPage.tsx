@@ -18,6 +18,7 @@ import { auth } from 'apis/auth';
 import { CommentForm } from 'components/board/CommentForm';
 import { member } from 'apis/member';
 import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
+import { BOARD_ALERT_MESSAGE, MEMBER_ALERT_MESSAGE } from 'constants/constants';
 
 interface PostAreaProps {
   data: Post;
@@ -71,7 +72,7 @@ export const PostPage = () => {
       const fetchedData = await member.getMemberInfo();
       setCurrentUserData({ id: fetchedData.member_id });
     } catch {
-      console.log('비로그인 회원입니다.');
+      console.log(MEMBER_ALERT_MESSAGE.NOT_SIGNED_IN_USER_ALERT);
     }
   };
 
@@ -81,7 +82,7 @@ export const PostPage = () => {
         const fetchedData = await board.getPostData(params.postIdx);
         setPostData(fetchedData);
       } else {
-        alert('게시글이 존재하지 않습니다.');
+        alert(BOARD_ALERT_MESSAGE.POST_NOT_EXIST_ALERT);
         navigate(-1);
       }
     } catch (err) {
@@ -142,9 +143,9 @@ const FunctionButtons = ({ postIdx, isPostWriter }: FunctionButtonsProps) => {
       case 'Delete':
         try {
           await board.isPostWriter(postIdx);
-          if (confirm('게시글을 삭제하시겠습니까?')) {
+          if (confirm(BOARD_ALERT_MESSAGE.POST_DELETE_CONFIRM)) {
             board.deletePost(postIdx);
-            alert('게시글이 삭제되었습니다.');
+            alert(BOARD_ALERT_MESSAGE.POST_DELETED_ALERT);
             navigate('/board/list');
           } else {
             return;
@@ -246,7 +247,7 @@ const CommentArea = memo(({ currentUserData, rootRef, postContainerTopRef }: Com
         }
         setCommentList((prev) => [...prev, ...fetchedData]);
       } else {
-        alert('게시글이 존재하지 않습니다.');
+        alert(BOARD_ALERT_MESSAGE.POST_NOT_EXIST_ALERT);
         navigate(-1);
       }
     } catch (err) {
@@ -276,7 +277,7 @@ const CommentArea = memo(({ currentUserData, rootRef, postContainerTopRef }: Com
       try {
         await auth.isSignedIn();
         if (comment.length <= 0) {
-          alert('내용을 작성하세요.');
+          alert(BOARD_ALERT_MESSAGE.CONTENTS_EMPTY_ALERT);
           return;
         }
         if (params.postIdx) {
@@ -334,7 +335,7 @@ const CommentList = memo(
           <NoComment />
         )}
         <CommentListBottom continueFetching={continueFetching} ref={intersectRef}>
-          Loading...
+          {BOARD_ALERT_MESSAGE.LOADING_TEXT}
         </CommentListBottom>
       </>
     );
