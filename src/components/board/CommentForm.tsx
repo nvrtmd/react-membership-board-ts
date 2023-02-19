@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import styled from 'styled-components/macro';
 import { TextArea } from 'components/common/TextArea';
-import CommentImg from 'assets/comment.png';
 import { Button } from 'components/common/Button';
 import { BOARD_PLACEHOLDER } from 'constants/constants';
+import CommentImg from 'assets/comment.png';
 
 interface CommentFormProps {
   submitHandler: (e: React.FormEvent<HTMLFormElement>) => void;

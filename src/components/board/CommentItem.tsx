@@ -1,14 +1,14 @@
 import { useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import { theme } from 'styles/theme';
-import { Comment, CustomError } from 'global/types';
 import moment from 'moment';
-import { CommentForm } from 'components/board/CommentForm';
-import { useInput } from 'hooks/useInput';
 import { auth } from 'apis/auth';
 import { board } from 'apis/board';
+import { useInput } from 'hooks/useInput';
+import { CommentForm } from 'components/board/CommentForm';
+import { theme } from 'styles/theme';
 import { BOARD_ALERT_MESSAGE } from 'constants/constants';
+import { Comment, CustomError } from 'global/types';
 
 interface CommentItemProps {
   data: Comment;
