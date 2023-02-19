@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback, useRef, memo } from 'react';
 import styled from 'styled-components/macro';
+import { PushLockButton } from 'components/common/PushLockButton';
+import { Menu } from 'components/layouts/Menu';
+import { Clock } from 'components/layouts/Clock';
 import { theme } from 'styles/theme';
 import StartImg from 'assets/start_img.png';
-import { PushLockButton } from 'components/common/PushLockButton';
-import { Menu } from './Menu';
-import { Clock } from './Clock';
 
 export const BottomNavBar = memo(() => {
   const [isPushed, setIsPushed] = useState<boolean>(false);

@@ -1,7 +1,10 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
+import { auth } from 'apis/auth';
 import { theme } from 'styles/theme';
+import { AUTH_ALERT_MESSAGE } from 'constants/constants';
+import { CustomError } from 'global/types';
 import PowerImg from 'assets/power_img.png';
 import SourceCodeImg from 'assets/source_code_img.png';
 import SignupImg from 'assets/sign_up_img.png';
@@ -11,9 +14,6 @@ import DocumentImg from 'assets/document_img.png';
 import CommentImg from 'assets/comment_img.png';
 import AboutImg from 'assets/about_img.png';
 import HomeImg from 'assets/home_img.png';
-import { auth } from 'apis/auth';
-import { CustomError } from 'global/types';
-import { AUTH_ALERT_MESSAGE } from 'constants/constants';
 
 interface MenuProps {
   menuRef: React.RefObject<HTMLDivElement>;

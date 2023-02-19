@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
-import { theme } from 'styles/theme';
 import { BottomNavBar } from 'components/layouts/BottomNavBar';
-import { SideNavBar } from './SideNavBar';
+import { SideNavBar } from 'components/layouts/SideNavBar';
+import { theme } from 'styles/theme';
 
 interface LayoutProps {
   children: React.ReactNode;
