@@ -10,6 +10,7 @@ import WindowsImg from 'assets/windows_img.png';
 import { auth } from 'apis/auth';
 import { useValidInput } from 'hooks/useValidInput';
 import { CustomError } from 'global/types';
+import { MEMBER_ALERT_MESSAGE, VALIDATION_ALERT_MESSAGE } from 'constants/constants';
 
 interface ValidationAlertProps {
   isValid: boolean;
@@ -47,7 +48,7 @@ const SignUpForm = () => {
     if (idState.isValid && passwordState.isValid && nicknameState.isValid) {
       return true;
     } else {
-      alert('입력하신 내용을 확인해주세요.');
+      alert(MEMBER_ALERT_MESSAGE.CHECK_YOUR_INPUT_ALERT);
       return false;
     }
   };
@@ -102,7 +103,7 @@ const SignUpForm = () => {
       changeHandler: handleIdChange,
       blurHandler: handleIdBlur,
       isValid: !idState.isValid && idState.isValid !== null,
-      alertMessage: '영문 4 ~ 12자를 입력하세요.',
+      alertMessage: VALIDATION_ALERT_MESSAGE.ID_VALIDATION_ALERT,
     },
     {
       title: 'password',
@@ -110,7 +111,7 @@ const SignUpForm = () => {
       changeHandler: handlePasswordChange,
       blurHandler: handlePasswordBlur,
       isValid: !passwordState.isValid && passwordState.isValid !== null,
-      alertMessage: '숫자/특수문자 포함 8자 이상 입력하세요.',
+      alertMessage: VALIDATION_ALERT_MESSAGE.PASSWORD_VALIDATION_ALERT,
     },
     {
       title: 'nickname',
@@ -118,7 +119,7 @@ const SignUpForm = () => {
       changeHandler: handleNicknameChange,
       blurHandler: handleNicknameBlur,
       isValid: !nicknameState.isValid && nicknameState.isValid !== null,
-      alertMessage: '영어/숫자/한글 4~12자를 입력하세요.',
+      alertMessage: VALIDATION_ALERT_MESSAGE.NICKNAME_VALIDATION_ALERT,
     },
   ];
   return (
