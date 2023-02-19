@@ -8,6 +8,7 @@ import { CommentForm } from 'components/board/CommentForm';
 import { useInput } from 'hooks/useInput';
 import { auth } from 'apis/auth';
 import { board } from 'apis/board';
+import { BOARD_ALERT_MESSAGE } from 'constants/constants';
 
 interface CommentItemProps {
   data: Comment;
@@ -38,7 +39,7 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
     try {
       await auth.isSignedIn();
       if (modifiedComment.length <= 0) {
-        alert('내용을 작성하세요.');
+        alert(BOARD_ALERT_MESSAGE.CONTENTS_EMPTY_ALERT);
         return;
       }
       if (params.postIdx) {
@@ -87,7 +88,7 @@ export const CommentBody = ({
   const handleCommentDeleteButtonClick = async () => {
     try {
       await auth.isSignedIn();
-      if (confirm('댓글을 삭제하시겠습니까?')) {
+      if (confirm(BOARD_ALERT_MESSAGE.COMMENT_DELETE_CONFIRM)) {
         if (params.postIdx) {
           await board.deleteComment(params.postIdx, data.comment_idx);
           commentListRefreshHandler();

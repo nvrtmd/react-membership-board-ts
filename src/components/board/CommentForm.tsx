@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import { TextArea } from 'components/common/TextArea';
 import CommentImg from 'assets/comment.png';
 import { Button } from 'components/common/Button';
+import { BOARD_PLACEHOLDER } from 'constants/constants';
 
 interface CommentFormProps {
   submitHandler: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -50,7 +51,7 @@ export const CommentForm = ({
       {formHeader}
       <ContentsWrapper>
         <TextArea
-          placeholder="Write your comment"
+          placeholder={BOARD_PLACEHOLDER.WRITE_YOUR_COMMENT}
           name="comment"
           changeHandler={commentChangeHandler}
           value={commentValue}
