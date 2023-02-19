@@ -85,7 +85,7 @@ export const MemberInfoModifyForm = () => {
         alert(MEMBER_ALERT_MESSAGE.CHECK_YOUR_INPUT_ALERT);
       }
     },
-    [idState.isValid, nicknameState.isValid],
+    [idState.value, idState.isValid, nicknameState.value, nicknameState.isValid],
   );
 
   const handleIsModifyModeToggle = useCallback(() => {
