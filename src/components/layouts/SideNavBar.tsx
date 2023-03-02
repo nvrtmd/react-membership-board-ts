@@ -76,41 +76,15 @@ export const SideNavBar = memo(() => {
 
   return (
     <Wrapper>
-      <NavItem
-        name="Board"
-        image={BoardImg}
-        handleClick={() => handleNavItemClick('Board')}
-        isClicked={isClicked('Board')}
-        route="/board/list"
-      />
-      <NavItem
-        name="My Posts"
-        image={DocumentImg}
-        handleClick={() => handleNavItemClick('My Posts')}
-        isClicked={isClicked('My Posts')}
-        route="/member/posts"
-      />
-      <NavItem
-        name="My Page"
-        image={CommentImg}
-        handleClick={() => handleNavItemClick('My Page')}
-        isClicked={isClicked('My Page')}
-        route="/member/info"
-      />
-      <NavItem
-        name="Home"
-        image={HomeImg}
-        handleClick={() => handleNavItemClick('Home')}
-        isClicked={isClicked('Home')}
-        route="/"
-      />
-      <NavItem
-        name="About"
-        image={AboutImg}
-        handleClick={() => handleNavItemClick('About')}
-        isClicked={isClicked('About')}
-        route="/about"
-      />
+      {navItemList.map((navItem) => (
+        <NavItem
+          name={navItem.name}
+          image={navItem.image}
+          handleClick={navItem.clickHandler}
+          isClicked={navItem.isClicked}
+          route={navItem.route}
+        />
+      ))}
     </Wrapper>
   );
 });
