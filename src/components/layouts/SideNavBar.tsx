@@ -36,6 +36,44 @@ export const SideNavBar = memo(() => {
     }
   };
 
+  const navItemList = [
+    {
+      name: 'Board',
+      image: BoardImg,
+      clickHandler: () => handleNavItemClick('Board'),
+      isClicked: isClicked('Board'),
+      route: '/board/list',
+    },
+    {
+      name: 'My Posts',
+      image: DocumentImg,
+      clickHandler: () => handleNavItemClick('My Posts'),
+      isClicked: isClicked('My Posts'),
+      route: '/member/posts',
+    },
+    {
+      name: 'My Page',
+      image: CommentImg,
+      clickHandler: () => handleNavItemClick('My Page'),
+      isClicked: isClicked('My Page'),
+      route: '/member/info',
+    },
+    {
+      name: 'Home',
+      image: HomeImg,
+      clickHandler: () => handleNavItemClick('Home'),
+      isClicked: isClicked('Home'),
+      route: '/',
+    },
+    {
+      name: 'About',
+      image: AboutImg,
+      clickHandler: () => handleNavItemClick('About'),
+      isClicked: isClicked('About'),
+      route: '/about',
+    },
+  ];
+
   return (
     <Wrapper>
       <NavItem
