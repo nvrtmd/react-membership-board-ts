@@ -4,9 +4,6 @@ import styled from 'styled-components/macro';
 interface PushLockButtonProps {
   isPushed: boolean;
   clickHandler?: () => void;
-  mouseDownHandler?: () => void;
-  mouseUpHandler?: () => void;
-  mouseOutHandler?: () => void;
   name?: string;
   buttonRef?: React.RefObject<HTMLDivElement>;
   children?: React.ReactNode;
@@ -17,32 +14,14 @@ interface PushLockButtonWrapperProps {
   ref?: React.RefObject<HTMLDivElement>;
 }
 
-export const PushLockButton = memo(
-  ({
-    isPushed,
-    clickHandler,
-    mouseDownHandler,
-    mouseUpHandler,
-    mouseOutHandler,
-    name,
-    buttonRef,
-    children,
-  }: PushLockButtonProps) => {
-    return (
-      <PushLockButtonWrapper
-        isPushed={isPushed}
-        onClick={clickHandler}
-        onMouseDown={mouseDownHandler}
-        onMouseUp={mouseUpHandler}
-        onMouseOut={mouseOutHandler}
-        ref={buttonRef}
-      >
-        {children}
-        {name}
-      </PushLockButtonWrapper>
-    );
-  },
-);
+export const PushLockButton = memo(({ isPushed, clickHandler, name, buttonRef, children }: PushLockButtonProps) => {
+  return (
+    <PushLockButtonWrapper isPushed={isPushed} onClick={clickHandler} ref={buttonRef}>
+      {children}
+      {name}
+    </PushLockButtonWrapper>
+  );
+});
 
 const PushLockButtonWrapper = styled.div<PushLockButtonWrapperProps>`
   background-color: #c0c0c0;
