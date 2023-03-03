@@ -2,7 +2,6 @@ import { useState, memo } from 'react';
 import styled from 'styled-components/macro';
 
 interface ButtonProps {
-  pushHandler?: () => void;
   restoreHandler?: () => void;
   name?: string;
   children?: React.ReactNode;
@@ -15,15 +14,13 @@ interface ButtonWrapperProps {
   isDisabled?: boolean;
 }
 
-export const Button = memo(({ pushHandler, restoreHandler, name, children, type, isDisabled }: ButtonProps) => {
+export const Button = memo(({ restoreHandler, name, children, type, isDisabled }: ButtonProps) => {
   const [isPushed, setIsPushed] = useState<boolean>(false);
 
   const handleButtonPush = () => {
-    if (pushHandler) {
-      pushHandler();
-    }
     setIsPushed(true);
   };
+
   const handleButtonRestore = () => {
     if (restoreHandler) {
       restoreHandler();
