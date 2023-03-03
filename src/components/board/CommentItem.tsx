@@ -34,25 +34,28 @@ export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }
     setIsModifyButtonClicked((prev) => !prev);
   }, []);
 
-  const handleCommentModifyFormSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      await auth.isSignedIn();
-      if (modifiedComment.length <= 0) {
-        alert(BOARD_ALERT_MESSAGE.CONTENTS_EMPTY_ALERT);
+  const handleCommentModifyFormSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      try {
+        await auth.isSignedIn();
+        if (modifiedComment.length <= 0) {
+          alert(BOARD_ALERT_MESSAGE.CONTENTS_EMPTY_ALERT);
+          return;
+        }
+        if (params.postIdx) {
+          await board.modifyComment(params.postIdx, data.comment_idx, { contents: modifiedComment });
+          commentListRefreshHandler();
+        }
+      } catch (err) {
+        const error = err as CustomError;
+        alert(error.message);
         return;
       }
-      if (params.postIdx) {
-        await board.modifyComment(params.postIdx, data.comment_idx, { contents: modifiedComment });
-        commentListRefreshHandler();
-      }
-    } catch (err) {
-      const error = err as CustomError;
-      alert(error.message);
-      return;
-    }
-    handleIsModifyButtonClickedToggle();
-  }, []);
+      handleIsModifyButtonClickedToggle();
+    },
+    [modifiedComment],
+  );
 
   return (
     <CommentsWrapper>
