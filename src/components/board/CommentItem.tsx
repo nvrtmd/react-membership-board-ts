@@ -25,12 +25,15 @@ interface CommentBodyProps {
 
 export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }: CommentItemProps) => {
   const [isModifyButtonClicked, setIsModifyButtonClicked] = useState<boolean>(false);
-  const { inputValue: modifiedComment, handleInputChange: handleModifiedCommentChange } = useInput(
-    data.comment_contents,
-  );
+  const {
+    inputValue: modifiedComment,
+    handleInputChange: handleModifiedCommentChange,
+    setInputValue: setModifiedComment,
+  } = useInput(data.comment_contents);
   const params = useParams();
 
   const handleIsModifyButtonClickedToggle = useCallback(() => {
+    setModifiedComment(data.comment_contents);
     setIsModifyButtonClicked((prev) => !prev);
   }, []);
 
