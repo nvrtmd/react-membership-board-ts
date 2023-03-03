@@ -25,34 +25,40 @@ interface CommentBodyProps {
 
 export const CommentItem = ({ data, isCommentWriter, commentListRefreshHandler }: CommentItemProps) => {
   const [isModifyButtonClicked, setIsModifyButtonClicked] = useState<boolean>(false);
-  const { inputValue: modifiedComment, handleInputChange: handleModifiedCommentChange } = useInput(
-    data.comment_contents,
-  );
+  const {
+    inputValue: modifiedComment,
+    handleInputChange: handleModifiedCommentChange,
+    setInputValue: setModifiedComment,
+  } = useInput(data.comment_contents);
   const params = useParams();
 
   const handleIsModifyButtonClickedToggle = useCallback(() => {
+    setModifiedComment(data.comment_contents);
     setIsModifyButtonClicked((prev) => !prev);
   }, []);
 
-  const handleCommentModifyFormSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      await auth.isSignedIn();
-      if (modifiedComment.length <= 0) {
-        alert(BOARD_ALERT_MESSAGE.CONTENTS_EMPTY_ALERT);
+  const handleCommentModifyFormSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      try {
+        await auth.isSignedIn();
+        if (modifiedComment.length <= 0) {
+          alert(BOARD_ALERT_MESSAGE.CONTENTS_EMPTY_ALERT);
+          return;
+        }
+        if (params.postIdx) {
+          await board.modifyComment(params.postIdx, data.comment_idx, { contents: modifiedComment });
+          commentListRefreshHandler();
+        }
+      } catch (err) {
+        const error = err as CustomError;
+        alert(error.message);
         return;
       }
-      if (params.postIdx) {
-        await board.modifyComment(params.postIdx, data.comment_idx, { contents: modifiedComment });
-        commentListRefreshHandler();
-      }
-    } catch (err) {
-      const error = err as CustomError;
-      alert(error.message);
-      return;
-    }
-    handleIsModifyButtonClickedToggle();
-  }, []);
+      handleIsModifyButtonClickedToggle();
+    },
+    [modifiedComment],
+  );
 
   return (
     <CommentsWrapper>
