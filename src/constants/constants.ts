@@ -6,6 +6,7 @@ export const MEMBER_ALERT_MESSAGE = {
 };
 
 export const MEMBER_ERROR_MESSAGE = {
+  DUPLICATED_ID: '중복된 아이디가 존재합니다. 아이디를 수정해주세요.',
   CANNOT_GET_MEMBER_INFO_FROM_SERVER: '서버로부터 회원 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',
   CANNOT_GET_MEMBER_POSTS_FROM_SERVER: '서버로부터 회원 게시글 목록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',
   CANNOT_MODIFY_MEMBER_INFO: '회원 정보 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.',
@@ -21,6 +22,7 @@ export const AUTH_ERROR_MESSAGE = {
   DUPLICATED_ID: '중복된 아이디가 존재합니다.',
   NOT_EXISTED_ID_OR_PASSWORD: '존재하지 않는 아이디 또는 비밀번호입니다.',
   CANNOT_SIGN_OUT: '로그아웃에 실패하였습니다. 잠시 후 다시 시도해주세요.',
+  CANNOT_SIGN_UP: '회원가입에 실패하였습니다. 잠시 후 다시 시도해주세요.',
   NEED_SIGN_IN: '로그인이 필요합니다.',
 };
 

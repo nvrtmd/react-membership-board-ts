@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { MEMBER_ERROR_MESSAGE } from 'constants/constants';
 import { Member } from 'global/types';
 
@@ -33,11 +33,16 @@ const member = {
   modifyMemberInfo: async (data: Member) => {
     try {
       await axios.patch(`/member/info`, data, { withCredentials: true });
-    } catch {
-      throw {
-        code: 500,
-        message: MEMBER_ERROR_MESSAGE.CANNOT_MODIFY_MEMBER_INFO,
-      };
+    } catch (err) {
+      const error = err as AxiosError;
+      switch (error.response?.status) {
+        case 409:
+          throw { code: 409, message: MEMBER_ERROR_MESSAGE.DUPLICATED_ID };
+        case 500:
+          throw { code: 500, message: MEMBER_ERROR_MESSAGE.CANNOT_MODIFY_MEMBER_INFO };
+        default:
+          throw { code: 500, message: MEMBER_ERROR_MESSAGE.CANNOT_MODIFY_MEMBER_INFO };
+      }
     }
   },
   deleteAccount: async () => {
