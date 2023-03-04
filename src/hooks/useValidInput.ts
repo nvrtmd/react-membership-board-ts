@@ -3,7 +3,7 @@ import { validator } from 'utils/validation';
 
 interface State {
   value: string;
-  isValid: null | boolean | undefined;
+  isValid: null | boolean;
 }
 
 interface Action {
@@ -15,11 +15,11 @@ interface Action {
 const inputReducer = (state: State = initialState, action: Action): State => {
   switch (action.actionType) {
     case 'INPUT_CHANGE':
-      return { value: action.value, isValid: validator(action.inputType, action.value) };
+      return { value: action.value, isValid: validator(action.inputType, action.value) || false };
     case 'INPUT_SET':
-      return { value: action.value, isValid: validator(action.inputType, action.value) };
+      return { value: action.value, isValid: validator(action.inputType, action.value) || false };
     case 'INPUT_BLUR':
-      return { value: state.value, isValid: validator(action.inputType, action.value) };
+      return { value: state.value, isValid: validator(action.inputType, action.value) || false };
     case 'INPUT_RESET':
       return { value: '', isValid: false };
     default:
