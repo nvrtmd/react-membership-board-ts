@@ -128,9 +128,8 @@ const SignUpForm = () => {
       {inputControlList.map((input) =>
         useMemo(
           () => (
-            <>
+            <div key={input.title}>
               <Input
-                key={input.title}
                 title={input.title}
                 name={input.title}
                 type={input.title}
@@ -139,7 +138,7 @@ const SignUpForm = () => {
                 blurHandler={input.blurHandler}
               />
               <ValidationAlert isValid={input.isValid}>{input.alertMessage}</ValidationAlert>
-            </>
+            </div>
           ),
           [input.value, input.isValid],
         ),
