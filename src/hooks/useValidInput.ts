@@ -20,8 +20,6 @@ const inputReducer = (state: State = initialState, action: Action): State => {
       return { value: action.value, isValid: validator(action.inputType, action.value) || false };
     case 'INPUT_BLUR':
       return { value: state.value, isValid: validator(action.inputType, action.value) || false };
-    case 'INPUT_RESET':
-      return { value: '', isValid: false };
     default:
       return state;
   }
@@ -34,10 +32,6 @@ const initialState: State = {
 
 export const useValidInput = (inputType: string) => {
   const [inputState, dispatchInput] = useReducer(inputReducer, initialState);
-
-  const handleResetInput = useCallback(() => {
-    dispatchInput({ type: 'INPUT_RESET', value: '', inputType });
-  }, []);
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>) => {
@@ -54,5 +48,5 @@ export const useValidInput = (inputType: string) => {
     dispatchInput({ type: 'INPUT_SET', value: inputValue, inputType });
   }, []);
 
-  return { inputState, handleInputBlur, handleResetInput, handleInputChange, handleInputSet };
+  return { inputState, handleInputBlur, handleInputChange, handleInputSet };
 };
