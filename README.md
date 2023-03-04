@@ -15,6 +15,12 @@
 
 <br>
 
+## 🌕Project Log Link
+
+<a href="https://nvrtmd.github.io/%EA%B0%9C%EC%9D%B8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-TypeScript-React-Nodejs%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%9C-Yuzamin97-%ED%9A%8C%EA%B3%A0/" target="_blank">🌕Link🌕</a>
+
+<br>
+
 ## 🌍Implementation List
 - 회원가입, 로그인/로그아웃 기능 구현
     - useReducer를 사용한 custom hook을 통해 아이디, 비밀번호, 닉네임 정보 입력 시 유효성 검사 실시
