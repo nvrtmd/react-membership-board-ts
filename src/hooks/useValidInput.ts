@@ -19,7 +19,7 @@ const inputReducer = (state: State = initialState, action: Action): State => {
     case 'INPUT_SET':
       return { value: action.value, isValid: validator(action.inputType, action.value) || false };
     case 'INPUT_BLUR':
-      return { value: state.value, isValid: validator(action.inputType, action.value) || false };
+      return { value: state.value, isValid: validator(action.inputType, state.value) || false };
     default:
       return state;
   }
