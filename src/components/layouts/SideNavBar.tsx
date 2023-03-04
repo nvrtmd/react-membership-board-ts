@@ -78,6 +78,7 @@ export const SideNavBar = memo(() => {
     <Wrapper>
       {navItemList.map((navItem) => (
         <NavItem
+          key={navItem.name}
           name={navItem.name}
           image={navItem.image}
           handleClick={navItem.clickHandler}
