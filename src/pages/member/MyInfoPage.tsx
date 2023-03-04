@@ -170,9 +170,8 @@ export const MemberInfoModifyForm = () => {
       {inputControlList.map((input) =>
         useMemo(
           () => (
-            <>
+            <div key={input.title}>
               <Input
-                key={input.title}
                 title={input.title}
                 name={input.title}
                 type={input.title}
@@ -182,7 +181,7 @@ export const MemberInfoModifyForm = () => {
                 readOnly={!isModifyMode}
               />
               <ValidationAlert isValid={input.isValid}>{input.alertMessage}</ValidationAlert>
-            </>
+            </div>
           ),
           [input.value, input.isValid, isModifyMode],
         ),

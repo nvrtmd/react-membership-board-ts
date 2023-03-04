@@ -102,6 +102,7 @@ export const SignInForm = () => {
         useMemo(
           () => (
             <Input
+              key={input.title}
               title={input.title}
               name={input.title}
               type={input.title}
