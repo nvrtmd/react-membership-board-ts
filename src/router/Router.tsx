@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { HomePage } from 'pages/etc/HomePage';
 import { AboutPage } from 'pages/etc/AboutPage';
 import { ListPage as PostListPage } from 'pages/board/ListPage';
@@ -11,7 +11,7 @@ import { PrivateRoutes } from 'router/PrivateRoutes';
 import { MyPostsPage } from 'pages/member/MyPostsPage';
 import { MyInfoPage } from 'pages/member/MyInfoPage';
 
-function App() {
+export const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -30,6 +30,4 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-}
-
-export default App;
+};
