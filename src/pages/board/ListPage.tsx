@@ -8,7 +8,6 @@ import { PostItem } from 'components/board/PostItem';
 import { Browser } from 'components/common/Browser';
 import { Button } from 'components/common/Button';
 import { NoPost } from 'components/common/NoPost';
-import { Layout } from 'components/layouts/Layout';
 import { BOARD_ALERT_MESSAGE } from 'constants/constants';
 import { CustomError, Post } from 'global/types';
 
@@ -80,25 +79,23 @@ export const ListPage = () => {
   }, []);
 
   return (
-    <Layout>
-      <BrowserWrapper>
-        <Browser ref={rootRef}>
-          <ButtonWrapper>
-            <Button type="button" name="Create Post" restoreHandler={handleCreatePostButtonClick} />
-          </ButtonWrapper>
-          <ListWrapper>
-            {postList && postList.length > 0 ? (
-              postList.map((post) => <PostItem data={post} clickHandler={moveToPost} key={post.post_idx} />)
-            ) : (
-              <NoPost />
-            )}
-          </ListWrapper>
-          <PostListBottom continueFetching={continueFetching} ref={intersectRef}>
-            {BOARD_ALERT_MESSAGE.LOADING_TEXT}
-          </PostListBottom>
-        </Browser>
-      </BrowserWrapper>
-    </Layout>
+    <BrowserWrapper>
+      <Browser ref={rootRef}>
+        <ButtonWrapper>
+          <Button type="button" name="Create Post" restoreHandler={handleCreatePostButtonClick} />
+        </ButtonWrapper>
+        <ListWrapper>
+          {postList && postList.length > 0 ? (
+            postList.map((post) => <PostItem data={post} clickHandler={moveToPost} key={post.post_idx} />)
+          ) : (
+            <NoPost />
+          )}
+        </ListWrapper>
+        <PostListBottom continueFetching={continueFetching} ref={intersectRef}>
+          {BOARD_ALERT_MESSAGE.LOADING_TEXT}
+        </PostListBottom>
+      </Browser>
+    </BrowserWrapper>
   );
 };
 

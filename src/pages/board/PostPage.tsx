@@ -12,7 +12,6 @@ import { NoComment } from 'components/board/NoComment';
 import { CommentForm } from 'components/board/CommentForm';
 import { Browser } from 'components/common/Browser';
 import { Button } from 'components/common/Button';
-import { Layout } from 'components/layouts/Layout';
 import { theme } from 'styles/theme';
 import { BOARD_ALERT_MESSAGE, MEMBER_ALERT_MESSAGE } from 'constants/constants';
 import { Post, Comment, Member, CustomError } from 'global/types';
@@ -99,21 +98,15 @@ export const PostPage = () => {
   );
 
   return (
-    <Layout>
-      <BrowserWrapper>
-        <Browser ref={rootRef}>
-          <div ref={postContainerTopRef}></div>
-          <PostContainer>
-            {postData && <PostArea data={postData} isPostWriter={isPostWriter} />}
-            <CommentArea
-              currentUserData={currentUserData}
-              rootRef={rootRef}
-              postContainerTopRef={postContainerTopRef}
-            />
-          </PostContainer>
-        </Browser>
-      </BrowserWrapper>
-    </Layout>
+    <BrowserWrapper>
+      <Browser ref={rootRef}>
+        <div ref={postContainerTopRef}></div>
+        <PostContainer>
+          {postData && <PostArea data={postData} isPostWriter={isPostWriter} />}
+          <CommentArea currentUserData={currentUserData} rootRef={rootRef} postContainerTopRef={postContainerTopRef} />
+        </PostContainer>
+      </Browser>
+    </BrowserWrapper>
   );
 };
 

@@ -1,28 +1,25 @@
 import styled from 'styled-components/macro';
-import { Layout } from 'components/layouts/Layout';
 import FullLogoImg from 'assets/full_logo_img.png';
 import GithubImg from 'assets/github_img.png';
 import StartImg from 'assets/start_img.png';
 
 export const AboutPage = () => {
   return (
-    <Layout>
-      <Wrapper>
-        <LogoImage src={FullLogoImg} />
-        <Title>Window98🌎 콘셉트의 게시판 서비스 'Yuzamin97'에 방문하신 것을 환영합니다.</Title>
-        <Contents>
-          <StartImage src={StartImg} alt="start_image" />
-          Start 버튼을 클릭하여 회원가입 하신 뒤, Board에서 자유롭게 게시글과 댓글을 작성해보세요!
-        </Contents>
-        <MadeByText>
-          Made by
-          <GithubUrl href="https://github.com/nvrtmd" target="_blank">
-            <GithubImage src={GithubImg} alt="start_image" />
-            yuzamin
-          </GithubUrl>
-        </MadeByText>
-      </Wrapper>
-    </Layout>
+    <Wrapper>
+      <LogoImage src={FullLogoImg} />
+      <Title>Window98🌎 콘셉트의 게시판 서비스 'Yuzamin97'에 방문하신 것을 환영합니다.</Title>
+      <Contents>
+        <StartImage src={StartImg} alt="start_image" />
+        Start 버튼을 클릭하여 회원가입 하신 뒤, Board에서 자유롭게 게시글과 댓글을 작성해보세요!
+      </Contents>
+      <MadeByText>
+        Made by
+        <GithubUrl href="https://github.com/nvrtmd" target="_blank">
+          <GithubImage src={GithubImg} alt="start_image" />
+          yuzamin
+        </GithubUrl>
+      </MadeByText>
+    </Wrapper>
   );
 };
 

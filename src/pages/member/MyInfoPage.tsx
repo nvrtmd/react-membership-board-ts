@@ -6,7 +6,6 @@ import { useValidInput } from 'hooks/useValidInput';
 import { Browser } from 'components/common/Browser';
 import { Input } from 'components/common/Input';
 import { Button } from 'components/common/Button';
-import { Layout } from 'components/layouts/Layout';
 import { theme } from 'styles/theme';
 import WindowsImg from 'assets/windows_img.png';
 import { MEMBER_ALERT_MESSAGE, VALIDATION_ALERT_MESSAGE } from 'constants/constants';
@@ -18,15 +17,13 @@ interface ValidationAlertProps {
 
 export const MyInfoPage = () => {
   return (
-    <Layout>
-      <BrowserWrapper>
-        <Browser>
-          <MemberInfoModifyFormWrapper>
-            <MemberInfoModifyForm />
-          </MemberInfoModifyFormWrapper>
-        </Browser>
-      </BrowserWrapper>
-    </Layout>
+    <BrowserWrapper>
+      <Browser>
+        <MemberInfoModifyFormWrapper>
+          <MemberInfoModifyForm />
+        </MemberInfoModifyFormWrapper>
+      </Browser>
+    </BrowserWrapper>
   );
 };
 

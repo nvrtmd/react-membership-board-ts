@@ -6,7 +6,6 @@ import { useInput } from 'hooks/useInput';
 import { Browser } from 'components/common/Browser';
 import { Input } from 'components/common/Input';
 import { Button } from 'components/common/Button';
-import { Layout } from 'components/layouts/Layout';
 import { theme } from 'styles/theme';
 import { AUTH_ALERT_MESSAGE } from 'constants/constants';
 import { CustomError } from 'global/types';
@@ -14,15 +13,13 @@ import WindowsImg from 'assets/windows_img.png';
 
 export const SignInPage = () => {
   return (
-    <Layout>
-      <BrowserWrapper>
-        <Browser>
-          <SignInFormWrapper>
-            <SignInForm />
-          </SignInFormWrapper>
-        </Browser>
-      </BrowserWrapper>
-    </Layout>
+    <BrowserWrapper>
+      <Browser>
+        <SignInFormWrapper>
+          <SignInForm />
+        </SignInFormWrapper>
+      </Browser>
+    </BrowserWrapper>
   );
 };
 
