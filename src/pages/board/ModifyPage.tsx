@@ -5,7 +5,6 @@ import { board } from 'apis/board';
 import { useInput } from 'hooks/useInput';
 import { PostForm } from 'components/board/PostForm';
 import { Browser } from 'components/common/Browser';
-import { Layout } from 'components/layouts/Layout';
 import { BOARD_ALERT_MESSAGE, BOARD_ERROR_MESSAGE } from 'constants/constants';
 import { CustomError } from 'global/types';
 
@@ -67,23 +66,21 @@ export const ModifyPage = () => {
   );
 
   return (
-    <Layout>
-      <BrowserWrapper>
-        <Browser>
-          <PostFormWrapper>
-            <PostForm
-              submitHandler={handlePostFormSubmit}
-              formTitle="- Modify Post -"
-              titleValue={title}
-              titleChangeHandler={handleTitleChange}
-              contentsValue={contents}
-              contentsChangeHandler={handleContentsChange}
-              cancelButtonClickHandler={handleCancelButtonClick}
-            />
-          </PostFormWrapper>
-        </Browser>
-      </BrowserWrapper>
-    </Layout>
+    <BrowserWrapper>
+      <Browser>
+        <PostFormWrapper>
+          <PostForm
+            submitHandler={handlePostFormSubmit}
+            formTitle="- Modify Post -"
+            titleValue={title}
+            titleChangeHandler={handleTitleChange}
+            contentsValue={contents}
+            contentsChangeHandler={handleContentsChange}
+            cancelButtonClickHandler={handleCancelButtonClick}
+          />
+        </PostFormWrapper>
+      </Browser>
+    </BrowserWrapper>
   );
 };
 

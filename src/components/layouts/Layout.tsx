@@ -1,18 +1,17 @@
+import { Outlet } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { BottomNavBar } from 'components/layouts/BottomNavBar';
 import { SideNavBar } from 'components/layouts/SideNavBar';
 import { theme } from 'styles/theme';
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-export const Layout = ({ children }: LayoutProps) => {
+export const Layout = () => {
   return (
     <LayoutWrapper>
       <Main>
         <SideNavBar />
-        <Section>{children}</Section>
+        <Section>
+          <Outlet />
+        </Section>
       </Main>
       <BottomNavBar />
     </LayoutWrapper>
