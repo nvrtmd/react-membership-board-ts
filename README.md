@@ -11,7 +11,7 @@
 
 ## 🪐Deployed Link
 
-<a href="https://web-yuzamin97-luj2cldvrt49y.sel3.cloudtype.app/" target="_blank">🌏Link🌍</a>
+<a href="https://benevolent-starship-dd4ffb.netlify.app/" target="_blank">🌏Link🌍</a>
 
 <br>
 
